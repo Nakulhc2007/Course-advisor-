@@ -31,63 +31,23 @@
     max-width: 900px;
     background: var(--glass);
     backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
     border: 1px solid var(--glass-border);
     padding: 40px;
     border-radius: 28px;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
   }
 
-  h2 { 
-    text-align: center; 
-    font-weight: 700; 
-    font-size: 2.2rem; 
-    margin-bottom: 30px; 
-    background: linear-gradient(90deg, var(--primary), var(--secondary)); 
-    -webkit-background-clip: text; 
-    -webkit-text-fill-color: transparent; 
-  }
+  h2 { text-align: center; font-weight: 700; font-size: 2.2rem; margin-bottom: 30px; background: linear-gradient(90deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-  .chat-box {
-    height: 120px;
-    overflow-y: auto;
-    margin-bottom: 25px;
-    padding: 15px;
-    background: rgba(0,0,0,0.2);
-    border-radius: 15px;
-    border: 1px solid var(--glass-border);
-  }
-
+  .chat-box { height: 120px; overflow-y: auto; margin-bottom: 25px; padding: 15px; background: rgba(0,0,0,0.2); border-radius: 15px; border: 1px solid var(--glass-border); }
   .msg { margin: 8px 0; font-size: 0.95rem; }
   .user { text-align: right; color: var(--primary); font-weight: 600; }
   .bot { color: #cbd5e1; }
 
-  input, select {
-    width: 100%;
-    padding: 16px;
-    margin-top: 15px;
-    border-radius: 14px;
-    border: 1px solid var(--glass-border);
-    background: rgba(15, 23, 42, 0.6);
-    color: white;
-    box-sizing: border-box;
-    font-size: 1rem;
-    outline: none;
-  }
+  .marks-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px; }
+  input, select { width: 100%; padding: 16px; margin-top: 15px; border-radius: 14px; border: 1px solid var(--glass-border); background: rgba(15, 23, 42, 0.6); color: white; box-sizing: border-box; font-size: 1rem; outline: none; }
 
-  button {
-    width: 100%;
-    padding: 16px;
-    margin-top: 20px;
-    border-radius: 14px;
-    border: none;
-    background: linear-gradient(90deg, var(--primary), var(--secondary));
-    color: #0f172a;
-    font-weight: 700;
-    cursor: pointer;
-    transition: 0.3s;
-  }
-
+  button { width: 100%; padding: 16px; margin-top: 20px; border-radius: 14px; border: none; background: linear-gradient(90deg, var(--primary), var(--secondary)); color: #0f172a; font-weight: 700; cursor: pointer; transition: 0.3s; }
   button:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(96, 165, 250, 0.3); }
 
   .step { display: none; }
@@ -95,33 +55,20 @@
 
   @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-  .subjects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-top: 20px; }
-  .sub-btn {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid var(--glass-border);
-    color: white; padding: 10px; border-radius: 12px; cursor: pointer; text-align: center; font-size: 0.85rem;
-  }
-  .sub-btn.active { background: var(--primary); color: #0f172a; font-weight: bold; }
-
-  .course-card {
-    background: rgba(255,255,255,0.03);
-    border-left: 5px solid var(--primary);
-    margin-top: 25px;
-    padding: 25px;
-    border-radius: 18px;
-    border: 1px solid var(--glass-border);
-  }
+  .course-card { background: rgba(255,255,255,0.03); border-left: 5px solid var(--primary); margin-top: 25px; padding: 25px; border-radius: 18px; border: 1px solid var(--glass-border); }
   .course-card h3 { color: var(--primary); margin: 0 0 10px 0; font-size: 1.3rem; display: flex; justify-content: space-between; }
   .badge { font-size: 0.7rem; background: var(--secondary); color: white; padding: 4px 10px; border-radius: 20px; height: fit-content; }
-  .course-card p { font-size: 0.95rem; line-height: 1.7; color: #cbd5e1; text-align: justify; margin: 0; }
+  .info-box { background: rgba(110, 231, 183, 0.1); padding: 20px; border-radius: 15px; margin-top: 30px; border: 1px dashed var(--primary); line-height: 1.6; }
+
+  .optional { opacity: 0.7; font-size: 0.8rem; margin-top: 5px; }
 </style>
 </head>
 <body>
 
 <div class="container">
-  <h2>EduPath Advisor</h2>
+  <h2 id="mainTitle">EduPath Advisor</h2>
   <div id="chatDisplay" class="chat-box">
-    <div class="msg bot">Welcome! Please enter your full name to start your profile.</div>
+    <div class="msg bot">Hello! I am your AI Consultant. Let's start with your full name.</div>
   </div>
 
   <div id="step1" class="step active">
@@ -130,25 +77,18 @@
   </div>
 
   <div id="step2" class="step">
-    <input id="marksInput" type="number" placeholder="12th Marks Percentage (%)">
+    <p style="text-align:center">Enter your subject-wise marks:</p>
+    <div class="marks-grid">
+        <input id="pMarks" type="number" placeholder="Physics">
+        <input id="cMarks" type="number" placeholder="Chemistry">
+        <input id="mMarks" type="number" placeholder="Maths">
+        <input id="bMarks" type="number" placeholder="Biology (Optional)">
+    </div>
     <button onclick="go2()">Next Step</button>
   </div>
 
   <div id="step3" class="step">
-    <p style="text-align:center">Select subjects you enjoy:</p>
-    <div class="subjects-grid">
-      <div class="sub-btn" onclick="toggleSub(this,'Maths')">Maths</div>
-      <div class="sub-btn" onclick="toggleSub(this,'Physics')">Physics</div>
-      <div class="sub-btn" onclick="toggleSub(this,'Biology')">Biology</div>
-      <div class="sub-btn" onclick="toggleSub(this,'Computer')">Computer</div>
-      <div class="sub-btn" onclick="toggleSub(this,'Accounts')">Accounts</div>
-      <div class="sub-btn" onclick="toggleSub(this,'History')">History</div>
-    </div>
-    <button onclick="go3()">Continue</button>
-  </div>
-
-  <div id="step4" class="step">
-    <p style="text-align:center">Select your career interest:</p>
+    <p style="text-align:center">What is your primary interest area?</p>
     <select id="interestInput">
       <option value="Technology">Technology & IT</option>
       <option value="Medical">Medical & Healthcare</option>
@@ -156,14 +96,14 @@
       <option value="Creative">Creative Arts & Media</option>
       <option value="Science">Pure Science & Research</option>
     </select>
-    <button onclick="final()">Generate Analysis</button>
+    <button onclick="final()">Show Recommendations</button>
   </div>
 
   <div id="result"></div>
 </div>
 
 <script>
-let nameVal="", marks=0, subs=[], interestVal="";
+let nameVal="", p=0, c=0, m=0, b=0, interestVal="";
 
 function say(text, who) {
   const chatDiv = document.getElementById("chatDisplay");
@@ -183,31 +123,19 @@ function go1() {
   nameVal = document.getElementById("nameInput").value;
   if(!nameVal) return;
   say(nameVal, "user"); 
-  say("Hello " + nameVal + "! What was your 12th percentage?", "bot");
+  say("Hi " + nameVal + "! Please provide your subject marks.", "bot");
   show("step2");
 }
 
 function go2() {
-  marks = document.getElementById("marksInput").value;
-  if(!marks) return;
-  say(marks + "%", "user"); 
-  say("Choose the subjects you love most.", "bot");
+  p = document.getElementById("pMarks").value;
+  c = document.getElementById("cMarks").value;
+  m = document.getElementById("mMarks").value;
+  b = document.getElementById("bMarks").value || 0;
+  if(!p || !c || !m) { alert("Please enter PCM marks"); return; }
+  say("Marks recorded: P:"+p+" C:"+c+" M:"+m+" B:"+b, "user"); 
+  say("Great. What field interests you the most?", "bot");
   show("step3");
-}
-
-function toggleSub(btn, sub) {
-  if(subs.includes(sub)) {
-    subs = subs.filter(x => x != sub); btn.classList.remove("active");
-  } else {
-    subs.push(sub); btn.classList.add("active");
-  }
-}
-
-function go3() {
-  if(subs.length == 0) return;
-  say(subs.join(", "), "user"); 
-  say("Choose your main field of interest.", "bot");
-  show("step4");
 }
 
 function box(title, badge, txt) {
@@ -219,52 +147,63 @@ function box(title, badge, txt) {
 
 function final() {
   interestVal = document.getElementById("interestInput").value;
-  say(interestVal, "user");
-  document.getElementById("step4").style.display = "none";
-  let out = `<h2>Report for ${nameVal}</h2>`;
+  document.getElementById("step3").style.display = "none";
+  document.getElementById("mainTitle").innerText = "Success!";
+  
+  let out = `<h2>Best courses for ${nameVal}</h2>`;
 
   if(interestVal == "Technology") {
-    out += box("B.Tech in Artificial Intelligence", "High Salary", "Focuses on intelligent machines, deep learning, and neural networks. You will build predictive algorithms for finance and healthcare using Python. Ideal for logic-lovers.");
+    out += box("B.Tech in Artificial Intelligence", "High Salary", "Focuses on intelligent machines, deep learning, and neural networks. You will build predictive algorithms for finance and healthcare using Python. Since your Maths score is recorded, this is a prime choice for logical modeling.");
     out += box("B.Sc in Cyber Security", "Top Demand", "Protects digital systems from hackers. You learn ethical hacking, cryptography, and network defense. Essential for modern banking and gov systems.");
     out += box("B.Tech in Data Science", "Data Era", "Extracts insights from massive data using statistics and machine learning. Teaches SQL, R, and Hadoop. Essential for modern data-driven corporate strategy.");
     out += box("Full Stack Development", "Quick Job", "Teaches both front-end (React) and back-end (Node.js) web skills. Fastest route into IT with high-intensity practical coding projects and app deployment.");
     out += box("B.Tech in Cloud Computing", "Infrastructure", "Managing remote servers via AWS or Azure. Focuses on scalability and virtualization for global systems. Vital for modern IT infrastructure and DevOps roles.");
+    
+    out += `<div class="info-box"><strong>Future Scope in Tech:</strong> By 2027, the AI market is expected to grow by 40%. We recommend starting with a strong foundation in Python. If your Maths score is above 75, focus on Data Science; if you prefer building visuals, focus on Full Stack Development.</div>`;
   }
 
   if(interestVal == "Medical") {
-    out += box("MBBS (Doctor of Medicine)", "Prestigious", "5.5 years of intensive clinical study covering anatomy, physiology, and surgery. Direct impact on saving lives and unmatched social respect. Requires long-term commitment.");
-    out += box("B.Sc in Nursing", "Global Need", "Focuses on patient recovery, emergency care, and hospital management. Huge global demand and excellent stable career growth. Requires high empathy and physical stamina.");
-    out += box("Bachelor of Pharmacy", "Pharma Growth", "Explores drug manufacturing and chemistry. Vital for research, clinical trials, and retail pharmacy. Recession-proof industry with opportunities in drug inspection.");
-    out += box("B.Sc in Physiotherapy", "Rehabilitation", "Helps patients recover physical movement without surgery. Growing field due to sports injuries and sedentary lifestyles. Works in clinics and hospitals.");
-    out += box("B.Sc in Forensic Science", "Investigation", "Applying biology and chemistry to solve crimes. Teaches DNA analysis and toxicology for law enforcement support. Analytical and high-stakes laboratory work.");
+    out += box("MBBS (Doctor of Medicine)", "Prestigious", "5.5 years of intensive clinical study covering anatomy, physiology, and surgery. Direct impact on saving lives. Requires high score in Biology and Chemistry.");
+    out += box("B.Sc in Nursing", "Global Need", "Focuses on patient recovery, emergency care, and hospital management. Huge global demand and excellent stable career growth. Requires high empathy.");
+    out += box("Bachelor of Pharmacy", "Pharma Growth", "Explores drug manufacturing and chemistry. Vital for research, clinical trials, and retail pharmacy. Recession-proof industry with global opportunities.");
+    out += box("B.Sc in Physiotherapy", "Rehabilitation", "Helps patients recover physical movement without surgery. Growing field due to sports injuries and sedentary lifestyles.");
+    out += box("B.Sc in Forensic Science", "Investigation", "Applying biology and chemistry to solve crimes. Teaches DNA analysis and toxicology for law enforcement support. Analytical laboratory work.");
+    
+    out += `<div class="info-box"><strong>Medical Career Advice:</strong> Healthcare is moving towards 'Digital Health'. Even as a doctor, learning basic data analytics can help in research. If your Biology score is high, MBBS/BDS are top tiers, but B.Pharm offers a faster entry into the high-paying corporate pharma sector.</div>`;
   }
 
   if(interestVal == "Business") {
-    out += box("Integrated MBA (FinTech)", "Top Salary", "Combines management with blockchain and digital banking. Teaches algorithmic trading and leadership for the 2026 digital economy. High-level executive path.");
-    out += box("Chartered Accountancy", "Respected", "Professional path for auditing, taxation, and law. Requires rigorous exams and 3-year internship. Core of corporate financial health and legal transparency.");
-    out += box("B.Des in Fashion Management", "Style Biz", "Merges fashion creativity with retail logic and supply chain management. Focuses on brand strategy for luxury houses and global fashion economies.");
-    out += box("BBA in Digital Marketing", "Modern Growth", "Using SEO and analytics to grow brands online. Focuses on consumer psychology and performance marketing. Vital for every business moving to the digital space.");
-    out += box("Hotel Management", "Global Career", "Leadership in tourism and luxury service. Teaches hotel operations and event management. Great for those wanting to travel and work in 5-star environments.");
+    out += box("Integrated MBA (FinTech)", "Top Salary", "Combines management with blockchain and digital banking. Teaches algorithmic trading and leadership for the 2026 digital economy.");
+    out += box("Chartered Accountancy", "Respected", "Professional path for auditing, taxation, and law. Requires rigorous exams and 3-year internship. Core of corporate financial health.");
+    out += box("B.Des in Fashion Management", "Style Biz", "Merges fashion creativity with retail logic and supply chain management. Focuses on brand strategy for luxury houses.");
+    out += box("BBA in Digital Marketing", "Modern Growth", "Using SEO and analytics to grow brands online. Focuses on consumer psychology and performance marketing. Vital for every digital business.");
+    out += box("Hotel Management", "Global Career", "Leadership in tourism and luxury service. Teaches hotel operations and event management. Great for those wanting to travel.");
+    
+    out += `<div class="info-box"><strong>Business Outlook:</strong> The traditional MBA is being replaced by 'Specialized MBAs'. Focus on FinTech or Digital Business. Networking is as important as your degree—start your LinkedIn profile early to connect with industry leaders.</div>`;
   }
 
   if(interestVal == "Creative") {
-    out += box("B.Des in UI/UX Design", "Innovation", "Making apps and websites beautiful and easy to use. Blends visual art with human psychology. High demand in tech firms like Apple and Google.");
-    out += box("B.A. in Digital Content", "Trending", "Filmmaking, scriptwriting, and social media branding for Netflix/YouTube. Modern storytelling for the creator economy and entertainment industry.");
-    out += box("B.Sc in Animation & VFX", "Film Tech", "Creating 3D worlds and visual effects for movies and games. Uses Maya and Unreal Engine. High growth in the global gaming and streaming industry.");
-    out += box("Bachelor of Architecture", "Structure", "Designing buildings and urban spaces. 5-year path blending art with math. Key role in building green, sustainable cities for the future.");
-    out += box("Mass Communication", "Media Power", "Training for news, broadcasting, and PR. Investigative journalism and digital media ethics. Vital gatekeepers of information and public opinion.");
+    out += box("B.Des in UI/UX Design", "Innovation", "Making apps and websites beautiful and easy to use. Blends visual art with human psychology. High demand in tech giants.");
+    out += box("B.A. in Digital Content", "Trending", "Filmmaking, scriptwriting, and social media branding for Netflix/YouTube. Modern storytelling for the creator economy.");
+    out += box("B.Sc in Animation & VFX", "Film Tech", "Creating 3D worlds and visual effects for movies and games. Uses Maya and Unreal Engine. High growth in gaming industry.");
+    out += box("Bachelor of Architecture", "Structure", "Designing buildings and urban spaces. 5-year path blending art with math. Key role in building green, sustainable cities.");
+    out += box("Mass Communication", "Media Power", "Training for news, broadcasting, and PR. Investigative journalism and digital media ethics. Vital gatekeepers of information.");
+    
+    out += `<div class="info-box"><strong>Creative Industry Tip:</strong> Your portfolio is your resume. Start building projects on Behance or a personal website. In 2026, AI-assisted design is a huge trend—learn tools like Midjourney or Adobe Firefly to stay ahead.</div>`;
   }
 
   if(interestVal == "Science") {
-    out += box("B.Sc in Biotechnology", "Research Hub", "DNA tech and genetic engineering for vaccines and food science. Cutting-edge lab work for global health challenges and pharmaceutical innovation.");
-    out += box("B.Sc in Psychology", "Human Mind", "Scientific study of behavior and neurobiology. High demand in clinics and HR. Rewarding path for improving mental health and human conditions.");
-    out += box("Environmental Science", "Eco Future", "Solving climate change and protecting biodiversity. Key role in gov policy and green energy. Socially significant path for planet protection.");
-    out += box("B.Sc in Astrophysics", "Space Sci", "Applying physics to understand the universe. High demand in space exploration (SpaceX/NASA). Stimulating field for those curious about the cosmos.");
+    out += box("B.Sc in Biotechnology", "Research Hub", "DNA tech and genetic engineering for vaccines and food science. Cutting-edge lab work for global health challenges.");
+    out += box("B.Sc in Psychology", "Human Mind", "Scientific study of behavior and neurobiology. High demand in clinics and HR. Rewarding path for improving mental health.");
+    out += box("Environmental Science", "Eco Future", "Solving climate change and protecting biodiversity. Key role in gov policy and green energy. Socially significant path.");
+    out += box("B.Sc in Astrophysics", "Space Sci", "Applying physics to understand the universe. High demand in space exploration (SpaceX/NASA). For those curious about the cosmos.");
     out += box("B.Sc in Geology", "Earth Science", "Study of Earth materials and tectonic plate movements. Essential for mining, resource exploration, and natural disaster management.");
+    
+    out += `<div class="info-box"><strong>Research Guidance:</strong> Pure science often requires a Master's (M.Sc) or PhD for high-level roles. If you want a job immediately after graduation, Biotechnology or Applied Psychology are the strongest choices.</div>`;
   }
 
   document.getElementById("result").innerHTML = out;
-  window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 </script>
 </body>
