@@ -8,7 +8,7 @@
 <style>
   :root {
     --accent: #00f2ff;
-    --accent-dark: #006aff;
+    --error: #ff4d4d;
     --bg: #080a0f;
     --card: rgba(255, 255, 255, 0.04);
     --border: rgba(255, 255, 255, 0.12);
@@ -18,163 +18,102 @@
     margin: 0;
     font-family: 'Plus Jakarta Sans', sans-serif;
     background: var(--bg);
-    background-image: 
-      radial-gradient(circle at 10% 10%, rgba(0, 242, 255, 0.08) 0%, transparent 35%),
-      radial-gradient(circle at 90% 90%, rgba(0, 106, 255, 0.08) 0%, transparent 35%);
+    background-image: radial-gradient(circle at 10% 10%, rgba(0, 242, 255, 0.08) 0%, transparent 35%);
     color: #f1f3f4;
     min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
+    display: flex; justify-content: center; align-items: center; padding: 20px;
   }
 
   .container {
-    width: 100%;
-    max-width: 800px;
-    background: var(--card);
-    backdrop-filter: blur(30px);
-    border: 1px solid var(--border);
-    border-radius: 35px;
-    padding: 50px;
-    box-shadow: 0 50px 100px rgba(0,0,0,0.6);
+    width: 100%; max-width: 800px; background: var(--card); backdrop-filter: blur(30px);
+    border: 1px solid var(--border); border-radius: 35px; padding: 50px;
   }
 
-  h1 { 
-    text-align: center; 
-    font-weight: 800; 
-    font-size: 2.8rem; 
-    margin-bottom: 30px; 
-    background: linear-gradient(135deg, #fff 30%, var(--accent) 100%);
-    -webkit-background-clip: text; 
-    -webkit-text-fill-color: transparent;
-    letter-spacing: -1.5px;
-  }
+  h1 { text-align: center; font-weight: 800; font-size: 2.5rem; margin-bottom: 30px; color: #fff; letter-spacing: -1.5px; }
 
   .chat-box { 
-    background: rgba(0,0,0,0.4); 
-    border-radius: 20px; 
-    padding: 20px; 
-    margin-bottom: 35px; 
-    border: 1px solid var(--border);
-    font-size: 1.05rem;
-    color: var(--accent);
-    line-height: 1.5;
+    background: rgba(0,0,0,0.4); border-radius: 20px; padding: 20px; margin-bottom: 35px; 
+    border: 1px solid var(--border); color: var(--accent);
   }
 
-  /* Fixed Spacing for Inputs */
+  /* Improved Spacing */
   .marks-grid { 
-    display: grid; 
-    grid-template-columns: 1fr 1fr; 
-    gap: 25px; /* Increased space between boxes */
-    margin: 20px 0; 
+    display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin: 25px 0; 
   }
+
+  .input-wrapper { display: flex; flex-direction: column; }
+  label { font-size: 0.8rem; color: #9aa0a6; margin-bottom: 8px; margin-left: 5px; }
 
   input, select { 
-    width: 100%; 
-    padding: 18px; 
-    border-radius: 16px; 
-    border: 1px solid var(--border); 
-    background: rgba(255,255,255,0.05); 
-    color: white; 
-    box-sizing: border-box; 
-    font-size: 1rem; 
-    transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 100%; padding: 18px; border-radius: 16px; border: 1px solid var(--border); 
+    background: rgba(255,255,255,0.05); color: white; font-size: 1rem;
   }
 
-  input:focus { 
-    border-color: var(--accent); 
-    background: rgba(255,255,255,0.08); 
-    outline: none; 
-    box-shadow: 0 0 15px rgba(0, 242, 255, 0.2);
-  }
+  input:focus { border-color: var(--accent); outline: none; background: rgba(255,255,255,0.08); }
 
   .btn { 
-    width: 100%; 
-    padding: 20px; 
-    margin-top: 25px; 
-    border-radius: 16px; 
-    border: none; 
-    background: #fff; 
-    color: #000; 
-    font-weight: 700; 
-    font-size: 1.1rem;
-    cursor: pointer; 
-    transition: 0.3s;
+    width: 100%; padding: 20px; margin-top: 25px; border-radius: 16px; border: none; 
+    background: #fff; color: #000; font-weight: 700; font-size: 1.1rem; cursor: pointer; transition: 0.3s;
   }
 
-  .btn:disabled { opacity: 0.15; cursor: not-allowed; }
-  .btn:hover:not(:disabled) { background: var(--accent); transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0, 242, 255, 0.3); }
+  .btn:disabled { opacity: 0.1; cursor: not-allowed; }
+  .btn:hover:not(:disabled) { background: var(--accent); transform: translateY(-2px); }
 
   .step { display: none; }
-  .active { display: block; animation: fadeInUp 0.6s ease forwards; }
+  .active { display: block; animation: fadeInUp 0.5s ease forwards; }
 
-  @keyframes fadeInUp { 
-    from { opacity: 0; transform: translateY(20px); } 
-    to { opacity: 1; transform: translateY(0); } 
-  }
+  @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-  .total-badge {
-    text-align: center;
-    padding: 15px;
-    background: rgba(0, 242, 255, 0.1);
-    border-radius: 14px;
-    font-weight: 600;
-    color: var(--accent);
-    border: 1px solid rgba(0, 242, 255, 0.2);
-    margin: 10px 0;
-  }
+  .status-msg { text-align: center; font-size: 0.9rem; margin-top: 10px; min-height: 20px; }
+  .fail { color: var(--error); }
+  .pass { color: var(--accent); }
 
   .course-card { 
-    background: rgba(255,255,255,0.02); 
-    margin-top: 25px; 
-    padding: 30px; 
-    border-radius: 24px; 
-    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.02); margin-top: 20px; padding: 25px; 
+    border-radius: 20px; border: 1px solid var(--border);
   }
-  .course-card h3 { color: var(--accent); margin-bottom: 12px; font-size: 1.5rem; display: flex; justify-content: space-between; }
-  .salary { font-size: 0.75rem; color: #fff; background: var(--accent-dark); padding: 5px 12px; border-radius: 50px; }
-  .course-card p { line-height: 1.8; color: #cbd5e1; text-align: justify; }
-
-  .info-tag { font-size: 0.85rem; color: #9aa0a6; text-align: center; margin-bottom: 10px; }
+  .course-card h3 { color: var(--accent); margin: 0 0 10px 0; display: flex; justify-content: space-between; }
+  .tag { font-size: 0.7rem; background: #006aff; color: white; padding: 4px 10px; border-radius: 50px; }
 </style>
 </head>
 <body>
 
 <div class="container">
   <h1 id="head">EDUPATH AI</h1>
-  
-  <div class="chat-box" id="botText">
-    System Online. Please enter your name to begin career mapping.
-  </div>
+  <div class="chat-box" id="botText">Please enter your name to begin.</div>
 
   <div id="step1" class="step active">
-    <input type="text" id="nameInp" placeholder="Full Name" autocomplete="off">
-    <button class="btn" onclick="go2()">Initialize Profile</button>
+    <input type="text" id="nameInp" placeholder="Your Name">
+    <button class="btn" onclick="go2()">Continue</button>
   </div>
 
   <div id="step2" class="step">
-    <div class="info-tag">Subject-wise Score Verification</div>
     <div class="marks-grid">
-      <input type="number" id="pInp" placeholder="Physics %" oninput="check()">
-      <input type="number" id="cInp" placeholder="Chemistry %" oninput="check()">
-      <input type="number" id="mInp" placeholder="Mathematics %" oninput="check()">
-      <input type="number" id="bInp" placeholder="Biology % (Opt)" oninput="check()">
+      <div class="input-wrapper"><label>Physics</label><input type="number" id="p" placeholder="0-100" oninput="validate()"></div>
+      <div class="input-wrapper"><label>Chemistry</label><input type="number" id="c" placeholder="0-100" oninput="validate()"></div>
+      <div class="input-wrapper"><label>Maths</label><input type="number" id="m" placeholder="0-100" oninput="validate()"></div>
+      <div class="input-wrapper"><label>Biology (Optional)</label><input type="number" id="b" placeholder="0-100" oninput="validate()"></div>
     </div>
-    <div class="total-badge">Aggregate Average: <span id="avgText">0</span>%</div>
-    <button id="nextBtn" class="btn" onclick="go3()" disabled>Next Phase</button>
+    <div id="status" class="status-msg"></div>
+    <button id="nextBtn" class="btn" onclick="go3()" disabled>Verify Marks</button>
   </div>
 
   <div id="step3" class="step">
-    <div class="info-tag">Target Specialization</div>
-    <select id="fieldInp">
-      <option value="Tech">Technology & Computer Science</option>
-      <option value="Med">Medical & Healthcare</option>
-      <option value="Biz">Management & Finance</option>
-      <option value="Art">Creative Arts & Design</option>
-      <option value="Sci">Research & Pure Sciences</option>
+    <label>Choose your career passion:</label>
+    <select id="interest">
+      <option value="AI">Artificial Intelligence & Coding</option>
+      <option value="Med">Medicine & Surgery</option>
+      <option value="Fin">Finance & Stock Markets</option>
+      <option value="Des">UI/UX & Product Design</option>
+      <option value="Space">Astro-Physics & Space</option>
+      <option value="Law">Cyber Law & Criminology</option>
+      <div ></div>
+      <option value="Game">Game Dev & Animation</option>
+      <option value="Biz">Entrepreneurship & Startups</option>
+      <option value="Media">Journalism & Digital Media</option>
+      <option value="Eco">Environmental Science & Green Tech</option>
     </select>
-    <button class="btn" onclick="finish()">Generate Roadmap</button>
+    <button class="btn" onclick="finish()">Generate Recommendations</button>
   </div>
 
   <div id="result"></div>
@@ -182,26 +121,22 @@
 
 <script>
   let uName = "";
-  let uAvg = 0;
-
-  function check() {
-    const p = parseFloat(document.getElementById('pInp').value) || 0;
-    const c = parseFloat(document.getElementById('cInp').value) || 0;
-    const m = parseFloat(document.getElementById('mInp').value) || 0;
-    const b = parseFloat(document.getElementById('bInp').value) || 0;
-    
-    // Logic: Average of the subjects entered
-    const subjects = [p, c, m];
-    if(b > 0) subjects.push(b);
-    
-    uAvg = subjects.reduce((a, b) => a + b) / subjects.length;
-    document.getElementById('avgText').innerText = uAvg.toFixed(1);
-
-    // Button activates ONLY if average is 35 or above
+  
+  function validate() {
+    const p = parseFloat(document.getElementById('p').value) || 0;
+    const c = parseFloat(document.getElementById('c').value) || 0;
+    const m = parseFloat(document.getElementById('m').value) || 0;
     const btn = document.getElementById('nextBtn');
-    if(uAvg >= 35) {
+    const status = document.getElementById('status');
+
+    // Strict Rule: Every core subject MUST be 35 or more
+    if (p >= 35 && c >= 35 && m >= 35) {
+      status.innerText = "✓ Eligibility Criteria Met";
+      status.className = "status-msg pass";
       btn.disabled = false;
     } else {
+      status.innerText = "⚠ Each subject must be at least 35 marks to proceed.";
+      status.className = "status-msg fail";
       btn.disabled = true;
     }
   }
@@ -209,70 +144,43 @@
   function go2() {
     uName = document.getElementById('nameInp').value;
     if(!uName) return;
-    document.getElementById('botText').innerText = `Welcome, ${uName}. Enter your 12th grade scores below.`;
+    document.getElementById('botText').innerText = `Hello ${uName}, enter your 12th scores.`;
     document.getElementById('step1').classList.remove('active');
     document.getElementById('step2').classList.add('active');
   }
 
   function go3() {
-    document.getElementById('botText').innerText = `Eligibility confirmed at ${uAvg.toFixed(1)}%. Choose your interest area.`;
+    document.getElementById('botText').innerText = "Excellent. Now select a field you are interested in.";
     document.getElementById('step2').classList.remove('active');
     document.getElementById('step3').classList.add('active');
   }
 
-  function card(title, sal, txt) {
-    return `
-      <div class="course-card">
-        <h3>${title} <span class="salary">${sal}</span></h3>
-        <p>${txt}</p>
-      </div>
-    `;
+  function card(title, tag, desc) {
+    return `<div class="course-card"><h3>${title} <span class="tag">${tag}</span></h3><p>${desc}</p></div>`;
   }
 
   function finish() {
-    const field = document.getElementById('fieldInp').value;
+    const choice = document.getElementById('interest').value;
     document.getElementById('step3').style.display = "none";
     document.getElementById('head').innerText = `Best Courses for ${uName}`;
-    document.getElementById('botText').innerText = `Roadmap generated based on ${uAvg.toFixed(1)}% aggregate score.`;
+    document.getElementById('botText').innerText = "Based on your academic profile, here are 6 expert roadmaps:";
 
-    let html = "";
-    if(field == "Tech") {
-      html += card("B.Tech Artificial Intelligence", "High Demand", "Study neural networks and machine learning. As industries automate, AI experts are the most sought-after engineers in 2026.");
-      html += card("Cyber Security Operations", "LPA 12-30", "Protect digital assets from global hackers. Includes ethical hacking and network forensics for top-tier defense.");
-      html += card("Data Science & Analytics", "LPA 10-25", "Turn raw data into business strategy using Python and R. Critical for modern corporate decision making.");
-      html += card("Full Stack Engineering", "Quick Job", "Build end-to-end web apps. Fastest entry into the IT sector with immediate hiring potential in startups.");
-      html += card("Cloud Architecture", "LPA 15-35", "Manage global server infrastructures using AWS/Azure. Vital for modern decentralized company operations.");
-    }
-    else if(field == "Med") {
-      html += card("MBBS / Medicine", "Prestigious", "Complete 5.5-year medical training to become a licensed doctor. High level of social respect and impact.");
-      html += card("Biotechnology", "LPA 8-20", "Research DNA and genetic engineering to develop new vaccines and sustainable medical solutions.");
-      html += card("Pharmacology", "LPA 7-18", "Study drug manufacturing and chemistry. Huge demand in the global pharmaceutical corporate sector.");
-      html += card("Physiotherapy", "LPA 6-15", "Rehabilitation and movement science. Essential for sports recovery and elderly care programs.");
-      html += card("Forensic Science", "Investigative", "Analyze biological evidence to solve crimes. Bridges the gap between medicine and the legal system.");
-    }
-    else if(field == "Biz") {
-      html += card("FinTech Management", "LPA 18-40", "Merging traditional finance with blockchain and digital banking. Designed for future financial leaders.");
-      html += card("Chartered Accountancy", "Stable", "Professional auditing and taxation. A recession-proof career with massive respect in the business world.");
-      html += card("Digital Marketing", "LPA 8-22", "Master SEO and social media brand growth. Every modern business needs a digital presence to survive.");
-      html += card("Investment Banking", "High Salary", "Managing global capital markets and mergers. Requires a sharp mind and high-level analytical ability.");
-      html += card("Entrepreneurship", "Innovator", "Learn the mechanics of starting a company, from venture capital to scaling a global product.");
-    }
-    else if(field == "Art") {
-      html += card("UI/UX Product Design", "LPA 12-30", "Design the screens and experiences of future apps. Perfect blend of art and human psychology.");
-      html += card("VFX & Animation", "LPA 9-25", "Create digital worlds for Hollywood and Gaming. Uses advanced tech like Unreal Engine for cinematic art.");
-      html += card("Digital Content Creation", "Trending", "Storytelling for the creator economy. Includes filmmaking, cinematography, and brand management.");
-      html += card("Sustainable Architecture", "LPA 7-20", "Design eco-friendly buildings and green cities. High demand in modern urban development planning.");
-      html += card("Mass Communication", "Media Hub", "Journalism and broadcasting. Become the voice of truth in the era of digital news and information.");
-    }
-    else if(field == "Sci") {
-      html += card("Astrophysics", "Research", "Study the universe and space-time. Opportunities in space agencies like SpaceX and NASA are growing rapidly.");
-      html += card("Cognitive Psychology", "LPA 6-18", "Scientific research into the human mind. Vital for mental health clinics and corporate HR strategy.");
-      html += card("Environmental Science", "Global Goal", "Solving climate change through biology and chemistry. Essential for government green energy projects.");
-      html += card("Applied Statistics", "LPA 10-25", "The core of all research. Use math to predict trends in medicine, economics, and social sciences.");
-      html += card("Geology", "Field Work", "Earth science research. Finding natural resources and predicting natural disasters for global safety.");
-    }
+    let res = "";
+    const data = {
+      AI: [["B.Tech AI & ML", "Top Choice", "Build intelligent systems and neural networks."], ["Data Science", "High Salary", "Analyze big data for global tech giants."], ["Cyber Security", "Secure", "Defend networks from international hackers."], ["Software Engineering", "Stable", "End-to-end application development."], ["Cloud Architecture", "Future", "Manage global server infrastructures."], ["Full Stack Dev", "Quick Job", "Design modern web platforms."]],
+      Med: [["MBBS", "Elite", "The core path to becoming a licensed physician."], ["Biotechnology", "Research", "Develop new vaccines and genetic cures."], ["B.Pharm", "Corporate", "High-growth pharmaceutical manufacturing career."], ["Forensic Science", "Criminal", "Solve crimes using biological evidence."], ["Physiotherapy", "Health", "Physical rehabilitation and movement science."], ["Psychology", "Mind", "Study human behavior and clinical therapy."]],
+      Fin: [["FinTech MBA", "LPA 20+", "Intersection of finance and blockchain tech."], ["Chartered Accountancy", "Respect", "Professional auditing and taxation law."], ["Investment Banking", "Elite", "Manage mergers and global capital markets."], ["Stock Market Analytics", "Wealth", "Predictive modeling for trading."], ["Actuarial Science", "High Math", "Risk assessment for insurance giants."], ["B.Com (Honors)", "Core", "Advanced business and accounting logic."]],
+      Des: [["UI/UX Design", "Modern", "Design user experiences for top-tier apps."], ["Graphic Design", "Art", "Visual communication and brand strategy."], ["Industrial Design", "Build", "Designing physical consumer products."], ["Fashion Tech", "Style", "Merging fashion with smart wearable tech."], ["Interior Design", "Space", "Creating functional and aesthetic living spaces."], ["Game Art", "Creative", "Visual asset design for the gaming industry."]],
+      Space: [["Astro-Physics", "Space", "Study the laws of the universe and stars."], ["Aerospace Engineering", "Build", "Designing rockets and aircraft systems."], ["Satellite Tech", "Comm", "Building the future of global communication."], ["Planetary Science", "Research", "Explore Earth's geology and extraterrestrial bodies."], ["Quantum Physics", "Future", "Researching the subatomic world."], ["Computational Physics", "Logic", "Simulating complex physical systems."]],
+      Law: [["Cyber Law", "Security", "Legal frameworks for the digital world."], ["Corporate Law", "Biz", "Managing legalities for major companies."], ["Criminal Justice", "Justice", "Working within the national court systems."], ["Intellectual Property", "Ideas", "Protecting inventions and copyrights."], ["Civil Law", "Society", "Resolving public and private disputes."], ["Forensic Law", "Science", "Bridges legal cases with scientific evidence."]],
+      Game: [["Game Development", "Logic", "Coding game engines like Unreal and Unity."], ["3D Animation", "Visual", "Creating characters for movies and games."], ["AR/VR Tech", "Future", "Building immersive virtual realities."], ["Game Narrative", "Story", "Scriptwriting for interactive media."], ["VFX Engineering", "Cinema", "Special effects for the film industry."], ["Sound Design", "Audio", "Creating auditory environments for media."]],
+      Biz: [["Entrepreneurship", "Founder", "Step-by-step guide to starting a startup."], ["Digital Business", "Modern", "Managing companies in the online era."], ["Supply Chain", "Global", "Logistics and international trade management."], ["Human Resources", "People", "Managing talent for large corporations."], ["Marketing Strategy", "Growth", "Scaling products using consumer data."], ["International Biz", "Global", "Cross-border trade and policy."]],
+      Media: [["Journalism", "Truth", "Investigative reporting and news anchors."], ["Film Production", "Cinema", "Directing and producing cinematic content."], ["Public Relations", "Brand", "Managing the image of celebs and firms."], ["Ad Design", "Sales", "Creating viral marketing campaigns."], ["Digital Media", "Modern", "Content strategy for social platforms."], ["Broadcast Tech", "Live", "Managing live television and radio tech."]],
+      Eco: [["Environmental Sci", "Green", "Solving climate change and pollution."], ["Sustainability Mgmt", "Future", "Helping firms go net-zero."], ["Marine Biology", "Ocean", "Researching and protecting sea life."], ["Renewable Energy", "Tech", "Solar, wind, and hydrogen engineering."], ["Forestry", "Nature", "Conservation of natural ecosystems."], ["Urban Planning", "City", "Designing green and smart cities."]]
+    };
 
-    document.getElementById('result').innerHTML = html;
+    data[choice].forEach(item => { res += card(item[0], item[1], item[2]); });
+    document.getElementById('result').innerHTML = res;
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 </script>
