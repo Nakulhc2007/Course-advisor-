@@ -49,7 +49,7 @@
   }
 
   .chat-box {
-    height: 100px;
+    height: 120px;
     overflow-y: auto;
     margin-bottom: 25px;
     padding: 15px;
@@ -58,7 +58,7 @@
     border: 1px solid var(--glass-border);
   }
 
-  .msg { margin: 5px 0; font-size: 0.95rem; }
+  .msg { margin: 8px 0; font-size: 0.95rem; }
   .user { text-align: right; color: var(--primary); font-weight: 600; }
   .bot { color: #cbd5e1; }
 
@@ -72,6 +72,7 @@
     color: white;
     box-sizing: border-box;
     font-size: 1rem;
+    outline: none;
   }
 
   button {
@@ -118,8 +119,8 @@
 <body>
 
 <div class="container">
-  <h2>Smart Course Advisor</h2>
-  <div id="chat" class="chat-box">
+  <h2>EduPath Advisor</h2>
+  <div id="chatDisplay" class="chat-box">
     <div class="msg bot">Welcome! Please enter your full name to start your profile.</div>
   </div>
 
@@ -130,7 +131,7 @@
 
   <div id="step2" class="step">
     <input id="marksInput" type="number" placeholder="12th Marks Percentage (%)">
-    <button onclick="go2()">Next</button>
+    <button onclick="go2()">Next Step</button>
   </div>
 
   <div id="step3" class="step">
@@ -148,7 +149,7 @@
 
   <div id="step4" class="step">
     <p style="text-align:center">Select your career interest:</p>
-    <select id="interest">
+    <select id="interestInput">
       <option value="Technology">Technology & IT</option>
       <option value="Medical">Medical & Healthcare</option>
       <option value="Business">Business & Finance</option>
@@ -162,15 +163,15 @@
 </div>
 
 <script>
-let name="", marks=0, subs=[], interest="";
+let nameVal="", marks=0, subs=[], interestVal="";
 
 function say(text, who) {
-  let chat = document.getElementById("chat");
+  const chatDiv = document.getElementById("chatDisplay");
   let d = document.createElement("div");
   d.className = "msg " + who;
   d.innerText = text;
-  chat.appendChild(d);
-  chat.scrollTop = chat.scrollHeight;
+  chatDiv.appendChild(d);
+  chatDiv.scrollTop = chatDiv.scrollHeight;
 }
 
 function show(id) {
@@ -179,16 +180,18 @@ function show(id) {
 }
 
 function go1() {
-  name = document.getElementById("nameInput").value;
-  if(!name) return;
-  say(name, "user"); say("Hello " + name + "! What was your 12th percentage?", "bot");
+  nameVal = document.getElementById("nameInput").value;
+  if(!nameVal) return;
+  say(nameVal, "user"); 
+  say("Hello " + nameVal + "! What was your 12th percentage?", "bot");
   show("step2");
 }
 
 function go2() {
   marks = document.getElementById("marksInput").value;
   if(!marks) return;
-  say(marks + "%", "user"); say("Choose the subjects you like.", "bot");
+  say(marks + "%", "user"); 
+  say("Choose the subjects you love most.", "bot");
   show("step3");
 }
 
@@ -202,7 +205,8 @@ function toggleSub(btn, sub) {
 
 function go3() {
   if(subs.length == 0) return;
-  say(subs.join(", "), "user"); say("Choose your main field of interest.", "bot");
+  say(subs.join(", "), "user"); 
+  say("Choose your main field of interest.", "bot");
   show("step4");
 }
 
@@ -214,38 +218,54 @@ function box(title, badge, txt) {
 }
 
 function final() {
-  interest = document.getElementById("interest").value;
-  say(interest, "user");
+  interestVal = document.getElementById("interestInput").value;
+  say(interestVal, "user");
   document.getElementById("step4").style.display = "none";
-  let out = `<h2>Report for ${name}</h2>`;
+  let out = `<h2>Report for ${nameVal}</h2>`;
 
-  if(interest == "Technology") {
-    out += box("B.Tech in Artificial Intelligence", "High Salary", "This engineering degree focuses on the development of intelligent machines and software. You will study deep learning, neural networks, and advanced robotics. The curriculum involves heavy coding in Python and C++ along with complex mathematical modeling. As AI integrates into every industry, the demand for AI engineers is skyrocketing globally. You will learn to build predictive algorithms for finance, healthcare, and autonomous vehicles. This career offers massive growth potential and a very high entry-level salary in 2026. Perfect for students who enjoy logic and puzzle-solving.");
-    out += box("B.Sc in Cyber Security", "Top Demand", "Cyber Security focuses on protecting digital infrastructure from global hackers and data breaches. You will learn ethical hacking, cryptography, and network defense strategies. The course involves identifying system vulnerabilities and creating secure firewalls for massive corporations. With the rise of digital warfare, security specialists are now essential for every government and bank. You will gain hands-on experience in digital forensic investigation and incident response. This is a highly stable and well-paying career path. Great for those who are detail-oriented and love technical problem-solving.");
-    out += box("B.Tech in Data Science", "Data Era", "Data Science is the art of extracting meaningful insights from massive datasets to drive business decisions. You will study statistics, big data analytics, and machine learning integration. This course teaches you how to use tools like SQL, R, and Hadoop to predict market trends. As companies become data-driven, the role of a Data Scientist has become one of the most powerful in the corporate world. It requires a mix of programming skills and mathematical intuition. Graduates work in tech giants as Analysts, Architects, or Research Scientists. This field offers immense versatility across finance and marketing sectors.");
-    out += box("Full Stack Web Development", "Quick Job", "This is a highly practical path focusing on building end-to-end web applications. You will master both front-end (HTML, CSS, React) and back-end (Node.js, Databases) technologies. The course is designed for those who want to enter the industry quickly through intensive coding projects. It emphasizes user experience and real-time application deployment. Every modern business needs a web presence, ensuring a constant stream of job opportunities. You can work as a freelancer or a software engineer in major IT firms. Perfect for creative individuals who enjoy seeing their code turn into visual products.");
-    out += box("B.Tech in Cloud Computing", "Infrastructure", "Cloud Computing focuses on managing remote servers and delivering services over the internet. You will learn to work with platforms like AWS, Microsoft Azure, and Google Cloud. The curriculum covers cloud security, virtualization, and database management for global systems. Most modern companies have moved their operations to the cloud, making this specialization vital for IT infrastructure. You will learn to build scalable systems that can handle millions of users simultaneously. Career roles include Cloud Architect or DevOps Engineer. It is a highly technical and well-compensated field in the current digital landscape.");
+  if(interestVal == "Technology") {
+    out += box("B.Tech in Artificial Intelligence", "High Salary", "Focuses on intelligent machines, deep learning, and neural networks. You will build predictive algorithms for finance and healthcare using Python. Ideal for logic-lovers.");
+    out += box("B.Sc in Cyber Security", "Top Demand", "Protects digital systems from hackers. You learn ethical hacking, cryptography, and network defense. Essential for modern banking and gov systems.");
+    out += box("B.Tech in Data Science", "Data Era", "Extracts insights from massive data using statistics and machine learning. Teaches SQL, R, and Hadoop. Essential for modern data-driven corporate strategy.");
+    out += box("Full Stack Development", "Quick Job", "Teaches both front-end (React) and back-end (Node.js) web skills. Fastest route into IT with high-intensity practical coding projects and app deployment.");
+    out += box("B.Tech in Cloud Computing", "Infrastructure", "Managing remote servers via AWS or Azure. Focuses on scalability and virtualization for global systems. Vital for modern IT infrastructure and DevOps roles.");
   }
 
-  if(interest == "Medical") {
-    out += box("MBBS (Doctor of Medicine)", "Prestigious", "The traditional path to becoming a doctor, involving 5.5 years of intensive clinical study. You will master human anatomy, physiology, and surgical procedures through rigorous theory and practice. This path requires extreme dedication, empathy, and the ability to work under high pressure for long hours. Post-graduation, you can specialize in fields like Cardiology, Pediatrics, or Neurosurgery. It offers unmatched social respect and a direct impact on saving lives. Beyond private practice, you can work in top hospitals or medical research. Ideal for students who have a long-term commitment to learning and serving humanity.");
-    out += box("B.Sc in Nursing", "High Demand", "Nursing is a critical healthcare role focused on patient care and hospital management. You will learn clinical procedures, emergency care, and healthcare ethics. Nurses are the backbone of the medical system, working closely with doctors to ensure patient recovery. This field offers incredible global opportunities, especially in countries with aging populations. It requires high emotional intelligence, patience, and physical stamina. Career growth is excellent, with options to specialize in critical care or anesthesia. It is a stable and deeply rewarding career path for those who enjoy helping others directly.");
-    out += box("Bachelor of Pharmacy (B.Pharm)", "Pharma Growth", "This course explores the chemistry of drugs and their effects on the human body. You will study drug manufacturing, quality control, and the pharmaceutical industry's legal regulations. It is a vital link between chemical sciences and clinical healthcare. Careers range from working in retail pharmacy to pharmaceutical research and development. With the constant need for new vaccines and medications, this industry is recession-proof. You can also move into drug inspection or sales and marketing for major pharma firms. Great for students who enjoy chemistry and laboratory-based work.");
-    out += box("B.Sc in Physiotherapy (BPT)", "Rehabilitation", "Physiotherapy focuses on physical movement and rehabilitation for patients with injuries or disabilities. You will learn about human kinesiology, exercise therapy, and pain management techniques. This field is growing rapidly due to the increase in sports injuries and sedentary lifestyle health issues. Physiotherapists work in sports clinics, hospitals, and private rehabilitation centers. It is a hands-on career that helps people regain their physical independence and mobility. No surgery is involved, making it a great alternative to traditional medicine. Perfect for those interested in fitness and human movement.");
-    out += box("B.Sc in Forensic Science", "Investigation", "Forensic Science involves applying scientific methods to solve crimes and legal issues. You will study DNA analysis, toxicology, and evidence collection techniques. This field bridges the gap between science and the legal system, working closely with police and law enforcement. The curriculum includes chemistry, biology, and digital forensics to analyze crime scenes. It is a fascinating and high-stakes career for those with an analytical mind. Career roles include Forensic Scientist, Crime Scene Investigator, or Laboratory Analyst. As crime becomes more complex, forensic experts are in higher demand than ever.");
+  if(interestVal == "Medical") {
+    out += box("MBBS (Doctor of Medicine)", "Prestigious", "5.5 years of intensive clinical study covering anatomy, physiology, and surgery. Direct impact on saving lives and unmatched social respect. Requires long-term commitment.");
+    out += box("B.Sc in Nursing", "Global Need", "Focuses on patient recovery, emergency care, and hospital management. Huge global demand and excellent stable career growth. Requires high empathy and physical stamina.");
+    out += box("Bachelor of Pharmacy", "Pharma Growth", "Explores drug manufacturing and chemistry. Vital for research, clinical trials, and retail pharmacy. Recession-proof industry with opportunities in drug inspection.");
+    out += box("B.Sc in Physiotherapy", "Rehabilitation", "Helps patients recover physical movement without surgery. Growing field due to sports injuries and sedentary lifestyles. Works in clinics and hospitals.");
+    out += box("B.Sc in Forensic Science", "Investigation", "Applying biology and chemistry to solve crimes. Teaches DNA analysis and toxicology for law enforcement support. Analytical and high-stakes laboratory work.");
   }
 
-  if(interest == "Business") {
-    out += box("Integrated MBA (FinTech)", "Top Salary", "This 5-year program merges business management with modern financial technology. You will study blockchain, algorithmic trading, and digital banking ecosystems. The goal is to create leaders who understand both corporate strategy and the digital tools of 2026. This course includes internships in global financial hubs and case studies on successful tech startups. Career paths include Investment Banker, Hedge Fund Manager, or FinTech Consultant. It offers the fastest route to executive-level positions in the banking sector. Ideal for ambitious students with strong communication and analytical skills.");
-    out += box("Chartered Accountancy (CA)", "Respected", "CA is a professional qualification focused on auditing, taxation, and financial management. It involves three levels of rigorous national examinations and a 3-year practical internship. CAs are responsible for the financial health and legal compliance of major corporations. It is a highly disciplined path that requires a sharp memory for laws and numerical accuracy. You can work for the 'Big 4' accounting firms or start a highly profitable independent practice. The qualification is recognized globally and offers a stable, high-income career. Perfect for those who are organized and detail-oriented.");
-    out += box("B.Des in Fashion Management", "Style Biz", "This course combines the creativity of fashion with the logic of business and retail management. You will study brand strategy, supply chain management, and fashion marketing. The goal is to manage the business side of major fashion houses or luxury brands. It involves understanding consumer behavior and the global fashion economy. Career roles include Brand Manager, Fashion Buyer, or Retail Merchandiser. As the luxury market grows, demand for fashion business experts is rising. It is a glamorous yet high-pressure career path. Ideal for those who love style but have a sharp business mindset.");
-    out += box("BBA in Digital Marketing", "Modern Growth", "This degree focuses on using digital platforms to grow brands and acquire customers. You will learn SEO, performance marketing, content strategy, and data-driven advertising. As all businesses move online, expert digital marketers have become essential for company survival. The curriculum involves real-time project management and understanding social media algorithms. Career roles include Growth Hacker, Content Director, or SEO Specialist. It is a dynamic field where your results are visible in real-time through data analytics. Great for creative thinkers who enjoy the intersection of psychology and business.");
-    out += box("Hospitality & Hotel Management", "Global Career", "This course prepares you for leadership roles in the global tourism and hospitality industry. You will study hotel operations, event management, and luxury service standards. The curriculum includes hands-on training in food and beverage, front office, and guest relations. It offers the opportunity to work in 5-star hotels, luxury cruises, or international airline management. As global travel peaks, the demand for high-quality hospitality professionals is massive. It requires excellent people skills, cultural awareness, and multi-tasking abilities. Ideal for those who want to travel and work in a luxury environment.");
+  if(interestVal == "Business") {
+    out += box("Integrated MBA (FinTech)", "Top Salary", "Combines management with blockchain and digital banking. Teaches algorithmic trading and leadership for the 2026 digital economy. High-level executive path.");
+    out += box("Chartered Accountancy", "Respected", "Professional path for auditing, taxation, and law. Requires rigorous exams and 3-year internship. Core of corporate financial health and legal transparency.");
+    out += box("B.Des in Fashion Management", "Style Biz", "Merges fashion creativity with retail logic and supply chain management. Focuses on brand strategy for luxury houses and global fashion economies.");
+    out += box("BBA in Digital Marketing", "Modern Growth", "Using SEO and analytics to grow brands online. Focuses on consumer psychology and performance marketing. Vital for every business moving to the digital space.");
+    out += box("Hotel Management", "Global Career", "Leadership in tourism and luxury service. Teaches hotel operations and event management. Great for those wanting to travel and work in 5-star environments.");
   }
 
-  if(interest == "Creative") {
-    out += box("B.Des in UI/UX Design", "Innovation", "User Interface and Experience design is about making digital products easy and beautiful to use. You will study human psychology, wireframing, and visual design principles. As apps and websites become the primary way we interact with the world, UI/UX designers are in massive demand. This role blends artistic creativity with logical problem-solving. You will build a portfolio showcasing your ability to simplify complex digital tasks. Career opportunities exist in all top-tier tech firms like Google and Apple. Perfect for visual thinkers who care about how technology serves human needs.");
-    out += box("B.A. in Digital Content Creation", "Trending", "This modern degree focuses on professional filmmaking, scriptwriting, and social media branding. You will learn to produce high-quality video content for platforms like Netflix, YouTube, and TikTok. The course covers everything from camera techniques to understanding digital algorithms and audience growth. It is designed for the modern creator who wants to work in the entertainment or advertising industry. Career roles include Creative Producer, Content Strategist, or Digital Director. It is a highly flexible and creative field. Ideal for those who want to tell stories and shape modern digital culture.");
-    out += box("B.Sc in Animation & VFX", "Film Tech", "This course focuses on creating visual effects and 3D animations for movies, games, and advertisements. You will learn to use professional tools like Maya, Blender, and Unreal Engine. The curriculum covers character design, lighting, and cinematic storytelling techniques. With the massive growth of the gaming and streaming industry, VFX artists are in global demand. You will work on creating digital worlds and realistic character movements. It is a technical yet highly artistic field. Career paths include Lead Animator, VFX Supervisor, or Game Designer. Great for students who love movies and digital art.");
-    out += box("Bachelor of Architecture (B.Arch)", "Structure", "Architecture is the art and science of designing buildings and urban environments. This 5-year program covers structural design, sustainability, and history of architecture. You will learn to use CAD software to create blueprints for safe and beautiful living spaces. The path requires a mix of artistic drawing skills and mathematical precision. Architects play a vital role in building the cities of the future with a focus on green energy. It is a prestigious and creative career with a tangible impact on society. Career roles include Urban Planner, Landscape Architect, or Interior Designer.");
-    out += box("B.A. in Journalism & Mass Comm", "Media Power", "This course trains you for a career in news, broadcasting, and public relations. You will study investigative journalism, news writing, and digital media 
+  if(interestVal == "Creative") {
+    out += box("B.Des in UI/UX Design", "Innovation", "Making apps and websites beautiful and easy to use. Blends visual art with human psychology. High demand in tech firms like Apple and Google.");
+    out += box("B.A. in Digital Content", "Trending", "Filmmaking, scriptwriting, and social media branding for Netflix/YouTube. Modern storytelling for the creator economy and entertainment industry.");
+    out += box("B.Sc in Animation & VFX", "Film Tech", "Creating 3D worlds and visual effects for movies and games. Uses Maya and Unreal Engine. High growth in the global gaming and streaming industry.");
+    out += box("Bachelor of Architecture", "Structure", "Designing buildings and urban spaces. 5-year path blending art with math. Key role in building green, sustainable cities for the future.");
+    out += box("Mass Communication", "Media Power", "Training for news, broadcasting, and PR. Investigative journalism and digital media ethics. Vital gatekeepers of information and public opinion.");
+  }
+
+  if(interestVal == "Science") {
+    out += box("B.Sc in Biotechnology", "Research Hub", "DNA tech and genetic engineering for vaccines and food science. Cutting-edge lab work for global health challenges and pharmaceutical innovation.");
+    out += box("B.Sc in Psychology", "Human Mind", "Scientific study of behavior and neurobiology. High demand in clinics and HR. Rewarding path for improving mental health and human conditions.");
+    out += box("Environmental Science", "Eco Future", "Solving climate change and protecting biodiversity. Key role in gov policy and green energy. Socially significant path for planet protection.");
+    out += box("B.Sc in Astrophysics", "Space Sci", "Applying physics to understand the universe. High demand in space exploration (SpaceX/NASA). Stimulating field for those curious about the cosmos.");
+    out += box("B.Sc in Geology", "Earth Science", "Study of Earth materials and tectonic plate movements. Essential for mining, resource exploration, and natural disaster management.");
+  }
+
+  document.getElementById("result").innerHTML = out;
+  window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
