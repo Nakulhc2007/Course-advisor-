@@ -1,0 +1,2 @@
+# Course-advisor-
+Course Advisor is a simple website made using HTML, CSS and JavaScript. Students enter their 12th marks and the system checks the marks and suggests the best suitable courses like Engineering, Medical, Commerce, Arts or Diploma. It gives instant result and helps students choose their future path.
