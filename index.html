@@ -2,24 +2,24 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Course Advisor</title>
+<title>AI Course Advisor</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
 body{
   margin:0;
   font-family:Arial;
-  background:linear-gradient(120deg,#1e3c72,#2a5298);
-  color:white;
+  background:linear-gradient(120deg,#1f4037,#99f2c8);
 }
 .box{
-  max-width:500px;
+  max-width:520px;
   margin:20px auto;
-  background:rgba(0,0,0,0.4);
+  background:rgba(0,0,0,0.6);
+  color:white;
   padding:20px;
-  border-radius:15px;
+  border-radius:16px;
 }
 h2{text-align:center}
-input,button{
+input,button,select{
   width:100%;
   padding:12px;
   margin-top:10px;
@@ -41,21 +41,23 @@ button{
   background:#6ee7b7;
   color:#012;
 }
-.chat{min-height:100px;margin-bottom:10px}
+.chat{min-height:90px;margin-bottom:10px}
 .msg{margin:6px 0}
 .user{text-align:right;color:#6ee7b7}
 .bot{color:#ccc}
-.result{
+.courseBox{
+  background:rgba(255,255,255,0.1);
   margin-top:15px;
-  font-size:18px;
-  font-weight:bold;
+  padding:12px;
+  border-radius:12px;
 }
+.courseBox h3{margin:5px 0;color:#6ee7b7}
 </style>
 </head>
 <body>
 
 <div class="box">
-  <h2>Course Advisor</h2>
+  <h2>AI Course Advisor</h2>
   <div id="chat" class="chat"></div>
 
   <div id="step1">
@@ -79,40 +81,51 @@ button{
       <button onclick="toggleSub(this,'Commerce')">Commerce</button>
       <button onclick="toggleSub(this,'Arts')">Arts</button>
     </div>
-    <button onclick="finalStep()">Get Result</button>
+    <button onclick="next3()">Next</button>
   </div>
 
-  <div id="result" class="result"></div>
+  <div id="step4" style="display:none">
+    <p>Select your main interest:</p>
+    <select id="interest">
+      <option>Technology</option>
+      <option>Medical</option>
+      <option>Business</option>
+      <option>Creative</option>
+      <option>Research</option>
+      <option>Service & Government</option>
+    </select>
+    <button onclick="finalStep()">Get Suggestions</button>
+  </div>
+
+  <div id="result"></div>
 </div>
 
 <script>
-let name="", marks=0, subjects=[];
+let name="", marks=0, subjects=[], interest="";
 
 function addMsg(t,w){
   let d=document.createElement("div");
   d.className="msg "+w;
   d.innerText=t;
-  document.getElementById("chat").appendChild(d);
+  chat.appendChild(d);
 }
 
 function next1(){
-  name=document.getElementById("name").value;
+  name=nameInput.value;
   if(!name)return;
   addMsg(name,"user");
   addMsg("Hi "+name+"!","bot");
   step1.style.display="none";
   step2.style.display="block";
 }
-
 function next2(){
-  marks=document.getElementById("marks").value;
+  marks=marksInput.value;
   if(!marks)return;
   addMsg(marks+"%","user");
-  addMsg("Choose your favorite subjects:","bot");
+  addMsg("Choose your favourite subjects:","bot");
   step2.style.display="none";
   step3.style.display="block";
 }
-
 function toggleSub(btn,sub){
   if(subjects.includes(sub)){
     subjects=subjects.filter(s=>s!==sub);
@@ -122,32 +135,64 @@ function toggleSub(btn,sub){
     btn.classList.add("active");
   }
 }
-
-function finalStep(){
-  let result="";
-  if(marks>=85){
-    if(subjects.includes("Biology"))
-      result="MBBS, BDS, Nursing, Biotechnology";
-    else if(subjects.includes("Computer")||subjects.includes("Maths"))
-      result="Engineering, CSE, AI, Data Science";
-    else
-      result="Any top degree course";
-  }
-  else if(marks>=70){
-    result="Engineering, BCA, B.Sc, B.Com, Architecture";
-  }
-  else if(marks>=50){
-    result="BCA, BBA, Arts, Commerce, Diploma";
-  }
-  else{
-    result="Diploma, ITI, Skill Courses";
-  }
-
+function next3(){
+  if(subjects.length==0)return;
+  addMsg(subjects.join(", "),"user");
+  addMsg("Now select your main interest:","bot");
   step3.style.display="none";
-  document.getElementById("result").innerText=
-    name+", based on your marks and subjects ("+subjects.join(", ")+"):\n"+result;
+  step4.style.display="block";
+}
+function finalStep(){
+  interest=interestSelect.value;
+  addMsg(interest,"user");
+  showCourses();
+}
+
+function courseCard(title,info){
+  return `<div class="courseBox"><h3>${title}</h3><p>${info}</p></div>`;
+}
+
+function showCourses(){
+  let out="";
+  if(interest=="Technology"){
+    out+=courseCard("Engineering / B.Tech",
+    "Focuses on technology, machines and software. Includes branches like CSE, AI, Mechanical and ECE. Needs maths and physics. Jobs in IT, core companies and startups. High demand worldwide. Salary grows fast. Requires strong logic skills. Good for innovation lovers.");
+    out+=courseCard("BCA",
+    "Computer applications degree. Teaches coding, web and apps. Less maths than engineering. Good for software jobs. Can do MCA later. Works well with computer interest. Affordable in many colleges. Good for IT career start.");
+  }
+  if(interest=="Medical"){
+    out+=courseCard("MBBS",
+    "Doctor degree. Needs biology and high marks. Long study but respected career. High social value. Jobs in hospitals and clinics. Good income after experience. Requires patience and dedication.");
+    out+=courseCard("Nursing / Pharmacy",
+    "Healthcare support careers. Shorter than MBBS. Jobs in hospitals, clinics and abroad. Good for biology students. Stable and respected profession. Growing demand.");
+  }
+  if(interest=="Business"){
+    out+=courseCard("BBA / B.Com",
+    "Business and commerce studies. Teaches finance, management and marketing. Good for business and jobs. Can do MBA later. Useful for startups. Works well with commerce students.");
+    out+=courseCard("CA / CMA / CS",
+    "Professional courses in accounting and law. High respect. Good income. Needs hard work. Suitable for commerce lovers. Great for corporate jobs.");
+  }
+  if(interest=="Creative"){
+    out+=courseCard("Design / Animation",
+    "For creative students. Includes fashion, UI/UX, graphics. Needs portfolio. Jobs in media, IT and marketing. High creativity needed. Fun career.");
+    out+=courseCard("Media / Journalism",
+    "News, content and communication field. Works in TV, online and print. Needs good language skills. Good for social impact.");
+  }
+  if(interest=="Research"){
+    out+=courseCard("B.Sc / M.Sc",
+    "Science research path. Physics, chemistry, biology or maths. Leads to scientist or teacher roles. Needs interest in study. Long-term academic career.");
+    out+=courseCard("Biotechnology",
+    "Mix of biology and tech. Used in labs, pharma and research. Growing field. Good for biology lovers.");
+  }
+  if(interest=="Service & Government"){
+    out+=courseCard("Law",
+    "Legal studies. Jobs as lawyer, judge, legal advisor. Good respect. Needs reading and logic. Works in courts and companies.");
+    out+=courseCard("Civil Services",
+    "UPSC and state exams. High prestige jobs. Needs long preparation. Good for social service.");
+  }
+
+  result.innerHTML="<h3>Hi "+name+", here are your best courses:</h3>"+out;
 }
 </script>
-
 </body>
 </html>
