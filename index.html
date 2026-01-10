@@ -2,118 +2,117 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>AI Smart Course Advisor</title>
+<title>Smart Course Advisor</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
 body{
   margin:0;
-  font-family:'Segoe UI',sans-serif;
-  background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+  font-family: 'Segoe UI', sans-serif;
+  background:linear-gradient(135deg,#1f1c2c,#928dab);
   color:white;
 }
-.app{
+.card{
   max-width:600px;
   margin:20px auto;
-  background:rgba(0,0,0,0.6);
-  padding:20px;
+  background:rgba(0,0,0,0.65);
+  padding:25px;
   border-radius:20px;
-  box-shadow:0 0 30px rgba(0,0,0,0.7);
+  box-shadow:0 0 25px rgba(0,0,0,0.7);
 }
-h2{text-align:center;color:#6ee7b7}
-input,button,select{
+h2{text-align:center;color:#6ee7b7;margin-bottom:10px}
+input,select,button{
   width:100%;
-  padding:12px;
-  margin-top:10px;
-  border-radius:10px;
+  padding:14px;
+  margin-top:12px;
+  border-radius:12px;
   border:none;
   font-size:16px;
 }
+input,select{background:#222;color:white}
 button{
-  background:#6ee7b7;
+  background:linear-gradient(90deg,#6ee7b7,#60a5fa);
   color:#012;
   font-weight:bold;
 }
-.options button{
-  background:#333;
-  color:white;
-  margin:4px 0;
+.step{display:none}
+.step.active{display:block}
+.subjects button{
+  background:#333;color:white;margin:6px 0;border-radius:10px
 }
-.options button.active{
-  background:#6ee7b7;
-  color:#012;
+.subjects button.active{
+  background:#6ee7b7;color:#012
 }
-.chat{min-height:90px;margin-bottom:10px}
+.chat{min-height:80px;margin-bottom:10px;color:#ccc}
 .msg{margin:6px 0}
 .user{text-align:right;color:#6ee7b7}
 .bot{color:#ccc}
 .course{
   background:rgba(255,255,255,0.1);
-  margin-top:15px;
+  margin-top:18px;
   padding:15px;
-  border-radius:12px;
+  border-radius:14px;
 }
-.course h3{margin:5px 0;color:#6ee7b7}
-.course p{font-size:14px;line-height:1.4}
+.course h3{color:#6ee7b7;margin:5px 0}
+.course p{font-size:14px;line-height:1.5}
 </style>
 </head>
 <body>
 
-<div class="app">
-<h2>AI Smart Course Advisor</h2>
+<div class="card">
+<h2>Smart Course Advisor</h2>
 <div id="chat" class="chat"></div>
 
-<div id="s1">
-<input id="nameInput" placeholder="Enter your name">
-<button onclick="go1()">Next</button>
+<div id="step1" class="step active">
+  <input id="nameInput" placeholder="Enter your full name">
+  <button onclick="go1()">Continue</button>
 </div>
 
-<div id="s2" style="display:none">
-<input id="marksInput" type="number" placeholder="Enter your 12th percentage">
-<button onclick="go2()">Next</button>
+<div id="step2" class="step">
+  <input id="marksInput" type="number" placeholder="Enter your 12th percentage">
+  <button onclick="go2()">Continue</button>
 </div>
 
-<div id="s3" style="display:none">
-<p>Select subjects you like (many allowed):</p>
-<div class="options">
-<button onclick="toggle(this,'Maths')">Maths</button>
-<button onclick="toggle(this,'Physics')">Physics</button>
-<button onclick="toggle(this,'Chemistry')">Chemistry</button>
-<button onclick="toggle(this,'Biology')">Biology</button>
-<button onclick="toggle(this,'Computer')">Computer</button>
-<button onclick="toggle(this,'Commerce')">Commerce</button>
-<button onclick="toggle(this,'Arts')">Arts</button>
-<button onclick="toggle(this,'Economics')">Economics</button>
-<button onclick="toggle(this,'History')">History</button>
-</div>
-<button onclick="go3()">Next</button>
-</div>
-
-<div id="s4" style="display:none">
-<p>Main interest:</p>
-<select id="interest">
-<option>Technology</option>
-<option>Medical</option>
-<option>Business</option>
-<option>Creative</option>
-<option>Research</option>
-<option>Government</option>
-<option>Sports</option>
-<option>Travel & Hospitality</option>
-</select>
-<button onclick="go4()">Next</button>
+<div id="step3" class="step">
+  <p>Select subjects you like (you can choose many):</p>
+  <div class="subjects">
+    <button onclick="toggleSub(this,'Maths')">Maths</button>
+    <button onclick="toggleSub(this,'Physics')">Physics</button>
+    <button onclick="toggleSub(this,'Chemistry')">Chemistry</button>
+    <button onclick="toggleSub(this,'Biology')">Biology</button>
+    <button onclick="toggleSub(this,'Computer')">Computer</button>
+    <button onclick="toggleSub(this,'Commerce')">Commerce</button>
+    <button onclick="toggleSub(this,'Arts')">Arts</button>
+    <button onclick="toggleSub(this,'Economics')">Economics</button>
+  </div>
+  <button onclick="go3()">Continue</button>
 </div>
 
-<div id="s5" style="display:none">
-<p>Career goal:</p>
-<select id="goal">
-<option>High salary</option>
-<option>Job security</option>
-<option>Social service</option>
-<option>Creativity</option>
-<option>Research & teaching</option>
-<option>Business</option>
-</select>
-<button onclick="final()">Show Courses</button>
+<div id="step4" class="step">
+  <p>Main interest:</p>
+  <select id="interest">
+    <option>Technology</option>
+    <option>Medical</option>
+    <option>Business</option>
+    <option>Creative</option>
+    <option>Research</option>
+    <option>Government</option>
+    <option>Sports</option>
+    <option>Hospitality & Travel</option>
+  </select>
+  <button onclick="go4()">Continue</button>
+</div>
+
+<div id="step5" class="step">
+  <p>Your career goal:</p>
+  <select id="goal">
+    <option>High Salary</option>
+    <option>Job Security</option>
+    <option>Helping Society</option>
+    <option>Creativity</option>
+    <option>Research & Teaching</option>
+    <option>Business</option>
+  </select>
+  <button onclick="final()">Show My Courses</button>
 </div>
 
 <div id="result"></div>
@@ -122,42 +121,50 @@ button{
 <script>
 let name="",marks=0,subs=[],interest="",goal="";
 
-function say(t,w){
+function say(text,who){
  let d=document.createElement("div");
- d.className="msg "+w;
- d.innerText=t;
+ d.className="msg "+who;
+ d.innerText=text;
  chat.appendChild(d);
+}
+
+function show(id){
+ document.querySelectorAll(".step").forEach(s=>s.classList.remove("active"));
+ document.getElementById(id).classList.add("active");
 }
 
 function go1(){
  name=nameInput.value;
  if(!name)return;
- say(name,"user"); say("Hi "+name+"!","bot");
- s1.style.display="none"; s2.style.display="block";
+ say(name,"user"); say("Hi "+name+"! Nice to meet you.","bot");
+ show("step2");
 }
 
 function go2(){
  marks=marksInput.value;
  if(!marks)return;
- say(marks+"%","user"); say("Choose your subjects:","bot");
- s2.style.display="none"; s3.style.display="block";
+ say(marks+"%","user"); say("Select subjects you enjoy:","bot");
+ show("step3");
 }
 
-function toggle(b,s){
- if(subs.includes(s)){subs=subs.filter(x=>x!=s);b.classList.remove("active");}
- else{subs.push(s);b.classList.add("active");}
+function toggleSub(btn,sub){
+ if(subs.includes(sub)){
+   subs=subs.filter(x=>x!=sub); btn.classList.remove("active");
+ }else{
+   subs.push(sub); btn.classList.add("active");
+ }
 }
 
 function go3(){
  if(subs.length==0)return;
  say(subs.join(", "),"user"); say("Choose your main interest:","bot");
- s3.style.display="none"; s4.style.display="block";
+ show("step4");
 }
 
 function go4(){
  interest=document.getElementById("interest").value;
- say(interest,"user"); say("Choose your career goal:","bot");
- s4.style.display="none"; s5.style.display="block";
+ say(interest,"user"); say("Select your career goal:","bot");
+ show("step5");
 }
 
 function box(title,txt){
@@ -167,62 +174,62 @@ function box(title,txt){
 function final(){
  goal=document.getElementById("goal").value;
  say(goal,"user");
- let out="<h3>Hi "+name+", your best options:</h3>";
+ let out="<h3>Hi "+name+", based on your answers, best courses for you:</h3>";
 
  if(interest=="Technology"){
  out+=box("B.Tech / Engineering",
- "Engineering is for students who love maths, physics and problem solving. It has branches like Computer Science, AI, Mechanical, Civil and ECE. You learn technology, machines, coding and design. Jobs are in IT companies, core industries and startups. Salary grows with experience. Needs logical thinking. Good for innovators and creators.");
+ "Engineering is for students who love problem solving and technology. Branches include Computer Science, AI, Mechanical, Civil and ECE. You study machines, coding and systems. Jobs in IT and industries. High growth salary. Needs strong logic and maths. Good for innovators and creators.");
  out+=box("BCA",
- "BCA focuses on computer applications. You learn coding, web development, apps and databases. Less tough than engineering. Can do MCA later. Jobs in IT and software. Good for computer lovers. Affordable in many colleges.");
+ "BCA teaches programming, web, apps and databases. Easier than engineering. Good for IT jobs. Can do MCA later. Affordable in many colleges. Perfect for computer lovers.");
  }
 
  if(interest=="Medical"){
  out+=box("MBBS",
- "MBBS makes you a doctor. Needs biology and high marks. Long and hard study but very respected. You work in hospitals and clinics. High social value. Income grows slowly but becomes high. Needs patience and dedication.");
+ "MBBS makes you a doctor. Needs biology and high marks. Long study but respected. Work in hospitals and clinics. High social value. Income grows with experience.");
  out+=box("Nursing / Pharmacy",
- "These are healthcare support careers. Shorter than MBBS. Jobs in hospitals, labs and abroad. Good demand worldwide. Stable and respected profession.");
+ "Healthcare support careers. Shorter than MBBS. Jobs in hospitals and abroad. Stable, respected and in high demand.");
  }
 
  if(interest=="Business"){
  out+=box("BBA / B.Com",
- "These teach business, finance and management. You learn accounts, marketing and economics. Can do MBA later. Good for jobs and business. Works well with commerce students.");
+ "Business and finance studies. Accounts, marketing and management. Can do MBA later. Good for jobs and startups.");
  out+=box("CA / CS / CMA",
- "Professional courses in accounts and law. Very respected. High income. Needs hard work and discipline. Good corporate career.");
+ "Professional courses in accounts and law. High respect and income. Needs discipline and hard work.");
  }
 
  if(interest=="Creative"){
  out+=box("Design / Animation",
- "For creative minds. Includes fashion, UI/UX, graphics and animation. Needs portfolio. Jobs in media, IT and advertising. Fun and creative career.");
- out+=box("Music / Film / Media",
- "Works in movies, music, YouTube and TV. Needs talent and practice. Fame and money depend on skill. Good for artistic students.");
+ "Fashion, UI/UX, graphics and animation. Needs creativity and portfolio. Jobs in media and IT.");
+ out+=box("Media / Film / Music",
+ "Work in movies, YouTube, TV and music. Success depends on talent and practice.");
  }
 
  if(interest=="Research"){
  out+=box("B.Sc / M.Sc",
- "Science path. Physics, chemistry, biology or maths. Leads to scientist or teacher. Needs interest in study. Long-term academic career.");
+ "Science path. Physics, chemistry, biology or maths. Leads to scientist or teacher.");
  out+=box("Biotechnology",
- "Biology with technology. Used in labs, pharma and research. Growing field. Good for biology lovers.");
+ "Biology with technology. Used in labs, pharma and research.");
  }
 
  if(interest=="Government"){
  out+=box("Law",
- "Legal studies. Lawyer, judge, advisor. Needs reading and logic. High respect in society.");
+ "Lawyers, judges and legal advisors. Needs reading and logic.");
  out+=box("Civil Services",
- "UPSC and state exams. Top government jobs. Needs long preparation. High prestige.");
+ "UPSC and state exams. High prestige government jobs.");
  }
 
  if(interest=="Sports"){
  out+=box("Sports Science / Coaching",
- "For athletes. Training, fitness, coaching and management. Jobs in sports academies and teams.");
+ "Training, fitness and coaching. Work in sports academies.");
  out+=box("Physiotherapy",
- "Helps injured people recover. Used in sports and hospitals. Growing demand.");
+ "Helps injured people recover. Used in sports and hospitals.");
  }
 
- if(interest=="Travel & Hospitality"){
+ if(interest=="Hospitality & Travel"){
  out+=box("Hotel Management",
- "Hotels, tourism and events. Jobs in India and abroad. Needs communication skills.");
+ "Hotels, tourism and events. Jobs in India and abroad.");
  out+=box("Aviation / Cabin Crew",
- "Airlines and airports. Good salary and travel. Needs personality and training.");
+ "Airlines and airports. Good salary and travel.");
  }
 
  result.innerHTML=out;
