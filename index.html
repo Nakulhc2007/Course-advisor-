@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>EduPath AI | Professional Advisor</title>
+<title>EduPath AI | Professional Advisor 2026</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
 <style>
@@ -15,47 +15,24 @@
   }
 
   body {
-    margin: 0;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    background: var(--bg);
+    margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg);
     background-image: radial-gradient(circle at 10% 10%, rgba(0, 242, 255, 0.08) 0%, transparent 35%);
-    color: #f1f3f4;
-    min-height: 100vh;
-    display: flex; justify-content: center; align-items: center; padding: 20px;
+    color: #f1f3f4; min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px;
   }
 
-  .container {
-    width: 100%; max-width: 800px; background: var(--card); backdrop-filter: blur(30px);
-    border: 1px solid var(--border); border-radius: 35px; padding: 50px;
-  }
+  .container { width: 100%; max-width: 850px; background: var(--card); backdrop-filter: blur(30px); border: 1px solid var(--border); border-radius: 35px; padding: 50px; box-shadow: 0 40px 100px rgba(0,0,0,0.5); }
+  h1 { text-align: center; font-weight: 800; font-size: 2.5rem; margin-bottom: 30px; letter-spacing: -1.5px; }
 
-  h1 { text-align: center; font-weight: 800; font-size: 2.5rem; margin-bottom: 30px; color: #fff; letter-spacing: -1.5px; }
+  .chat-box { background: rgba(0,0,0,0.4); border-radius: 20px; padding: 20px; margin-bottom: 35px; border: 1px solid var(--border); color: var(--accent); line-height: 1.6; }
 
-  .chat-box { 
-    background: rgba(0,0,0,0.4); border-radius: 20px; padding: 20px; margin-bottom: 35px; 
-    border: 1px solid var(--border); color: var(--accent);
-  }
-
-  /* Improved Spacing */
-  .marks-grid { 
-    display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin: 25px 0; 
-  }
-
+  .marks-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin: 25px 0; }
   .input-wrapper { display: flex; flex-direction: column; }
-  label { font-size: 0.8rem; color: #9aa0a6; margin-bottom: 8px; margin-left: 5px; }
+  label { font-size: 0.85rem; color: #9aa0a6; margin-bottom: 10px; font-weight: 600; }
 
-  input, select { 
-    width: 100%; padding: 18px; border-radius: 16px; border: 1px solid var(--border); 
-    background: rgba(255,255,255,0.05); color: white; font-size: 1rem;
-  }
+  input, select { width: 100%; padding: 18px; border-radius: 16px; border: 1px solid var(--border); background: rgba(255,255,255,0.05); color: white; font-size: 1rem; box-sizing: border-box; }
+  input:focus, select:focus { border-color: var(--accent); outline: none; background: rgba(255,255,255,0.08); }
 
-  input:focus { border-color: var(--accent); outline: none; background: rgba(255,255,255,0.08); }
-
-  .btn { 
-    width: 100%; padding: 20px; margin-top: 25px; border-radius: 16px; border: none; 
-    background: #fff; color: #000; font-weight: 700; font-size: 1.1rem; cursor: pointer; transition: 0.3s;
-  }
-
+  .btn { width: 100%; padding: 20px; margin-top: 25px; border-radius: 16px; border: none; background: #fff; color: #000; font-weight: 700; font-size: 1.1rem; cursor: pointer; transition: 0.3s; }
   .btn:disabled { opacity: 0.1; cursor: not-allowed; }
   .btn:hover:not(:disabled) { background: var(--accent); transform: translateY(-2px); }
 
@@ -64,56 +41,65 @@
 
   @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-  .status-msg { text-align: center; font-size: 0.9rem; margin-top: 10px; min-height: 20px; }
+  .status-msg { text-align: center; font-size: 0.9rem; margin-top: 10px; }
   .fail { color: var(--error); }
-  .pass { color: var(--accent); }
 
-  .course-card { 
-    background: rgba(255,255,255,0.02); margin-top: 20px; padding: 25px; 
-    border-radius: 20px; border: 1px solid var(--border);
-  }
-  .course-card h3 { color: var(--accent); margin: 0 0 10px 0; display: flex; justify-content: space-between; }
-  .tag { font-size: 0.7rem; background: #006aff; color: white; padding: 4px 10px; border-radius: 50px; }
+  .course-card { background: rgba(255,255,255,0.02); margin-top: 30px; padding: 30px; border-radius: 25px; border: 1px solid var(--border); }
+  .course-card h3 { color: var(--accent); margin: 0 0 15px 0; font-size: 1.4rem; display: flex; justify-content: space-between; }
+  .tag { font-size: 0.75rem; background: rgba(0, 242, 255, 0.1); color: var(--accent); padding: 5px 12px; border-radius: 50px; border: 1px solid var(--accent); }
+  .course-card p { line-height: 1.8; color: #cbd5e1; margin-bottom: 15px; text-align: justify; }
+  .meta-info { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; font-size: 0.85rem; border-top: 1px solid var(--border); pt: 15px; padding-top: 15px; color: var(--accent); }
 </style>
 </head>
 <body>
 
 <div class="container">
   <h1 id="head">EDUPATH AI</h1>
-  <div class="chat-box" id="botText">Please enter your name to begin.</div>
+  <div class="chat-box" id="botText">Consultation Initialized. Please enter your name.</div>
 
   <div id="step1" class="step active">
-    <input type="text" id="nameInp" placeholder="Your Name">
-    <button class="btn" onclick="go2()">Continue</button>
+    <input type="text" id="nameInp" placeholder="Enter Full Name">
+    <button class="btn" onclick="go2()">Begin Analysis</button>
   </div>
 
   <div id="step2" class="step">
     <div class="marks-grid">
-      <div class="input-wrapper"><label>Physics</label><input type="number" id="p" placeholder="0-100" oninput="validate()"></div>
-      <div class="input-wrapper"><label>Chemistry</label><input type="number" id="c" placeholder="0-100" oninput="validate()"></div>
-      <div class="input-wrapper"><label>Maths</label><input type="number" id="m" placeholder="0-100" oninput="validate()"></div>
-      <div class="input-wrapper"><label>Biology (Optional)</label><input type="number" id="b" placeholder="0-100" oninput="validate()"></div>
+      <div class="input-wrapper"><label>Physics (%)</label><input type="number" id="p" oninput="validate()"></div>
+      <div class="input-wrapper"><label>Chemistry (%)</label><input type="number" id="c" oninput="validate()"></div>
+      <div class="input-wrapper"><label>Mathematics (%)</label><input type="number" id="m" oninput="validate()"></div>
+      <div class="input-wrapper"><label>Biology % (Optional)</label><input type="number" id="b" oninput="validate()"></div>
     </div>
     <div id="status" class="status-msg"></div>
-    <button id="nextBtn" class="btn" onclick="go3()" disabled>Verify Marks</button>
+    <button id="nextBtn" class="btn" onclick="go3()" disabled>Verify Eligibility</button>
   </div>
 
   <div id="step3" class="step">
-    <label>Choose your career passion:</label>
+    <label>Select your Interest Category:</label>
     <select id="interest">
-      <option value="AI">Artificial Intelligence & Coding</option>
-      <option value="Med">Medicine & Surgery</option>
-      <option value="Fin">Finance & Stock Markets</option>
-      <option value="Des">UI/UX & Product Design</option>
-      <option value="Space">Astro-Physics & Space</option>
-      <option value="Law">Cyber Law & Criminology</option>
-      <div ></div>
-      <option value="Game">Game Dev & Animation</option>
-      <option value="Biz">Entrepreneurship & Startups</option>
-      <option value="Media">Journalism & Digital Media</option>
-      <option value="Eco">Environmental Science & Green Tech</option>
+      <option value="AI">AI & Future Technology</option>
+      <option value="Med">Clinical Medicine & Surgery</option>
+      <option value="Biz">Business & Entrepreneurship</option>
+      <option value="Creative">Arts & Visual Design</option>
+      <option value="Sci">Pure Research & Space</option>
     </select>
-    <button class="btn" onclick="finish()">Generate Recommendations</button>
+    <button class="btn" onclick="go4()">Next Step</button>
+  </div>
+
+  <div id="step4" class="step">
+    <label>What is your ultimate Career Goal?</label>
+    <select id="goal">
+      <option value="high">Earning a High Salary (Financial Freedom)</option>
+      <option value="social">Social Impact & Helping People</option>
+      <option value="global">Working Abroad / Global Exposure</option>
+      <option value="innovation">Creating New Inventions/Products</option>
+      <option value="govt">Stable Government Position</option>
+      <option value="creative">Expression & Artistic Fame</option>
+      <option value="research">Scientific Discovery & PhD</option>
+      <option value="startup">Building a Billion-Dollar Startup</option>
+      <option value="safety">Job Security & Work-Life Balance</option>
+      <option value="leadership">Leading Large Organizations (CEO)</option>
+    </select>
+    <button class="btn" onclick="finish()">Generate Final Roadmap</button>
   </div>
 
   <div id="result"></div>
@@ -129,13 +115,11 @@
     const btn = document.getElementById('nextBtn');
     const status = document.getElementById('status');
 
-    // Strict Rule: Every core subject MUST be 35 or more
     if (p >= 35 && c >= 35 && m >= 35) {
-      status.innerText = "✓ Eligibility Criteria Met";
-      status.className = "status-msg pass";
+      status.innerText = "✓ Academic criteria passed."; status.className = "status-msg";
       btn.disabled = false;
     } else {
-      status.innerText = "⚠ Each subject must be at least 35 marks to proceed.";
+      status.innerText = "⚠ Security Block: Each subject must be 35+ marks.";
       status.className = "status-msg fail";
       btn.disabled = true;
     }
@@ -144,42 +128,81 @@
   function go2() {
     uName = document.getElementById('nameInp').value;
     if(!uName) return;
-    document.getElementById('botText').innerText = `Hello ${uName}, enter your 12th scores.`;
+    document.getElementById('botText').innerText = `Welcome ${uName}. Please input your core 12th grade marks.`;
     document.getElementById('step1').classList.remove('active');
     document.getElementById('step2').classList.add('active');
   }
 
   function go3() {
-    document.getElementById('botText').innerText = "Excellent. Now select a field you are interested in.";
+    document.getElementById('botText').innerText = "Scores verified. What field fascinates you the most?";
     document.getElementById('step2').classList.remove('active');
     document.getElementById('step3').classList.add('active');
   }
 
-  function card(title, tag, desc) {
-    return `<div class="course-card"><h3>${title} <span class="tag">${tag}</span></h3><p>${desc}</p></div>`;
+  function go4() {
+    document.getElementById('botText').innerText = "Almost there. Tell me about your long-term career ambition.";
+    document.getElementById('step3').classList.remove('active');
+    document.getElementById('step4').classList.add('active');
+  }
+
+  function card(title, tag, desc, skill, job) {
+    return `
+      <div class="course-card">
+        <h3>${title} <span class="tag">${tag}</span></h3>
+        <p>${desc}</p>
+        <div class="meta-info">
+          <div><strong>Core Skill:</strong> ${skill}</div>
+          <div><strong>Primary Role:</strong> ${job}</div>
+        </div>
+      </div>
+    `;
   }
 
   function finish() {
-    const choice = document.getElementById('interest').value;
-    document.getElementById('step3').style.display = "none";
+    const interest = document.getElementById('interest').value;
+    const goalText = document.getElementById('goal').options[document.getElementById('goal').selectedIndex].text;
+    document.getElementById('step4').style.display = "none";
     document.getElementById('head').innerText = `Best Courses for ${uName}`;
-    document.getElementById('botText').innerText = "Based on your academic profile, here are 6 expert roadmaps:";
+    document.getElementById('botText').innerText = `Based on your marks and your goal of "${goalText}", here are the top 6 paths you should pursue:`;
 
     let res = "";
-    const data = {
-      AI: [["B.Tech AI & ML", "Top Choice", "Build intelligent systems and neural networks."], ["Data Science", "High Salary", "Analyze big data for global tech giants."], ["Cyber Security", "Secure", "Defend networks from international hackers."], ["Software Engineering", "Stable", "End-to-end application development."], ["Cloud Architecture", "Future", "Manage global server infrastructures."], ["Full Stack Dev", "Quick Job", "Design modern web platforms."]],
-      Med: [["MBBS", "Elite", "The core path to becoming a licensed physician."], ["Biotechnology", "Research", "Develop new vaccines and genetic cures."], ["B.Pharm", "Corporate", "High-growth pharmaceutical manufacturing career."], ["Forensic Science", "Criminal", "Solve crimes using biological evidence."], ["Physiotherapy", "Health", "Physical rehabilitation and movement science."], ["Psychology", "Mind", "Study human behavior and clinical therapy."]],
-      Fin: [["FinTech MBA", "LPA 20+", "Intersection of finance and blockchain tech."], ["Chartered Accountancy", "Respect", "Professional auditing and taxation law."], ["Investment Banking", "Elite", "Manage mergers and global capital markets."], ["Stock Market Analytics", "Wealth", "Predictive modeling for trading."], ["Actuarial Science", "High Math", "Risk assessment for insurance giants."], ["B.Com (Honors)", "Core", "Advanced business and accounting logic."]],
-      Des: [["UI/UX Design", "Modern", "Design user experiences for top-tier apps."], ["Graphic Design", "Art", "Visual communication and brand strategy."], ["Industrial Design", "Build", "Designing physical consumer products."], ["Fashion Tech", "Style", "Merging fashion with smart wearable tech."], ["Interior Design", "Space", "Creating functional and aesthetic living spaces."], ["Game Art", "Creative", "Visual asset design for the gaming industry."]],
-      Space: [["Astro-Physics", "Space", "Study the laws of the universe and stars."], ["Aerospace Engineering", "Build", "Designing rockets and aircraft systems."], ["Satellite Tech", "Comm", "Building the future of global communication."], ["Planetary Science", "Research", "Explore Earth's geology and extraterrestrial bodies."], ["Quantum Physics", "Future", "Researching the subatomic world."], ["Computational Physics", "Logic", "Simulating complex physical systems."]],
-      Law: [["Cyber Law", "Security", "Legal frameworks for the digital world."], ["Corporate Law", "Biz", "Managing legalities for major companies."], ["Criminal Justice", "Justice", "Working within the national court systems."], ["Intellectual Property", "Ideas", "Protecting inventions and copyrights."], ["Civil Law", "Society", "Resolving public and private disputes."], ["Forensic Law", "Science", "Bridges legal cases with scientific evidence."]],
-      Game: [["Game Development", "Logic", "Coding game engines like Unreal and Unity."], ["3D Animation", "Visual", "Creating characters for movies and games."], ["AR/VR Tech", "Future", "Building immersive virtual realities."], ["Game Narrative", "Story", "Scriptwriting for interactive media."], ["VFX Engineering", "Cinema", "Special effects for the film industry."], ["Sound Design", "Audio", "Creating auditory environments for media."]],
-      Biz: [["Entrepreneurship", "Founder", "Step-by-step guide to starting a startup."], ["Digital Business", "Modern", "Managing companies in the online era."], ["Supply Chain", "Global", "Logistics and international trade management."], ["Human Resources", "People", "Managing talent for large corporations."], ["Marketing Strategy", "Growth", "Scaling products using consumer data."], ["International Biz", "Global", "Cross-border trade and policy."]],
-      Media: [["Journalism", "Truth", "Investigative reporting and news anchors."], ["Film Production", "Cinema", "Directing and producing cinematic content."], ["Public Relations", "Brand", "Managing the image of celebs and firms."], ["Ad Design", "Sales", "Creating viral marketing campaigns."], ["Digital Media", "Modern", "Content strategy for social platforms."], ["Broadcast Tech", "Live", "Managing live television and radio tech."]],
-      Eco: [["Environmental Sci", "Green", "Solving climate change and pollution."], ["Sustainability Mgmt", "Future", "Helping firms go net-zero."], ["Marine Biology", "Ocean", "Researching and protecting sea life."], ["Renewable Energy", "Tech", "Solar, wind, and hydrogen engineering."], ["Forestry", "Nature", "Conservation of natural ecosystems."], ["Urban Planning", "City", "Designing green and smart cities."]]
-    };
+    if(interest == "AI") {
+      res += card("B.Tech in Artificial Intelligence", "Recommended", "This course focuses on the architecture of neural networks and deep learning. You will learn to build systems that can see, hear, and think like humans.", "Mathematics & Python", "AI Research Scientist");
+      res += card("Cyber Security Operations", "High Security", "With global threats rising, this path teaches ethical hacking and network defense to protect critical digital infrastructure.", "Network Protocols", "Security Architect");
+      res += card("Data Science & Big Data", "High Salary", "Focuses on turning billions of data points into business decisions. You'll master statistical modeling and predictive analytics.", "Statistics & SQL", "Data Strategist");
+      res += card("Cloud Computing Engineering", "Global Need", "Learn to manage the world's data on AWS, Azure, and Google Cloud. Vital for the decentralized future of all global companies.", "Distributed Systems", "Cloud Solution Architect");
+      res += card("Blockchain Technology", "Innovation", "Study decentralized ledgers and smart contracts. This is the foundation of future finance and secure supply chain tracking.", "Cryptography", "Blockchain Developer");
+      res += card("Full Stack Software Dev", "Versatile", "A comprehensive path covering both user interfaces and server-side logic. Perfect for building and shipping complete tech products.", "JavaScript & React", "Senior Software Engineer");
+    } else if(interest == "Med") {
+      res += card("MBBS (Medicine & Surgery)", "Elite", "The traditional path to becoming a doctor. Involves 5.5 years of anatomy, physiology, and clinical rotations in major hospitals.", "Clinical Diagnosis", "Medical Practitioner");
+      res += card("Biotechnology & Genetics", "Research", "Focuses on DNA manipulation to cure diseases and create sustainable food. A bridge between laboratory science and medical therapy.", "Molecular Biology", "Genetic Engineer");
+      res += card("B.Pharm (Pharmaceuticals)", "Industry", "Study the chemistry of drugs and their manufacturing. Essential for the massive global medicine and vaccine production industry.", "Medicinal Chemistry", "Drug Inspector");
+      res += card("Forensic Science", "Investigative", "Apply biology and chemistry to solve crimes. You will learn to analyze DNA, fingerprints, and toxicological evidence for courts.", "Analytical Chemistry", "Crime Lab Analyst");
+      res += card("B.Sc in Psychology", "Social Impact", "The study of the human mind and behavior. As mental health awareness grows, professional psychologists are in high demand everywhere.", "Empathy & Analysis", "Clinical Psychologist");
+      res += card("Bioinformatics", "Innovation", "A hybrid of biology and computer science. You use AI to analyze biological data to discover new drugs and understand diseases faster.", "Algorithm Design", "Computational Biologist");
+    } else if(interest == "Biz") {
+        res += card("FinTech Integrated MBA", "High Salary", "A modern management degree focusing on digital banking, cryptocurrency, and automated trading systems.", "Financial Modeling", "FinTech Consultant");
+        res += card("Chartered Accountancy", "Security", "The highest professional level in accounting and auditing. Provides a deep understanding of corporate law and taxation systems.", "Auditing & Law", "Chief Financial Officer");
+        res += card("Digital Marketing & Analytics", "Growth", "Master the psychology of online consumers and the algorithms of social media to scale businesses globally.", "SEO & Data Analysis", "Growth Hacker");
+        res += card("Investment Banking", "Elite", "Focuses on large-scale capital management, mergers, and acquisitions for massive global corporations.", "Valuation & Strategy", "Investment Banker");
+        res += card("Entrepreneurship (BBA)", "Innovation", "Learn the mechanics of starting, funding, and scaling a business. Focuses on leadership and market innovation.", "Strategy & Leadership", "Founder / CEO");
+        res += card("Supply Chain Management", "Global", "Manage the flow of goods across international borders. Vital for global giants like Amazon and Tesla.", "Logistics & Ops", "Operations Manager");
+    } else if(interest == "Creative") {
+        res += card("B.Des in UI/UX Design", "Top Trend", "Focuses on designing the digital interfaces of apps and websites based on human behavior research.", "Psychology & Visual Art", "Product Designer");
+        res += card("Animation & VFX Engineering", "Entertainment", "Learn the tech behind Hollywood movies and high-end video games using Unreal Engine and Maya.", "3D Modeling", "VFX Supervisor");
+        res += card("Digital Content Creation", "Social Fame", "Master filmmaking, cinematography, and brand storytelling for the modern creator economy and streaming platforms.", "Cinematography", "Creative Director");
+        res += card("Interior Architecture", "Stability", "A professional degree blending artistic vision with structural engineering to create aesthetic living and work spaces.", "CAD & Spatial Logic", "Interior Architect");
+        res += card("Fashion Communication", "Style", "Focuses on the branding, PR, and photography side of the luxury fashion industry.", "Visual Branding", "Fashion Stylist");
+        res += card("Game Design", "Innovation", "The core logic of interactive play. You'll learn mechanics, level design, and player engagement strategies.", "Game Mechanics", "Lead Game Designer");
+    } else if(interest == "Sci") {
+        res += card("B.Sc Astrophysics", "Space", "Study the celestial bodies and the physics of space. A prime path for those aiming for agencies like ISRO or SpaceX.", "Quantum Physics", "Space Researcher");
+        res += card("Environmental Science", "Impact", "Solve climate change issues and develop green energy solutions for a sustainable global future.", "Ecology & Policy", "Sustainability Advisor");
+        res += card("Theoretical Physics", "Research", "Research the fundamental laws of nature, from subatomic particles to the expansion of the universe.", "Advanced Calculus", "Research Physicist");
+        res += card("Marine Biology", "Discovery", "Explore the mysteries of the oceans and research ways to protect marine biodiversity and ecosystems.", "Marine Ecology", "Marine Scientist");
+        res += card("Aeronautical Engineering", "High Salary", "Focuses on the design, construction, and science of aircraft and spacecraft propulsion systems.", "Fluid Dynamics", "Aerospace Engineer");
+        res += card("Geology & Mineralogy", "Govt Job", "Study Earth's materials to find natural resources and predict natural disasters for national safety.", "Geochemistry", "Geological Surveyor");
+    }
 
-    data[choice].forEach(item => { res += card(item[0], item[1], item[2]); });
     document.getElementById('result').innerHTML = res;
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
