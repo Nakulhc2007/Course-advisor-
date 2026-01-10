@@ -1,0 +1,332 @@
+# Course-advisor-
+Course Advisor is a simple website made using HTML, CSS and JavaScript. Students enter their 12th marks and the system checks the marks and suggests the best suitable courses like Engineering, Medical, Commerce, Arts or Diploma. It gives instant result and helps students choose their future path.
+<!doctype html>
+
+<html lang="en">  
+<head>  
+  <meta charset="utf-8" />  
+  <title>Course Selection Advisor — Responsive</title>  
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />  
+  <style>  
+    :root{  
+      --bg:#0f1724; --card:#0b1220; --accent:#6ee7b7; --accent-2:#60a5fa; --muted:#9aa6b2;  
+      --glass: rgba(255,255,255,0.03);  
+      --radius:12px;  
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;  
+      -webkit-font-smoothing:antialiased;  
+      -moz-osx-font-smoothing:grayscale;  
+    }  
+    *{box-sizing:border-box}  
+    html,body{height:100%;margin:0;background:  
+      radial-gradient(900px 400px at 10% 10%, rgba(108,99,255,0.06), transparent 10%),  
+      radial-gradient(700px 300px at 90% 90%, rgba(55,214,188,0.03), transparent 10%),  
+      var(--bg); color:#e6eef6;}  
+    /* container layout */  
+    .container{max-width:1200px;margin:18px auto;padding:12px;display:grid;grid-template-columns:420px 1fr;gap:18px;min-height:78vh}  
+    .panel{background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:var(--radius);padding:14px;border:1px solid rgba(255,255,255,0.03);box-shadow: 0 8px 30px rgba(2,6,23,0.6)}  
+    /* Chat panel */  
+    .chat-panel{display:flex;flex-direction:column;height:100%}  
+    .header{display:flex;align-items:center;gap:12px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,0.03)}  
+    .logo{width:50px;height:50px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:700;color:#012;font-size:16px}  
+    .title{font-size:16px;font-weight:600}  
+    .subtitle{font-size:12px;color:var(--muted);margin-top:2px}  .messages{flex:1;overflow:auto;padding:12px;display:flex;flex-direction:column;gap:12px}  
+.msg{max-width:86%;padding:10px 12px;border-radius:12px;line-height:1.35}  
+.bot{align-self:flex-start;background:linear-gradient(180deg,#0b1720,#07101b);border:1px solid rgba(255,255,255,0.03)}  
+.user{align-self:flex-end;background:linear-gradient(180deg, rgba(110,231,183,0.08), rgba(96,165,250,0.04));border:1px solid rgba(255,255,255,0.03);color:var(--accent)}  
+.result-meta{color:var(--muted);font-size:13px;margin-top:6px}  
+
+.quick-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}  
+.chip{background:var(--glass);padding:10px 12px;border-radius:999px;font-size:14px;color:var(--muted);cursor:pointer;border:1px solid rgba(255,255,255,0.02);min-height:44px;display:flex;align-items:center;justify-content:center}  
+.chip.active{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#012;border:1px solid rgba(255,255,255,0.06);font-weight:700}  
+.chip.continue{background:transparent;border:1px dashed rgba(255,255,255,0.06);min-width:110px}  
+
+/* input area (sticky on mobile) */  
+.input-row{display:flex;gap:8px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.02);align-items:center}  
+input[type="text"], input[type="number"]{flex:1;padding:12px 14px;border-radius:12px;background:transparent;border:1px solid rgba(255,255,255,0.04);color:inherit;font-size:15px}  
+button.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#012;border:none;padding:12px 14px;border-radius:12px;cursor:pointer;font-weight:700;font-size:15px;min-height:44px}  
+button.ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);padding:10px 12px;border-radius:12px;color:var(--muted);cursor:pointer}  
+.small{font-size:13px;padding:8px 10px}  
+
+/* Results */  
+.right-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}  
+.hero h1{margin:0;font-size:18px}  
+.hero p{margin:0;color:var(--muted);font-size:13px}  
+.top-list{display:flex;flex-direction:column;gap:10px}  
+.result-row{display:flex;align-items:center;justify-content:space-between;padding:12px;border-radius:12px;background:rgba(255,255,255,0.01);cursor:pointer;border:1px solid rgba(255,255,255,0.02)}  
+.result-row:active{transform:translateY(1px)}  
+.result-left{display:flex;gap:12px;align-items:center}  
+.avatar-circle{width:46px;height:46px;border-radius:10px;background:linear-gradient(135deg,var(--accent-2),#8b5cf6);display:flex;align-items:center;justify-content:center;font-weight:700}  
+.course-name{font-weight:700}  
+.score-badge{display:inline-block;padding:6px 8px;border-radius:999px;background:rgba(255,255,255,0.02);font-weight:700;margin-top:8px}  
+.explain{color:var(--muted);font-size:13px;margin-top:6px}  
+.full-info{margin-top:10px;color:var(--muted);font-size:14px;background:rgba(255,255,255,0.015);padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.02)}  
+.full-info h3{margin:6px 0 4px 0;font-size:16px}  
+.pill{display:inline-block;padding:6px 8px;border-radius:999px;border:1px solid rgba(255,255,255,0.04);margin-right:6px;font-size:13px;color:var(--muted)}  
+.list{margin:6px 0 0 18px}  
+
+footer.info{margin-top:16px;color:var(--muted);font-size:13px}  
+
+/* MOBILE / SMALL SCREENS */  
+@media (max-width:900px){  
+  .container{grid-template-columns:1fr; padding:10px; gap:12px; min-height:unset}  
+  .panel{padding:12px;border-radius:14px}  
+  .logo{width:46px;height:46px}  
+  .chip{min-height:48px;padding:12px 14px;font-size:15px}  
+  .chip.continue{min-width:120px}  
+  .messages{padding:10px; gap:10px}  
+  .input-row{position:sticky;bottom:8px;background:linear-gradient(180deg, rgba(15,23,36,0.8), rgba(15,23,36,0.9));backdrop-filter: blur(6px);padding:10px;border-radius:12px}  
+  input[type="text"]{font-size:16px;padding:12px}  
+  button.primary{min-width:84px;padding:12px 14px}  
+  .result-row{padding:14px;border-radius:12px}  
+  .full-info{font-size:15px}  
+  .avatar-circle{width:44px;height:44px}  
+}  
+
+/* make touch interactions smoother */  
+button, .chip { -webkit-tap-highlight-color: rgba(0,0,0,0); touch-action: manipulation; }
+
+  </style>  
+</head>  
+<body>  
+  <div class="container">  
+    <!-- Chat -->  
+    <div class="panel chat-panel" id="chatPanel">  
+      <div class="header">  
+        <div class="logo">CSA</div>  
+        <div>  
+          <div class="title">Course Selection Advisor</div>  
+          <div class="subtitle">Tap options — works on mobile & desktop</div>  
+        </div>  
+      </div>  <div id="messages" class="messages" aria-live="polite"></div>  
+
+  <div id="inputArea" class="input-row" style="display:none">  
+    <input id="textInput" type="text" inputmode="text" placeholder="You can also type an answer (optional)..." />  
+    <button id="sendBtn" class="primary" aria-label="Send">Send</button>  
+    <button id="continueBtn" class="ghost" aria-label="Continue">Continue</button>  
+  </div>  
+
+  <div style="display:flex;gap:8px;margin-top:12px;align-items:center">  
+    <button id="restartBtn" class="ghost small">Restart</button>  
+    <button id="exportBtn" class="ghost small">Copy Summary</button>  
+    <div style="flex:1"></div>  
+    <div style="color:var(--muted);font-size:13px">Local — runs in your browser</div>  
+  </div>  
+</div>  
+
+<!-- Results -->  
+<div class="panel">  
+  <div class="right-header">  
+    <div class="hero">  
+      <div>  
+        <h1>Recommendations</h1>  
+        <p>Top matches appear automatically after you finish the chat. Tap any item for full details and copy options.</p>  
+      </div>  
+    </div>  
+    <div style="text-align:right;color:var(--muted);font-size:13px">Project: CSA · Responsive</div>  
+  </div>  
+
+  <div id="results" class="results">  
+    <div class="top-list" id="topList"></div>  
+  </div>  
+
+  <footer class="info">  
+    <strong>How it works</strong>  
+    <div>Rule-based scoring using your percentage, favourite subjects and interests. All data stays on device.</div>  
+  </footer>  
+</div>
+
+  </div>    <script>  
+    /* ---- Same rich course data as before (kept concise for example) ---- */  
+    const COURSES = [  
+      {  
+        id: 'BE-CSE', name: 'B.E. / B.Tech — Computer Science & Engineering',  
+        tags:['physics','math','computers'], interests:['computing','engineering'], minPercent:50, exams:true, length:'4 years',  
+        overview:'Software engineering, algorithms, systems and computing fundamentals.',  
+        eligibility:'PUC (PCM) with college-specific cutoffs; many seats via JEE / state CET.',  
+        typical_jobs:['Software Engineer','Data Scientist','DevOps Engineer'],  
+        syllabus:['Programming (C/C++/Python)', 'Data Structures & Algorithms', 'OS & Networks', 'DBMS', 'Software Project'],  
+        entranceExams:['JEE Main / State CET'], avgStartingSalary:'₹3.5–8 LPA', topColleges:['IITs, NITs, IIITs, top state colleges'],  
+        studyTips:['Practice coding daily','Build projects and internships','Revise DS/Algo regularly']  
+      },  
+      {  
+        id:'MBBS', name:'MBBS — Medicine (Doctor)',  
+        tags:['biology','chemistry'], interests:['medical','research'], minPercent:85, exams:true, length:'5.5 years + internship',  
+        overview:'Clinical training to become a physician; heavy biology & patient-care training.',  
+        eligibility:'High PUC marks (PCB) + NEET-UG rank.', typical_jobs:['Physician','Surgeon','Clinical Researcher'],  
+        syllabus:['Anatomy','Physiology','Biochemistry','Pathology','Clinical Rotations'], entranceExams:['NEET-UG'],  
+        avgStartingSalary:'₹6–18 LPA (varies)', topColleges:['AIIMS, top government medical colleges'], studyTips:['Practice MCQs & clinical cases','Regular revision & mock tests']  
+      },  
+      {  
+        id:'BCA', name:'BCA — Bachelor of Computer Applications',  
+        tags:['computers','math'], interests:['computing'], minPercent:40, exams:false, length:'3 years',  
+        overview:'Application-oriented computing degree focusing on software & web development.',  
+        eligibility:'PUC (with maths/comp depending on institute).', typical_jobs:['Developer','Web/App Developer'],  
+        syllabus:['Programming','Web Tech','DBMS','Software Project'], entranceExams:['Mostly merit-based'], avgStartingSalary:'₹2–5 LPA',  
+        topColleges:['State & private colleges with BCA programs'], studyTips:['Build projects','Learn modern JS frameworks','Intern']  
+      },  
+      {  
+        id:'BSc-Bio', name:'B.Sc — Biology / Biotechnology',  
+        tags:['biology','chemistry'], interests:['research','lab'], minPercent:45, exams:false, length:'3 years',  
+        overview:'Life-sciences foundation for research, lab work or higher studies.',  
+        eligibility:'PUC PCB preferred; college-specific.', typical_jobs:['Lab Technician','Research Assistant'],  
+        syllabus:['Cell Biology','Genetics','Biochemistry','Microbiology'], entranceExams:['Mostly merit-based'], avgStartingSalary:'₹1.8–4 LPA',  
+        topColleges:['University science colleges'], studyTips:['Focus on lab practicals','Consider M.Sc/PhD later']  
+      },  
+      {  
+        id:'Design', name:'B.Des / Fashion / UI-UX Design',  
+        tags:['arts','drawing'], interests:['design'], minPercent:40, exams:true, length:'4 years',  
+        overview:'Creative design — requires portfolio and aptitude.',  
+        eligibility:'PUC + portfolio/aptitude (NID/NIFT/college tests).', typical_jobs:['Product Designer','UI/UX Designer'],  
+        syllabus:['Sketching','Color Theory','Interaction Design','Projects'], entranceExams:['NID/NIFT/college tests'], avgStartingSalary:'₹3–7 LPA',  
+        topColleges:['NID, NIFT, reputed private design schools'], studyTips:['Build portfolio','Practice prototyping tools (Figma)']  
+      },  
+      {  
+        id:'Poly', name:'Diploma / Polytechnic', tags:['physics','math','chemistry'], interests:['vocational','engineering'], minPercent:35, exams:false, length:'2-3 years',  
+        overview:'Hands-on technical diploma for quick job entry or lateral engineering entry.',  
+        eligibility:'PUC/SSLC depending on program.', typical_jobs:['Technician','Junior Engineer'],  
+        syllabus:['Applied mechanics','Basic electrical/mechanical/electronics','Workshops'], entranceExams:['Mostly merit'], avgStartingSalary:'₹1.5–3 LPA',  
+        topColleges:['State polytechnic institutes'], studyTips:['Focus on hands-on skills and certifications']  
+      }  
+    ];  
+  
+    /* ---- Chat flow (same friendly flow) ---- */  
+    const FLOW = [  
+      { id:'welcome', text: "Hi! I'm your Course Selection Advisor. What should I call you?" },  
+      { id:'askPercent', text: "What percentage did you get in PUC / Class XII? (number, e.g., 72)" },  
+      { id:'askSubjects', text: "Which subjects did you enjoy most? (tap chips to multi-select). Then press Continue.", quick:['Physics','Chemistry','Maths','Biology','Computer Science','Drawing/Design'] },  
+      { id:'askInterest', text: "Which area interests you most? (choose one):", quick:['Computing & IT','Engineering','Medicine & Healthcare','Business & Management','Design & Creative','Research & Sciences','Hospitality','Agriculture','Law / Policy','Not sure'] },  
+      { id:'askGoal', text: "What is your main career goal?", quick:['Stable job','High salary','Research/Academia','Start a business','Creative work','Social impact'] },  
+      { id:'askExam', text: "Are you willing to prepare for entrance exams (JEE/NEET/NATA)?", quick:['Yes','No','Maybe'] },  
+      { id:'askBudget', text: "College preference / budget:", quick:['Government / Low cost','Private / Mid cost','No preference'] },  
+      { id:'thanks', text: "Thanks — computing recommendations now.", autoAdvance:true }  
+    ];  
+  
+    /* ---- App state & refs ---- */  
+    let state = { name:null, percent:null, subjects:[], interest:null, goal:null, exam:null, budget:null };  
+    let step = 0;  
+    const messagesEl = document.getElementById('messages');  
+    const inputArea = document.getElementById('inputArea');  
+    const textInput = document.getElementById('textInput');  
+    const sendBtn = document.getElementById('sendBtn');  
+    const continueBtn = document.getElementById('continueBtn');  
+    const restartBtn = document.getElementById('restartBtn');  
+    const exportBtn = document.getElementById('exportBtn');  
+    const topList = document.getElementById('topList');  
+  
+    function appendMsg(text, who='bot'){ const d=document.createElement('div'); d.className='msg '+(who==='bot'?'bot':'user'); d.innerText=text; messagesEl.appendChild(d); messagesEl.scrollTop=messagesEl.scrollHeight; }  
+    function appendBotRich(html){ const d=document.createElement('div'); d.className='msg bot'; d.innerHTML=html; messagesEl.appendChild(d); messagesEl.scrollTop=messagesEl.scrollHeight; }  
+  
+    function showQuick(chips, nodeId){  
+      // remove existing quick rows for cleanliness  
+      const old = messagesEl.querySelectorAll('.quick-row'); old.forEach(x=>x.remove());  
+      const row=document.createElement('div'); row.className='quick-row';  
+      chips.forEach(c=>{  
+        const btn=document.createElement('button'); btn.className='chip'; btn.innerText=c;  
+        btn.onclick = ()=> handleQuick(c, nodeId, btn);  
+        row.appendChild(btn);  
+      });  
+      // add continue chip for quick actions (mobile users prefer tap)  
+      const cont = document.createElement('button'); cont.className='chip continue'; cont.innerText='Continue';  
+      cont.onclick = ()=> { appendMsg('Continue','user'); nextStep(); };  
+      row.appendChild(cont);  
+      messagesEl.appendChild(row);  
+      messagesEl.scrollTop = messagesEl.scrollHeight;  
+    }  
+  
+    function setInput(show=true, placeholder='You can also type an answer (optional)...'){  
+      if(show){ inputArea.style.display='flex'; textInput.value=''; textInput.placeholder=placeholder; textInput.focus(); }  
+      else inputArea.style.display='none';  
+    }  
+    function disableInput(){ inputArea.style.display='none'; }  
+  
+    function start(){  
+      messagesEl.innerHTML=''; topList.innerHTML=''; state = { name:null, percent:null, subjects:[], interest:null, goal:null, exam:null, budget:null }; step=0; runStep();  
+    }  
+  
+    function runStep(){  
+      const node = FLOW[step];  
+      if(!node) return;  
+      appendMsg(node.text,'bot');  
+      if(node.quick){  
+        showQuick(node.quick, node.id);  
+        setInput(true, 'Tap options and press Continue (or type)');  
+      } else {  
+        if(node.autoAdvance){ disableInput(); setTimeout(()=> finalize(), 500); return; }  
+        setInput(true);  
+      }  
+    }  
+  
+    function normalizeSubject(text){  
+      const t=text.toLowerCase();  
+      if(t.includes('phys')) return 'physics';  
+      if(t.includes('chem')) return 'chemistry';  
+      if(t.includes('math')) return 'maths';  
+      if(t.includes('bio')) return 'biology';  
+      if(t.includes('comput')||t.includes('cs')) return 'computer science';  
+      if(t.includes('draw')||t.includes('design')) return 'drawing/design';  
+      return t;  
+    }  
+  
+    function mapInterest(text){  
+      const t=text.toLowerCase();  
+      if(t.includes('comput')) return 'computing';  
+      if(t.includes('engineer')) return 'engineering';  
+      if(t.includes('med')||t.includes('health')) return 'medical';  
+      if(t.includes('business')) return 'business';  
+      if(t.includes('design')) return 'design';  
+      if(t.includes('research')) return 'research';  
+      if(t.includes('hotel')) return 'hospitality';  
+      if(t.includes('agri')) return 'agriculture';  
+      if(t.includes('law')) return 'law';  
+      return 'not sure';  
+    }  
+  
+    function mapGoal(text){  
+      const t=text.toLowerCase();  
+      if(t.includes('stable')) return 'stable';  
+      if(t.includes('salary')||t.includes('high')) return 'money';  
+      if(t.includes('research')) return 'research';  
+      if(t.includes('business')) return 'entrepreneur';  
+      if(t.includes('creative')) return 'creative';  
+      if(t.includes('social')) return 'social';  
+      return 'general';  
+    }  
+  
+    /* ---- Event handlers ---- */  
+    function handleQuick(choice, nodeId, btnElem){  
+      appendMsg(choice,'user');  
+      if(nodeId === 'askSubjects'){  
+        // toggle selection  
+        const normalized = normalizeSubject(choice);  
+        const idx = state.subjects.indexOf(normalized);  
+        if(idx === -1){ state.subjects.push(normalized); btnElem.classList.add('active'); }  
+        else { state.subjects.splice(idx,1); btnElem.classList.remove('active'); }  
+        appendBotRich(`<div style="color:var(--muted);font-size:13px">Selected: <strong>${state.subjects.join(', ') || '—'}</strong>. Press Continue when ready.</div>`);  
+        setInput(true,'Press Continue when ready');  
+        return;  
+      }  
+  
+      if(nodeId === 'welcome') state.name = choice;  
+      else if(nodeId === 'askInterest') state.interest = mapInterest(choice);  
+      else if(nodeId === 'askGoal') state.goal = mapGoal(choice);  
+      else if(nodeId === 'askExam') state.exam = choice.toLowerCase();  
+      else if(nodeId === 'askBudget') state.budget = choice.toLowerCase();  
+      // auto-advance for single-choice quicks  
+      nextStep();  
+    }  
+  
+    continueBtn.onclick = ()=> { appendMsg('Continue','user'); nextStep(); };  
+    sendBtn.onclick = handleTextSubmit;  
+    textInput.onkeydown = (e)=>{ if(e.key==='Enter') handleTextSubmit(); };  
+  
+    function handleTextSubmit(){  
+      const val = textInput.value.trim(); if(!val) return;  
+      appendMsg(val,'user');  
+      const node = FLOW[step];  
+      if(!node) return;  
+      if(node.id === 'welcome') state.name = val;  
+      else if(node.id === 'askPercent'){  
+        const num = parseFloat(val); if(isNaN(num)){ appendBotRich('<div style="color:var(--muted);font-size:13px">Please enter a number like 72</div>'); return; }  
+        state.percent = Math.max(0, Math.min(100, num));  
+      } else if(node.id === 'askSubjects'){  
+        const parts = val.split(',').map(s=>s.trim()).filter
