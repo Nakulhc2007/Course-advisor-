@@ -1,238 +1,275 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Smart Course Advisor</title>
+<title>EduPath | Smart Course Advisor 2026</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
-body{
-  margin:0;
-  font-family: 'Segoe UI', sans-serif;
-  background:linear-gradient(135deg,#1f1c2c,#928dab);
-  color:white;
-}
-.card{
-  max-width:600px;
-  margin:20px auto;
-  background:rgba(0,0,0,0.65);
-  padding:25px;
-  border-radius:20px;
-  box-shadow:0 0 25px rgba(0,0,0,0.7);
-}
-h2{text-align:center;color:#6ee7b7;margin-bottom:10px}
-input,select,button{
-  width:100%;
-  padding:14px;
-  margin-top:12px;
-  border-radius:12px;
-  border:none;
-  font-size:16px;
-}
-input,select{background:#222;color:white}
-button{
-  background:linear-gradient(90deg,#6ee7b7,#60a5fa);
-  color:#012;
-  font-weight:bold;
-}
-.step{display:none}
-.step.active{display:block}
-.subjects button{
-  background:#333;color:white;margin:6px 0;border-radius:10px
-}
-.subjects button.active{
-  background:#6ee7b7;color:#012
-}
-.chat{min-height:80px;margin-bottom:10px;color:#ccc}
-.msg{margin:6px 0}
-.user{text-align:right;color:#6ee7b7}
-.bot{color:#ccc}
-.course{
-  background:rgba(255,255,255,0.1);
-  margin-top:18px;
-  padding:15px;
-  border-radius:14px;
-}
-.course h3{color:#6ee7b7;margin:5px 0}
-.course p{font-size:14px;line-height:1.5}
+  :root {
+    --primary: #6ee7b7;
+    --secondary: #60a5fa;
+    --accent: #f472b6;
+    --bg-dark: #0f172a;
+    --glass: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+  }
+
+  body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: radial-gradient(circle at top left, #1e293b, #0f172a);
+    color: #f1f5f9;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 800px;
+    background: var(--glass);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid var(--glass-border);
+    padding: 40px;
+    border-radius: 28px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  }
+
+  h2 { 
+    text-align: center; 
+    font-weight: 700; 
+    font-size: 2.2rem; 
+    margin-bottom: 10px; 
+    background: linear-gradient(90deg, var(--primary), var(--secondary)); 
+    -webkit-background-clip: text; 
+    -webkit-text-fill-color: transparent; 
+  }
+
+  .chat-box {
+    height: 120px;
+    overflow-y: auto;
+    margin-bottom: 25px;
+    padding: 15px;
+    background: rgba(0,0,0,0.2);
+    border-radius: 15px;
+    border: 1px solid var(--glass-border);
+  }
+
+  .msg { margin: 8px 0; font-size: 0.95rem; line-height: 1.4; }
+  .user { text-align: right; color: var(--primary); font-weight: 600; }
+  .bot { color: #cbd5e1; }
+
+  input, select {
+    width: 100%;
+    padding: 16px;
+    margin-top: 15px;
+    border-radius: 14px;
+    border: 1px solid var(--glass-border);
+    background: rgba(15, 23, 42, 0.6);
+    color: white;
+    box-sizing: border-box;
+    font-size: 1rem;
+    transition: 0.3s;
+  }
+
+  input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 15px rgba(110, 231, 183, 0.2); }
+
+  button {
+    width: 100%;
+    padding: 16px;
+    margin-top: 20px;
+    border-radius: 14px;
+    border: none;
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    color: #0f172a;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  button:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(96, 165, 250, 0.3); }
+
+  .step { display: none; }
+  .step.active { display: block; animation: slideUp 0.5s ease forwards; }
+
+  @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+  .subjects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-top: 20px; }
+  .sub-btn {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--glass-border);
+    color: white; padding: 12px; border-radius: 12px; cursor: pointer; text-align: center; transition: 0.3s; font-size: 0.9rem;
+  }
+  .sub-btn.active { background: var(--primary); color: #0f172a; font-weight: bold; border-color: var(--primary); }
+
+  .course-card {
+    background: rgba(255,255,255,0.03);
+    border-left: 5px solid var(--primary);
+    margin-top: 30px;
+    padding: 25px;
+    border-radius: 18px;
+    border-right: 1px solid var(--glass-border);
+    border-top: 1px solid var(--glass-border);
+    border-bottom: 1px solid var(--glass-border);
+  }
+  .course-card h3 { color: var(--primary); margin: 0 0 12px 0; font-size: 1.4rem; display: flex; justify-content: space-between; align-items: center; }
+  .badge { font-size: 0.7rem; background: var(--secondary); color: white; padding: 4px 10px; border-radius: 20px; text-transform: uppercase; }
+  .course-card p { font-size: 1rem; line-height: 1.8; color: #cbd5e1; text-align: justify; }
 </style>
 </head>
 <body>
 
-<div class="card">
-<h2>Smart Course Advisor</h2>
-<div id="chat" class="chat"></div>
-
-<div id="step1" class="step active">
-  <input id="nameInput" placeholder="Enter your full name">
-  <button onclick="go1()">Continue</button>
-</div>
-
-<div id="step2" class="step">
-  <input id="marksInput" type="number" placeholder="Enter your 12th percentage">
-  <button onclick="go2()">Continue</button>
-</div>
-
-<div id="step3" class="step">
-  <p>Select subjects you like (you can choose many):</p>
-  <div class="subjects">
-    <button onclick="toggleSub(this,'Maths')">Maths</button>
-    <button onclick="toggleSub(this,'Physics')">Physics</button>
-    <button onclick="toggleSub(this,'Chemistry')">Chemistry</button>
-    <button onclick="toggleSub(this,'Biology')">Biology</button>
-    <button onclick="toggleSub(this,'Computer')">Computer</button>
-    <button onclick="toggleSub(this,'Commerce')">Commerce</button>
-    <button onclick="toggleSub(this,'Arts')">Arts</button>
-    <button onclick="toggleSub(this,'Economics')">Economics</button>
+<div class="container">
+  <h2>EduPath Advisor</h2>
+  <div id="chat" class="chat-box">
+    <div class="msg bot">Hello! I am your AI career consultant. What is your full name?</div>
   </div>
-  <button onclick="go3()">Continue</button>
-</div>
 
-<div id="step4" class="step">
-  <p>Main interest:</p>
-  <select id="interest">
-    <option>Technology</option>
-    <option>Medical</option>
-    <option>Business</option>
-    <option>Creative</option>
-    <option>Research</option>
-    <option>Government</option>
-    <option>Sports</option>
-    <option>Hospitality & Travel</option>
-  </select>
-  <button onclick="go4()">Continue</button>
-</div>
+  <div id="step1" class="step active">
+    <input id="nameInput" type="text" placeholder="Type your name here...">
+    <button onclick="go1()">Get Started</button>
+  </div>
 
-<div id="step5" class="step">
-  <p>Your career goal:</p>
-  <select id="goal">
-    <option>High Salary</option>
-    <option>Job Security</option>
-    <option>Helping Society</option>
-    <option>Creativity</option>
-    <option>Research & Teaching</option>
-    <option>Business</option>
-  </select>
-  <button onclick="final()">Show My Courses</button>
-</div>
+  <div id="step2" class="step">
+    <input id="marksInput" type="number" placeholder="Enter 12th Percentage (e.g. 85)">
+    <button onclick="go2()">Next Step</button>
+  </div>
 
-<div id="result"></div>
+  <div id="step3" class="step">
+    <p style="text-align:center">Select the subjects you genuinely enjoy:</p>
+    <div class="subjects-grid">
+      <div class="sub-btn" onclick="toggleSub(this,'Maths')">Mathematics</div>
+      <div class="sub-btn" onclick="toggleSub(this,'Physics')">Physics</div>
+      <div class="sub-btn" onclick="toggleSub(this,'Biology')">Biology</div>
+      <div class="sub-btn" onclick="toggleSub(this,'Computer')">Computer Sci</div>
+      <div class="sub-btn" onclick="toggleSub(this,'Accounts')">Accounts</div>
+      <div class="sub-btn" onclick="toggleSub(this,'Psychology')">Psychology</div>
+    </div>
+    <button onclick="go3()">Continue</button>
+  </div>
+
+  <div id="step4" class="step">
+    <p style="text-align:center">Choose your primary field of interest:</p>
+    <select id="interest">
+      <option value="Technology">Technology & Artificial Intelligence</option>
+      <option value="Medical">Healthcare & Medical Sciences</option>
+      <option value="Business">Business, Finance & Startups</option>
+      <option value="Creative">Creative Arts, Media & Design</option>
+      <option value="Research">Pure Science & Research</option>
+    </select>
+    <button onclick="final()">Generate Detailed Analysis</button>
+  </div>
+
+  <div id="result"></div>
 </div>
 
 <script>
-let name="",marks=0,subs=[],interest="",goal="";
+let name="", marks=0, subs=[], interest="";
 
-function say(text,who){
- let d=document.createElement("div");
- d.className="msg "+who;
- d.innerText=text;
- chat.appendChild(d);
+function say(text, who) {
+  let chat = document.getElementById("chat");
+  let d = document.createElement("div");
+  d.className = "msg " + who;
+  d.innerText = text;
+  chat.appendChild(d);
+  chat.scrollTop = chat.scrollHeight;
 }
 
-function show(id){
- document.querySelectorAll(".step").forEach(s=>s.classList.remove("active"));
- document.getElementById(id).classList.add("active");
+function show(id) {
+  document.querySelectorAll(".step").forEach(s => s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
 }
 
-function go1(){
- name=nameInput.value;
- if(!name)return;
- say(name,"user"); say("Hi "+name+"! Nice to meet you.","bot");
- show("step2");
+function go1() {
+  name = document.getElementById("nameInput").value;
+  if(!name) return;
+  say(name, "user"); 
+  say("Nice to meet you, " + name + "! What was your overall percentage in 12th grade?", "bot");
+  show("step2");
 }
 
-function go2(){
- marks=marksInput.value;
- if(!marks)return;
- say(marks+"%","user"); say("Select subjects you enjoy:","bot");
- show("step3");
+function go2() {
+  marks = document.getElementById("marksInput").value;
+  if(!marks) return;
+  say(marks + "%", "user"); 
+  say("Great! Now, click on the subjects that you find interesting.", "bot");
+  show("step3");
 }
 
-function toggleSub(btn,sub){
- if(subs.includes(sub)){
-   subs=subs.filter(x=>x!=sub); btn.classList.remove("active");
- }else{
-   subs.push(sub); btn.classList.add("active");
- }
+function toggleSub(btn, sub) {
+  if(subs.includes(sub)) {
+    subs = subs.filter(x => x != sub); btn.classList.remove("active");
+  } else {
+    subs.push(sub); btn.classList.add("active");
+  }
 }
 
-function go3(){
- if(subs.length==0)return;
- say(subs.join(", "),"user"); say("Choose your main interest:","bot");
- show("step4");
+function go3() {
+  if(subs.length == 0) return;
+  say(subs.join(", "), "user"); 
+  say("One last thing: which industry excites you the most?", "bot");
+  show("step4");
 }
 
-function go4(){
- interest=document.getElementById("interest").value;
- say(interest,"user"); say("Select your career goal:","bot");
- show("step5");
+function box(title, badge, txt) {
+  return `<div class="course-card">
+            <h3>${title} <span class="badge">${badge}</span></h3>
+            <p>${txt}</p>
+          </div>`;
 }
 
-function box(title,txt){
- return `<div class="course"><h3>${title}</h3><p>${txt}</p></div>`;
-}
+function final() {
+  interest = document.getElementById("interest").value;
+  say(interest, "user");
+  say("Analyzing your profile... Here are your top career roadmaps.", "bot");
+  
+  document.getElementById("step4").classList.remove("active");
+  let out = `<h2 style="font-size:1.5rem; margin-top:40px;">Personalized Career Report</h2>`;
 
-function final(){
- goal=document.getElementById("goal").value;
- say(goal,"user");
- let out="<h3>Hi "+name+", based on your answers, best courses for you:</h3>";
+  if(interest == "Technology") {
+    out += box("B.Tech in AI & Machine Learning", "High Salary", 
+    "This advanced engineering degree focuses on building systems that can think and learn like humans. You will deep-dive into Neural Networks, Natural Language Processing (NLP), and Computer Vision. The course requires a very strong foundation in Mathematics, specifically Calculus and Linear Algebra. As AI continues to disrupt every industry from Finance to Healthcare, the demand for AI Engineers is at an all-time high. You will learn to use Python, PyTorch, and cloud platforms like AWS or Google Cloud. Graduates often start their careers as AI Researchers or Data Scientists with some of the highest entry-level packages in the world. It is a perfect fit for those who enjoy coding and solving complex logical puzzles.");
+    
+    out += box("B.Sc in Cyber Security & Digital Forensics", "Top Demand", 
+    "With the rapid shift to digital infrastructure, protecting data has become a matter of national security. This course teaches you Ethical Hacking, Cryptography, Network Defense, and how to investigate digital crimes. You will learn to think like a hacker to prevent system breaches and secure sensitive financial or personal data. The curriculum involves heavy hands-on lab training and understanding of global privacy laws. Career paths include Security Analyst, Penetration Tester, and Forensic Consultant. It offers unparalleled job security because every major corporation now requires a dedicated defense team. This is ideal for students who are detail-oriented and have a strong sense of digital ethics.");
+  }
 
- if(interest=="Technology"){
- out+=box("B.Tech / Engineering",
- "Engineering is for students who love problem solving and technology. Branches include Computer Science, AI, Mechanical, Civil and ECE. You study machines, coding and systems. Jobs in IT and industries. High growth salary. Needs strong logic and maths. Good for innovators and creators.");
- out+=box("BCA",
- "BCA teaches programming, web, apps and databases. Easier than engineering. Good for IT jobs. Can do MCA later. Affordable in many colleges. Perfect for computer lovers.");
- }
+  if(interest == "Medical") {
+    out += box("MBBS (Bachelor of Medicine & Surgery)", "Prestigious", 
+    "MBBS is the most sought-after medical degree, requiring 5.5 years of intensive study and clinical practice. You will cover everything from Human Anatomy and Physiology to advanced Clinical Surgery and Pharmacology. This path requires a high degree of emotional resilience, empathy, and the ability to work long hours under pressure. Beyond the classroom, a mandatory internship will provide you with hands-on experience in hospital wards. Post-graduation leads to specializations in fields like Cardiology, Neurosurgery, or Oncology. It is a career dedicated to service and offers lifelong professional respect and financial stability. Ideal for students with top marks in Biology and a true passion for healthcare.");
+    
+    out += box("B.Sc in Biomedical Engineering", "Innovation", 
+    "Biomedical Engineering combines the principles of engineering with biological sciences to design life-saving medical devices. You will study how to develop artificial organs, robotic surgical tools, and advanced prosthetics. The course is a unique blend of Electronics, Mechanical Engineering, and Human Biology. As technology evolves, biomedical engineers are the ones creating the next generation of MRI machines and wearable health monitors. Graduates work in research labs, medical manufacturing firms, and top-tier hospitals. This is a brilliant choice for students who love biology but also have a natural curiosity for how machines and technology can improve human life.");
+  }
 
- if(interest=="Medical"){
- out+=box("MBBS",
- "MBBS makes you a doctor. Needs biology and high marks. Long study but respected. Work in hospitals and clinics. High social value. Income grows with experience.");
- out+=box("Nursing / Pharmacy",
- "Healthcare support careers. Shorter than MBBS. Jobs in hospitals and abroad. Stable, respected and in high demand.");
- }
+  if(interest == "Business") {
+    out += box("Integrated MBA in FinTech", "Fast Growth", 
+    "This modern program merges traditional business management with the world of Financial Technology (FinTech). You will study Blockchain, Digital Currencies, Algorithmic Trading, and Corporate Finance Strategy. The goal is to create leaders who can navigate the world of digital banking and decentralized finance. The curriculum involves real-world case studies of startups and internships with global financial giants. Career roles include Investment Banker, FinTech Consultant, and Hedge Fund Manager. It is designed for students who are ambitious, have great communication skills, and want to be at the center of the global economy. This degree typically leads to high-level executive positions.");
+    
+    out += box("Chartered Accountancy (CA)", "High Respect", 
+    "Chartered Accountancy is a world-renowned professional qualification focusing on Auditing, Taxation, and Financial Reporting. The journey involves clearing three levels of rigorous national exams and completing a 3-year practical internship known as 'Articleship'. CAs are essential for every business to ensure financial health and legal compliance. You will become an expert in complex tax laws and corporate governance. It is a demanding path that requires extreme discipline, a sharp memory for laws, and excellent numerical ability. CAs have the choice to work in top 'Big 4' firms or start their own highly profitable independent practice. It is a recession-proof career path.");
+  }
 
- if(interest=="Business"){
- out+=box("BBA / B.Com",
- "Business and finance studies. Accounts, marketing and management. Can do MBA later. Good for jobs and startups.");
- out+=box("CA / CS / CMA",
- "Professional courses in accounts and law. High respect and income. Needs discipline and hard work.");
- }
+  if(interest == "Creative") {
+    out += box("B.Des in UI/UX and Product Design", "Future Proof", 
+    "UI/UX Design is the art and science of making digital products like mobile apps and websites easy and enjoyable to use. This course blends visual design, human psychology, and technical prototyping. You will learn to conduct user research, create wireframes, and design beautiful interfaces that solve real human problems. As every company becomes a digital company, high-quality designers are now just as important as engineers. You will build a professional portfolio that demonstrates your creative thinking and technical skill. Career paths include Product Designer, Interaction Designer, and UX Researcher. Ideal for creative minds who also enjoy technology and understanding how people think.");
+    
+    out += box("B.A. in Digital Content & New Media", "Dynamic", 
+    "This course is designed for the modern era of digital storytelling, streaming, and social media influence. You will learn the technicalities of Video Production, Scriptwriting, Audience Analytics, and Social Media Growth. The curriculum covers how to build a global brand using platforms like YouTube, Netflix, and TikTok. It combines traditional journalism and film skills with modern SEO and algorithm management. Career opportunities range from Creative Producer and Content Strategist to Digital Media Director for global brands. It is a highly creative and flexible field where success is driven by your originality and consistency. Perfect for those who want to shape the future of entertainment.");
+  }
 
- if(interest=="Creative"){
- out+=box("Design / Animation",
- "Fashion, UI/UX, graphics and animation. Needs creativity and portfolio. Jobs in media and IT.");
- out+=box("Media / Film / Music",
- "Work in movies, YouTube, TV and music. Success depends on talent and practice.");
- }
+  if(interest == "Research") {
+    out += box("B.Sc in Psychology & Cognitive Science", "Human Insight", 
+    "This course explores the inner workings of the human mind, behavior, and emotional development. You will study subjects like Neurobiology, Cognitive Psychology, and Social Interaction using scientific methods. The program includes extensive research, data collection, and understanding mental health disorders. As global awareness of mental health increases, psychologists are in high demand in hospitals, schools, and corporate HR departments. Graduates can work as Clinical Psychologists, Industrial Counselors, or Research Scientists. This is a rewarding career for those who are empathetic, patient, and deeply curious about why people behave the way they do.");
+  }
 
- if(interest=="Research"){
- out+=box("B.Sc / M.Sc",
- "Science path. Physics, chemistry, biology or maths. Leads to scientist or teacher.");
- out+=box("Biotechnology",
- "Biology with technology. Used in labs, pharma and research.");
- }
-
- if(interest=="Government"){
- out+=box("Law",
- "Lawyers, judges and legal advisors. Needs reading and logic.");
- out+=box("Civil Services",
- "UPSC and state exams. High prestige government jobs.");
- }
-
- if(interest=="Sports"){
- out+=box("Sports Science / Coaching",
- "Training, fitness and coaching. Work in sports academies.");
- out+=box("Physiotherapy",
- "Helps injured people recover. Used in sports and hospitals.");
- }
-
- if(interest=="Hospitality & Travel"){
- out+=box("Hotel Management",
- "Hotels, tourism and events. Jobs in India and abroad.");
- out+=box("Aviation / Cabin Crew",
- "Airlines and airports. Good salary and travel.");
- }
-
- result.innerHTML=out;
+  document.getElementById("result").innerHTML = out;
+  window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
 }
 </script>
 </body>
