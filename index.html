@@ -2,26 +2,26 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>EduPath AI | Next-Gen Advisor</title>
+<title>EduPath AI | Professional Advisor</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
 <style>
   :root {
     --accent: #00f2ff;
     --accent-dark: #006aff;
-    --bg: #05070a;
-    --glass: rgba(255, 255, 255, 0.03);
-    --border: rgba(255, 255, 255, 0.1);
+    --bg: #080a0f;
+    --card: rgba(255, 255, 255, 0.04);
+    --border: rgba(255, 255, 255, 0.12);
   }
 
   body {
     margin: 0;
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
     background: var(--bg);
     background-image: 
-      radial-gradient(circle at 20% 20%, rgba(0, 242, 255, 0.05) 0%, transparent 40%),
-      radial-gradient(circle at 80% 80%, rgba(0, 106, 255, 0.05) 0%, transparent 40%);
-    color: #fff;
+      radial-gradient(circle at 10% 10%, rgba(0, 242, 255, 0.08) 0%, transparent 35%),
+      radial-gradient(circle at 90% 90%, rgba(0, 106, 255, 0.08) 0%, transparent 35%);
+    color: #f1f3f4;
     min-height: 100vh;
     display: flex;
     justify-content: center;
@@ -29,256 +29,250 @@
     padding: 20px;
   }
 
-  .app-container {
+  .container {
     width: 100%;
-    max-width: 900px;
-    background: var(--glass);
-    backdrop-filter: blur(25px);
+    max-width: 800px;
+    background: var(--card);
+    backdrop-filter: blur(30px);
     border: 1px solid var(--border);
-    border-radius: 40px;
-    padding: 60px;
-    box-shadow: 0 0 100px rgba(0, 242, 255, 0.05);
-    position: relative;
-    overflow: hidden;
+    border-radius: 35px;
+    padding: 50px;
+    box-shadow: 0 50px 100px rgba(0,0,0,0.6);
   }
 
-  /* Decorative Glows */
-  .app-container::after {
-    content: ""; position: absolute; top: -50px; right: -50px; width: 150px; height: 150px;
-    background: var(--accent); filter: blur(100px); opacity: 0.1; z-index: -1;
-  }
-
-  h1 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 3.5rem;
-    font-weight: 700;
-    text-align: center;
-    margin-bottom: 40px;
-    background: linear-gradient(to bottom right, #fff, var(--accent));
-    -webkit-background-clip: text;
+  h1 { 
+    text-align: center; 
+    font-weight: 800; 
+    font-size: 2.8rem; 
+    margin-bottom: 30px; 
+    background: linear-gradient(135deg, #fff 30%, var(--accent) 100%);
+    -webkit-background-clip: text; 
     -webkit-text-fill-color: transparent;
-    letter-spacing: -2px;
+    letter-spacing: -1.5px;
   }
 
-  .chat-interface {
-    background: rgba(0, 0, 0, 0.4);
-    border-radius: 24px;
-    padding: 20px;
-    margin-bottom: 40px;
+  .chat-box { 
+    background: rgba(0,0,0,0.4); 
+    border-radius: 20px; 
+    padding: 20px; 
+    margin-bottom: 35px; 
     border: 1px solid var(--border);
-    min-height: 60px;
+    font-size: 1.05rem;
+    color: var(--accent);
+    line-height: 1.5;
   }
 
-  .bot-text { color: var(--accent); font-size: 1.1rem; border-left: 2px solid var(--accent); padding-left: 15px; }
-
-  .input-group { margin-bottom: 25px; }
-  
-  .marks-flex {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+  /* Fixed Spacing for Inputs */
+  .marks-grid { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    gap: 25px; /* Increased space between boxes */
+    margin: 20px 0; 
   }
 
-  input, select {
-    width: 100%;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    color: #fff;
+  input, select { 
+    width: 100%; 
+    padding: 18px; 
+    border-radius: 16px; 
+    border: 1px solid var(--border); 
+    background: rgba(255,255,255,0.05); 
+    color: white; 
+    box-sizing: border-box; 
+    font-size: 1rem; 
+    transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  input:focus { 
+    border-color: var(--accent); 
+    background: rgba(255,255,255,0.08); 
+    outline: none; 
+    box-shadow: 0 0 15px rgba(0, 242, 255, 0.2);
+  }
+
+  .btn { 
+    width: 100%; 
+    padding: 20px; 
+    margin-top: 25px; 
+    border-radius: 16px; 
+    border: none; 
+    background: #fff; 
+    color: #000; 
+    font-weight: 700; 
     font-size: 1.1rem;
-    transition: all 0.3s;
+    cursor: pointer; 
+    transition: 0.3s;
   }
 
-  input:focus { border-color: var(--accent); outline: none; background: rgba(255, 255, 255, 0.08); box-shadow: 0 0 20px rgba(0, 242, 255, 0.1); }
-
-  .btn-primary {
-    width: 100%;
-    padding: 22px;
-    border: none;
-    border-radius: 20px;
-    background: linear-gradient(90deg, var(--accent-dark), var(--accent));
-    color: #000;
-    font-weight: 700;
-    font-size: 1.2rem;
-    cursor: pointer;
-    transition: 0.4s;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-
-  .btn-primary:disabled { opacity: 0.1; cursor: not-allowed; filter: grayscale(1); }
-  .btn-primary:hover:not(:disabled) { transform: scale(1.02); filter: brightness(1.1); box-shadow: 0 10px 30px rgba(0, 242, 255, 0.3); }
+  .btn:disabled { opacity: 0.15; cursor: not-allowed; }
+  .btn:hover:not(:disabled) { background: var(--accent); transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0, 242, 255, 0.3); }
 
   .step { display: none; }
-  .active { display: block; animation: slideUp 0.7s cubic-bezier(0.23, 1, 0.32, 1); }
+  .active { display: block; animation: fadeInUp 0.6s ease forwards; }
 
-  @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-
-  .course-card {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid var(--border);
-    border-radius: 30px;
-    padding: 35px;
-    margin-top: 30px;
-    transition: 0.4s;
+  @keyframes fadeInUp { 
+    from { opacity: 0; transform: translateY(20px); } 
+    to { opacity: 1; transform: translateY(0); } 
   }
 
-  .course-card:hover { background: rgba(255, 255, 255, 0.05); border-color: var(--accent); }
+  .total-badge {
+    text-align: center;
+    padding: 15px;
+    background: rgba(0, 242, 255, 0.1);
+    border-radius: 14px;
+    font-weight: 600;
+    color: var(--accent);
+    border: 1px solid rgba(0, 242, 255, 0.2);
+    margin: 10px 0;
+  }
 
-  .course-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-  .course-title { color: var(--accent); font-size: 1.6rem; font-weight: 600; margin: 0; }
-  .salary-tag { background: rgba(0, 242, 255, 0.1); color: var(--accent); padding: 6px 16px; border-radius: 50px; font-size: 0.8rem; border: 1px solid var(--accent); }
+  .course-card { 
+    background: rgba(255,255,255,0.02); 
+    margin-top: 25px; 
+    padding: 30px; 
+    border-radius: 24px; 
+    border: 1px solid var(--border);
+  }
+  .course-card h3 { color: var(--accent); margin-bottom: 12px; font-size: 1.5rem; display: flex; justify-content: space-between; }
+  .salary { font-size: 0.75rem; color: #fff; background: var(--accent-dark); padding: 5px 12px; border-radius: 50px; }
+  .course-card p { line-height: 1.8; color: #cbd5e1; text-align: justify; }
 
-  .course-desc { line-height: 1.8; color: #a0a0a0; font-size: 1rem; text-align: justify; }
-
-  .total-display { text-align: center; margin: 20px 0; font-size: 1.3rem; color: var(--accent); font-weight: bold; }
-  .error { color: #ff4d4d; font-size: 0.9rem; text-align: center; margin-top: 10px; }
+  .info-tag { font-size: 0.85rem; color: #9aa0a6; text-align: center; margin-bottom: 10px; }
 </style>
 </head>
 <body>
 
-<div class="app-container">
-  <h1 id="mainHeading">EDUPATH.AI</h1>
+<div class="container">
+  <h1 id="head">EDUPATH AI</h1>
   
-  <div class="chat-interface">
-    <div id="botMsg" class="bot-text">Initializing AI Career Analysis... Please enter your name.</div>
+  <div class="chat-box" id="botText">
+    System Online. Please enter your name to begin career mapping.
   </div>
 
   <div id="step1" class="step active">
-    <input type="text" id="userName" placeholder="Type your name..." autocomplete="off">
-    <button class="btn-primary" onclick="toStep2()">Next Phase</button>
+    <input type="text" id="nameInp" placeholder="Full Name" autocomplete="off">
+    <button class="btn" onclick="go2()">Initialize Profile</button>
   </div>
 
   <div id="step2" class="step">
-    <div class="marks-flex">
-      <input type="number" id="pMarks" placeholder="Physics %" oninput="calcTotal()">
-      <input type="number" id="cMarks" placeholder="Chemistry %" oninput="calcTotal()">
-      <input type="number" id="mMarks" placeholder="Mathematics %" oninput="calcTotal()">
-      <input type="number" id="bMarks" placeholder="Biology % (Optional)" oninput="calcTotal()">
+    <div class="info-tag">Subject-wise Score Verification</div>
+    <div class="marks-grid">
+      <input type="number" id="pInp" placeholder="Physics %" oninput="check()">
+      <input type="number" id="cInp" placeholder="Chemistry %" oninput="check()">
+      <input type="number" id="mInp" placeholder="Mathematics %" oninput="check()">
+      <input type="number" id="bInp" placeholder="Biology % (Opt)" oninput="check()">
     </div>
-    <div class="total-display">Total Average: <span id="avgDisplay">0</span>%</div>
-    <div id="marksError" class="error" style="display:none;">Note: Total percentage must be at least 35% to proceed.</div>
-    <button id="step2Btn" class="btn-primary" onclick="toStep3()" disabled>Continue</button>
+    <div class="total-badge">Aggregate Average: <span id="avgText">0</span>%</div>
+    <button id="nextBtn" class="btn" onclick="go3()" disabled>Next Phase</button>
   </div>
 
   <div id="step3" class="step">
-    <select id="userInterest">
-      <option value="Technology">Deep Tech & Systems</option>
-      <option value="Medical">Healthcare & Bioscience</option>
-      <option value="Business">Strategic Finance & Startups</option>
-      <option value="Creative">Digital Arts & Design</option>
-      <option value="Science">Pure Research & Space</option>
+    <div class="info-tag">Target Specialization</div>
+    <select id="fieldInp">
+      <option value="Tech">Technology & Computer Science</option>
+      <option value="Med">Medical & Healthcare</option>
+      <option value="Biz">Management & Finance</option>
+      <option value="Art">Creative Arts & Design</option>
+      <option value="Sci">Research & Pure Sciences</option>
     </select>
-    <button class="btn-primary" onclick="generateReport()">Generate Roadmap</button>
+    <button class="btn" onclick="finish()">Generate Roadmap</button>
   </div>
 
-  <div id="resultArea"></div>
+  <div id="result"></div>
 </div>
 
 <script>
-  let name = "";
-  let average = 0;
+  let uName = "";
+  let uAvg = 0;
 
-  function calcTotal() {
-    const p = parseFloat(document.getElementById('pMarks').value) || 0;
-    const c = parseFloat(document.getElementById('cMarks').value) || 0;
-    const m = parseFloat(document.getElementById('mMarks').value) || 0;
-    const b = parseFloat(document.getElementById('bMarks').value) || 0;
+  function check() {
+    const p = parseFloat(document.getElementById('pInp').value) || 0;
+    const c = parseFloat(document.getElementById('cInp').value) || 0;
+    const m = parseFloat(document.getElementById('mInp').value) || 0;
+    const b = parseFloat(document.getElementById('bInp').value) || 0;
     
-    // Average calculation
-    const count = b > 0 ? 4 : 3;
-    average = (p + c + m + b) / count;
+    // Logic: Average of the subjects entered
+    const subjects = [p, c, m];
+    if(b > 0) subjects.push(b);
     
-    document.getElementById('avgDisplay').innerText = average.toFixed(1);
-    
-    const btn = document.getElementById('step2Btn');
-    const err = document.getElementById('marksError');
-    
-    if(average >= 35 && p >= 35 && c >= 35 && m >= 35) {
+    uAvg = subjects.reduce((a, b) => a + b) / subjects.length;
+    document.getElementById('avgText').innerText = uAvg.toFixed(1);
+
+    // Button activates ONLY if average is 35 or above
+    const btn = document.getElementById('nextBtn');
+    if(uAvg >= 35) {
       btn.disabled = false;
-      err.style.display = "none";
     } else {
       btn.disabled = true;
-      err.style.display = "block";
     }
   }
 
-  function toStep2() {
-    name = document.getElementById('userName').value;
-    if(!name) return;
-    document.getElementById('botMsg').innerText = `Hello ${name}. Please provide your academic scores for evaluation.`;
+  function go2() {
+    uName = document.getElementById('nameInp').value;
+    if(!uName) return;
+    document.getElementById('botText').innerText = `Welcome, ${uName}. Enter your 12th grade scores below.`;
     document.getElementById('step1').classList.remove('active');
     document.getElementById('step2').classList.add('active');
   }
 
-  function toStep3() {
-    document.getElementById('botMsg').innerText = "Scores verified. Now, select your primary career ambition.";
+  function go3() {
+    document.getElementById('botText').innerText = `Eligibility confirmed at ${uAvg.toFixed(1)}%. Choose your interest area.`;
     document.getElementById('step2').classList.remove('active');
     document.getElementById('step3').classList.add('active');
   }
 
-  function box(title, tag, desc) {
+  function card(title, sal, txt) {
     return `
       <div class="course-card">
-        <div class="course-header">
-          <h3 class="course-title">${title}</h3>
-          <span class="salary-tag">${tag}</span>
-        </div>
-        <p class="course-desc">${desc}</p>
+        <h3>${title} <span class="salary">${sal}</span></h3>
+        <p>${txt}</p>
       </div>
     `;
   }
 
-  function generateReport() {
-    const interest = document.getElementById('userInterest').value;
+  function finish() {
+    const field = document.getElementById('fieldInp').value;
     document.getElementById('step3').style.display = "none";
-    document.getElementById('mainHeading').innerText = `Best Courses for ${name}`;
-    document.getElementById('botMsg').innerText = `Analysis complete. Based on your ${average.toFixed(1)}% average, here is your path.`;
+    document.getElementById('head').innerText = `Best Courses for ${uName}`;
+    document.getElementById('botText').innerText = `Roadmap generated based on ${uAvg.toFixed(1)}% aggregate score.`;
 
-    let out = "";
-    
-    if(interest == "Technology") {
-      out += box("B.Tech in Artificial Intelligence", "LPA: 12-45", "A deep dive into neural networks, computer vision, and NLP. As industries shift to automation, AI engineers are building the next generation of autonomous systems. This path requires the high-level logic your score reflects.");
-      out += box("B.Sc in Cyber Security", "LPA: 10-35", "Master the art of defense. You will learn ethical hacking, cryptography, and network forensics. This field is critical for national security and protecting global financial infrastructures from evolving threats.");
-      out += box("B.Tech in Data Science", "LPA: 11-40", "Turn massive datasets into strategic intelligence. This curriculum combines statistical modeling with big data tools like Hadoop and Spark to predict market shifts and consumer behavior.");
-      out += box("Full Stack Engineering", "LPA: 8-30", "The fastest route to the Silicon Valley dream. You will learn end-to-end development using React, Node.js, and Cloud Database systems. High demand for builders who can ship complete products.");
-      out += box("B.Tech in Cloud Computing", "LPA: 10-38", "The backbone of the internet. Manage remote servers via AWS and Azure. You'll learn scalability, serverless architecture, and DevOps to keep the world's apps running 24/7.");
+    let html = "";
+    if(field == "Tech") {
+      html += card("B.Tech Artificial Intelligence", "High Demand", "Study neural networks and machine learning. As industries automate, AI experts are the most sought-after engineers in 2026.");
+      html += card("Cyber Security Operations", "LPA 12-30", "Protect digital assets from global hackers. Includes ethical hacking and network forensics for top-tier defense.");
+      html += card("Data Science & Analytics", "LPA 10-25", "Turn raw data into business strategy using Python and R. Critical for modern corporate decision making.");
+      html += card("Full Stack Engineering", "Quick Job", "Build end-to-end web apps. Fastest entry into the IT sector with immediate hiring potential in startups.");
+      html += card("Cloud Architecture", "LPA 15-35", "Manage global server infrastructures using AWS/Azure. Vital for modern decentralized company operations.");
     }
-    
-    if(interest == "Medical") {
-      out += box("MBBS (Medicine)", "Top Prestige", "The gold standard of medical education. You will master clinical procedures, anatomy, and surgical diagnostics. A 5.5-year commitment to saving lives and advancing human health sciences.");
-      out += box("B.Sc in Biomedical Engineering", "LPA: 9-28", "Combine your tech interest with biology. Design artificial organs, robotic surgical tools, and advanced prosthetics. A perfect hybrid for those who love both machines and medicine.");
-      out += box("B.Pharm (Corporate)", "LPA: 7-22", "Enter the high-growth pharmaceutical industry. Focus on drug manufacturing, quality control, and clinical research for global vaccine and medication development.");
-      out += box("Biotechnology Research", "LPA: 8-30", "Genetic engineering and DNA research. Work in laboratories to solve food crises and develop new biological solutions for diseases. Ideal for pure research enthusiasts.");
-      out += box("B.Sc in Forensic Science", "LPA: 6-20", "Use science to solve legal mysteries. Analyze DNA, fingerprints, and toxicological evidence. This field is highly analytical and plays a vital role in the justice system.");
+    else if(field == "Med") {
+      html += card("MBBS / Medicine", "Prestigious", "Complete 5.5-year medical training to become a licensed doctor. High level of social respect and impact.");
+      html += card("Biotechnology", "LPA 8-20", "Research DNA and genetic engineering to develop new vaccines and sustainable medical solutions.");
+      html += card("Pharmacology", "LPA 7-18", "Study drug manufacturing and chemistry. Huge demand in the global pharmaceutical corporate sector.");
+      html += card("Physiotherapy", "LPA 6-15", "Rehabilitation and movement science. Essential for sports recovery and elderly care programs.");
+      html += card("Forensic Science", "Investigative", "Analyze biological evidence to solve crimes. Bridges the gap between medicine and the legal system.");
     }
-
-    if(interest == "Business") {
-      out += box("FinTech Integrated MBA", "LPA: 15-50", "Lead the digital economy. Learn about blockchain, cryptocurrency markets, and algorithmic trading. Designed for future executives at the intersection of finance and tech.");
-      out += box("Chartered Accountancy", "LPA: 12-40", "The most respected path in corporate finance. Master auditing, taxation, and financial law. Offers a recession-proof career and high-level consulting opportunities.");
-      out += box("Digital Marketing Strategy", "LPA: 8-35", "Data-driven brand growth. Learn SEO, performance marketing, and social psychology to scale businesses in the digital-first era. Highly dynamic and results-oriented.");
-      out += box("Entrepreneurship (BBA)", "High Risk/Reward", "Build your own legacy. Learn venture capital, supply chain management, and leadership. Ideal for those who want to launch their own startups and innovate industries.");
-      out += box("Investment Banking", "LPA: 18-60", "The peak of finance. Manage mergers, acquisitions, and global capital markets. Requires extreme dedication and a sharp analytical mind for high-stakes business deals.");
+    else if(field == "Biz") {
+      html += card("FinTech Management", "LPA 18-40", "Merging traditional finance with blockchain and digital banking. Designed for future financial leaders.");
+      html += card("Chartered Accountancy", "Stable", "Professional auditing and taxation. A recession-proof career with massive respect in the business world.");
+      html += card("Digital Marketing", "LPA 8-22", "Master SEO and social media brand growth. Every modern business needs a digital presence to survive.");
+      html += card("Investment Banking", "High Salary", "Managing global capital markets and mergers. Requires a sharp mind and high-level analytical ability.");
+      html += card("Entrepreneurship", "Innovator", "Learn the mechanics of starting a company, from venture capital to scaling a global product.");
     }
-
-    if(interest == "Creative") {
-      out += box("UI/UX Product Design", "LPA: 10-35", "Design the future of human-tech interaction. Blend psychology with visual art to create apps and websites that people love. A premium skill in every tech company.");
-      out += box("VFX & Animation", "LPA: 7-30", "Build the digital worlds of Hollywood and the Gaming industry. Master Unreal Engine and Maya to create hyper-realistic characters and cinematic experiences.");
-      out += box("Digital Content Creation", "LPA: 5-50+", "The new media powerhouse. Professional storytelling, cinematography, and brand management for the creator economy and streaming platforms.");
-      out += box("Sustainable Architecture", "LPA: 6-25", "Design the green cities of tomorrow. Blend your math skills with creative vision to build eco-friendly structural masterpieces for a sustainable world.");
-      out += box("Fashion Brand Management", "LPA: 8-30", "The business of luxury. Learn brand strategy, retail logic, and supply chain for international fashion houses and high-end lifestyle products.");
+    else if(field == "Art") {
+      html += card("UI/UX Product Design", "LPA 12-30", "Design the screens and experiences of future apps. Perfect blend of art and human psychology.");
+      html += card("VFX & Animation", "LPA 9-25", "Create digital worlds for Hollywood and Gaming. Uses advanced tech like Unreal Engine for cinematic art.");
+      html += card("Digital Content Creation", "Trending", "Storytelling for the creator economy. Includes filmmaking, cinematography, and brand management.");
+      html += card("Sustainable Architecture", "LPA 7-20", "Design eco-friendly buildings and green cities. High demand in modern urban development planning.");
+      html += card("Mass Communication", "Media Hub", "Journalism and broadcasting. Become the voice of truth in the era of digital news and information.");
     }
-
-    if(interest == "Science") {
-      out += box("Astrophysics", "Top Research", "Explore the cosmos. Apply advanced physics to understand galactic laws and space-time. High demand in private space agencies like SpaceX and Blue Origin.");
-      out += box("Cognitive Psychology", "LPA: 6-22", "Scientific study of the human mind and neurobiology. Help people navigate mental health or help companies understand consumer behavior through science.");
-      out += box("Environmental Science", "Global Impact", "Save the planet through science. Focus on climate policy, biodiversity protection, and sustainable engineering to meet global Net-Zero targets.");
-      out += box("Geology & Mineralogy", "LPA: 7-25", "Study Earth's resources. Essential for mining, water management, and natural disaster prevention. A field-heavy and scientifically rewarding career.");
-      out += box("B.Sc in Statistics", "LPA: 10-35", "The language of science. Every modern industry relies on statistical analysts to make sense of the world. Essential for government, insurance, and research.");
+    else if(field == "Sci") {
+      html += card("Astrophysics", "Research", "Study the universe and space-time. Opportunities in space agencies like SpaceX and NASA are growing rapidly.");
+      html += card("Cognitive Psychology", "LPA 6-18", "Scientific research into the human mind. Vital for mental health clinics and corporate HR strategy.");
+      html += card("Environmental Science", "Global Goal", "Solving climate change through biology and chemistry. Essential for government green energy projects.");
+      html += card("Applied Statistics", "LPA 10-25", "The core of all research. Use math to predict trends in medicine, economics, and social sciences.");
+      html += card("Geology", "Field Work", "Earth science research. Finding natural resources and predicting natural disasters for global safety.");
     }
 
-    document.getElementById('resultArea').innerHTML = out;
+    document.getElementById('result').innerHTML = html;
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 </script>
