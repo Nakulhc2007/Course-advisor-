@@ -29,7 +29,7 @@
 
   .container {
     width: 100%;
-    max-width: 800px;
+    max-width: 850px;
     background: var(--glass);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
@@ -113,9 +113,7 @@
     margin-top: 30px;
     padding: 25px;
     border-radius: 18px;
-    border-right: 1px solid var(--glass-border);
-    border-top: 1px solid var(--glass-border);
-    border-bottom: 1px solid var(--glass-border);
+    border: 1px solid var(--glass-border);
   }
   .course-card h3 { color: var(--primary); margin: 0 0 12px 0; font-size: 1.4rem; display: flex; justify-content: space-between; align-items: center; }
   .badge { font-size: 0.7rem; background: var(--secondary); color: white; padding: 4px 10px; border-radius: 20px; text-transform: uppercase; }
@@ -127,42 +125,43 @@
 <div class="container">
   <h2>EduPath Advisor</h2>
   <div id="chat" class="chat-box">
-    <div class="msg bot">Hello! I am your AI career consultant. What is your full name?</div>
+    <div class="msg bot">Hello! I'm your Smart Advisor. Let's start with your full name.</div>
   </div>
 
   <div id="step1" class="step active">
-    <input id="nameInput" type="text" placeholder="Type your name here...">
+    <input id="nameInput" type="text" placeholder="Enter name">
     <button onclick="go1()">Get Started</button>
   </div>
 
   <div id="step2" class="step">
-    <input id="marksInput" type="number" placeholder="Enter 12th Percentage (e.g. 85)">
+    <input id="marksInput" type="number" placeholder="Enter 12th Percentage">
     <button onclick="go2()">Next Step</button>
   </div>
 
   <div id="step3" class="step">
-    <p style="text-align:center">Select the subjects you genuinely enjoy:</p>
+    <p style="text-align:center">Select your favorite subjects:</p>
     <div class="subjects-grid">
       <div class="sub-btn" onclick="toggleSub(this,'Maths')">Mathematics</div>
       <div class="sub-btn" onclick="toggleSub(this,'Physics')">Physics</div>
       <div class="sub-btn" onclick="toggleSub(this,'Biology')">Biology</div>
       <div class="sub-btn" onclick="toggleSub(this,'Computer')">Computer Sci</div>
-      <div class="sub-btn" onclick="toggleSub(this,'Accounts')">Accounts</div>
-      <div class="sub-btn" onclick="toggleSub(this,'Psychology')">Psychology</div>
+      <div class="sub-btn" onclick="toggleSub(this,'History')">History/Law</div>
+      <div class="sub-btn" onclick="toggleSub(this,'Accounts')">Commerce</div>
     </div>
     <button onclick="go3()">Continue</button>
   </div>
 
   <div id="step4" class="step">
-    <p style="text-align:center">Choose your primary field of interest:</p>
+    <p style="text-align:center">What is your primary interest area?</p>
     <select id="interest">
-      <option value="Technology">Technology & Artificial Intelligence</option>
-      <option value="Medical">Healthcare & Medical Sciences</option>
-      <option value="Business">Business, Finance & Startups</option>
-      <option value="Creative">Creative Arts, Media & Design</option>
-      <option value="Research">Pure Science & Research</option>
+      <option value="Technology">Technology & AI</option>
+      <option value="Medical">Medical & Healthcare</option>
+      <option value="Business">Business & Management</option>
+      <option value="Creative">Design & Media</option>
+      <option value="Research">Pure Science & Psychology</option>
+      <option value="Law">Law & Governance</option>
     </select>
-    <button onclick="final()">Generate Detailed Analysis</button>
+    <button onclick="final()">Show Recommendations</button>
   </div>
 
   <div id="result"></div>
@@ -189,7 +188,7 @@ function go1() {
   name = document.getElementById("nameInput").value;
   if(!name) return;
   say(name, "user"); 
-  say("Nice to meet you, " + name + "! What was your overall percentage in 12th grade?", "bot");
+  say("Welcome " + name + "! What was your 12th percentage?", "bot");
   show("step2");
 }
 
@@ -197,7 +196,7 @@ function go2() {
   marks = document.getElementById("marksInput").value;
   if(!marks) return;
   say(marks + "%", "user"); 
-  say("Great! Now, click on the subjects that you find interesting.", "bot");
+  say("Pick the subjects you love most.", "bot");
   show("step3");
 }
 
@@ -212,7 +211,7 @@ function toggleSub(btn, sub) {
 function go3() {
   if(subs.length == 0) return;
   say(subs.join(", "), "user"); 
-  say("One last thing: which industry excites you the most?", "bot");
+  say("Choose your main field of interest.", "bot");
   show("step4");
 }
 
@@ -226,46 +225,45 @@ function box(title, badge, txt) {
 function final() {
   interest = document.getElementById("interest").value;
   say(interest, "user");
-  say("Analyzing your profile... Here are your top career roadmaps.", "bot");
-  
+  say("Great choice! Here are 13 top-tier roadmaps for you.", "bot");
   document.getElementById("step4").classList.remove("active");
-  let out = `<h2 style="font-size:1.5rem; margin-top:40px;">Personalized Career Report</h2>`;
+  let out = `<h2>Your Personalized Roadmap</h2>`;
 
+  // TECHNOLOGY
   if(interest == "Technology") {
-    out += box("B.Tech in AI & Machine Learning", "High Salary", 
-    "This advanced engineering degree focuses on building systems that can think and learn like humans. You will deep-dive into Neural Networks, Natural Language Processing (NLP), and Computer Vision. The course requires a very strong foundation in Mathematics, specifically Calculus and Linear Algebra. As AI continues to disrupt every industry from Finance to Healthcare, the demand for AI Engineers is at an all-time high. You will learn to use Python, PyTorch, and cloud platforms like AWS or Google Cloud. Graduates often start their careers as AI Researchers or Data Scientists with some of the highest entry-level packages in the world. It is a perfect fit for those who enjoy coding and solving complex logical puzzles.");
-    
-    out += box("B.Sc in Cyber Security & Digital Forensics", "Top Demand", 
-    "With the rapid shift to digital infrastructure, protecting data has become a matter of national security. This course teaches you Ethical Hacking, Cryptography, Network Defense, and how to investigate digital crimes. You will learn to think like a hacker to prevent system breaches and secure sensitive financial or personal data. The curriculum involves heavy hands-on lab training and understanding of global privacy laws. Career paths include Security Analyst, Penetration Tester, and Forensic Consultant. It offers unparalleled job security because every major corporation now requires a dedicated defense team. This is ideal for students who are detail-oriented and have a strong sense of digital ethics.");
+    out += box("B.Tech in Artificial Intelligence", "High Salary", "This program focuses on machine learning, neural networks, and computer vision. You will learn to build autonomous systems and predictive models using Python and C++. As industries automate, AI experts are required for everything from healthcare diagnostics to financial fraud detection. It requires strong math and logical skills. Career roles include AI Engineer, Data Scientist, or Robotics Expert. This field offers the highest starting salaries in the global tech market of 2026.");
+    out += box("B.Sc in Cyber Security", "Top Demand", "Cybersecurity is the defense of digital systems against global hackers and data breaches. You will study ethical hacking, cryptography, and network defense. This course is highly practical, involving real-time threat simulation and digital forensic investigation. Every government and major bank is currently hiring security specialists to protect sensitive infrastructure. Ideal for detail-oriented students who want a stable, high-stakes career in digital defense.");
   }
 
+  // MEDICAL
   if(interest == "Medical") {
-    out += box("MBBS (Bachelor of Medicine & Surgery)", "Prestigious", 
-    "MBBS is the most sought-after medical degree, requiring 5.5 years of intensive study and clinical practice. You will cover everything from Human Anatomy and Physiology to advanced Clinical Surgery and Pharmacology. This path requires a high degree of emotional resilience, empathy, and the ability to work long hours under pressure. Beyond the classroom, a mandatory internship will provide you with hands-on experience in hospital wards. Post-graduation leads to specializations in fields like Cardiology, Neurosurgery, or Oncology. It is a career dedicated to service and offers lifelong professional respect and financial stability. Ideal for students with top marks in Biology and a true passion for healthcare.");
-    
-    out += box("B.Sc in Biomedical Engineering", "Innovation", 
-    "Biomedical Engineering combines the principles of engineering with biological sciences to design life-saving medical devices. You will study how to develop artificial organs, robotic surgical tools, and advanced prosthetics. The course is a unique blend of Electronics, Mechanical Engineering, and Human Biology. As technology evolves, biomedical engineers are the ones creating the next generation of MRI machines and wearable health monitors. Graduates work in research labs, medical manufacturing firms, and top-tier hospitals. This is a brilliant choice for students who love biology but also have a natural curiosity for how machines and technology can improve human life.");
+    out += box("MBBS (Doctor of Medicine)", "Prestigious", "The gold standard for medical education, covering 5.5 years of anatomy, physiology, and surgical practice. This path requires extreme dedication and clinical precision to save lives. You will spend years in hospital rotations mastering patient care across cardiology, neurology, and pediatrics. It is a highly respected career with guaranteed job security. Ideal for students with top biology marks and a genuine passion for human health and long-term learning.");
+    out += box("B.Sc in Biomedical Engineering", "Innovation", "A hybrid field that applies engineering principles to biology and healthcare. You will learn to design artificial organs, pacemakers, and robotic surgical tools. The course bridges the gap between mechanical technology and medical science. It is perfect for those who love biology but also have a natural talent for machines and building equipment. Graduates work in high-tech research labs and medical manufacturing companies developing life-saving devices.");
   }
 
+  // BUSINESS
   if(interest == "Business") {
-    out += box("Integrated MBA in FinTech", "Fast Growth", 
-    "This modern program merges traditional business management with the world of Financial Technology (FinTech). You will study Blockchain, Digital Currencies, Algorithmic Trading, and Corporate Finance Strategy. The goal is to create leaders who can navigate the world of digital banking and decentralized finance. The curriculum involves real-world case studies of startups and internships with global financial giants. Career roles include Investment Banker, FinTech Consultant, and Hedge Fund Manager. It is designed for students who are ambitious, have great communication skills, and want to be at the center of the global economy. This degree typically leads to high-level executive positions.");
-    
-    out += box("Chartered Accountancy (CA)", "High Respect", 
-    "Chartered Accountancy is a world-renowned professional qualification focusing on Auditing, Taxation, and Financial Reporting. The journey involves clearing three levels of rigorous national exams and completing a 3-year practical internship known as 'Articleship'. CAs are essential for every business to ensure financial health and legal compliance. You will become an expert in complex tax laws and corporate governance. It is a demanding path that requires extreme discipline, a sharp memory for laws, and excellent numerical ability. CAs have the choice to work in top 'Big 4' firms or start their own highly profitable independent practice. It is a recession-proof career path.");
+    out += box("Integrated MBA in FinTech", "Fast Growth", "This modern degree merges management strategy with financial technology like blockchain and digital banking. You will learn how to lead startups and manage global financial systems in a digital economy. The curriculum includes algorithmic trading, crypto-economics, and corporate leadership. It is designed for ambitious students who want to become CEOs or Investment Bankers. This role bridges the gap between traditional finance and the high-speed tech world.");
+    out += box("Chartered Accountancy (CA)", "High Respect", "A professional path focused on auditing, taxation, and corporate law. It requires passing rigorous national exams and a 3-year internship. CAs are the financial backbone of every corporation, ensuring transparency and legal compliance. It is a highly disciplined path that offers excellent independent practice opportunities or senior CFO roles. Perfect for those who are highly organized and possess a sharp memory for laws and financial data.");
+    out += box("BBA in Digital Marketing", "Creative Biz", "This course focuses on performance marketing, SEO, and social media brand strategy. You will learn to use data analytics to grow businesses in the online space. It combines psychology with business to understand how modern consumers shop and interact with brands. Career paths include Brand Manager, Growth Hacker, or Content Director. As all retail moves online, this skill set is essential for every modern company in 2026.");
   }
 
+  // CREATIVE
   if(interest == "Creative") {
-    out += box("B.Des in UI/UX and Product Design", "Future Proof", 
-    "UI/UX Design is the art and science of making digital products like mobile apps and websites easy and enjoyable to use. This course blends visual design, human psychology, and technical prototyping. You will learn to conduct user research, create wireframes, and design beautiful interfaces that solve real human problems. As every company becomes a digital company, high-quality designers are now just as important as engineers. You will build a professional portfolio that demonstrates your creative thinking and technical skill. Career paths include Product Designer, Interaction Designer, and UX Researcher. Ideal for creative minds who also enjoy technology and understanding how people think.");
-    
-    out += box("B.A. in Digital Content & New Media", "Dynamic", 
-    "This course is designed for the modern era of digital storytelling, streaming, and social media influence. You will learn the technicalities of Video Production, Scriptwriting, Audience Analytics, and Social Media Growth. The curriculum covers how to build a global brand using platforms like YouTube, Netflix, and TikTok. It combines traditional journalism and film skills with modern SEO and algorithm management. Career opportunities range from Creative Producer and Content Strategist to Digital Media Director for global brands. It is a highly creative and flexible field where success is driven by your originality and consistency. Perfect for those who want to shape the future of entertainment.");
+    out += box("B.Des in UI/UX Design", "Future Proof", "User Interface and Experience design is about making apps and websites intuitive and beautiful. You will study user psychology, wireframing, and visual design tools. As technology becomes more complex, designers are needed to make it simple for the everyday user. This role is a perfect blend of artistic creativity and technical logic. Career opportunities include Product Designer or UX Researcher in top Silicon Valley tech firms. Great for visual thinkers who enjoy problem-solving.");
+    out += box("B.A. in New Media & Content", "Trending", "Focused on filmmaking, digital storytelling, and audience management across platforms like YouTube and Netflix. You will learn video editing, scriptwriting, and how to manage digital algorithms to build a global brand. This field is for the modern creator who wants to work in the streaming and entertainment industry. It is highly dynamic and requires consistency, creativity, and a pulse on modern culture trends.");
   }
 
+  // RESEARCH & PSYCHOLOGY
   if(interest == "Research") {
-    out += box("B.Sc in Psychology & Cognitive Science", "Human Insight", 
-    "This course explores the inner workings of the human mind, behavior, and emotional development. You will study subjects like Neurobiology, Cognitive Psychology, and Social Interaction using scientific methods. The program includes extensive research, data collection, and understanding mental health disorders. As global awareness of mental health increases, psychologists are in high demand in hospitals, schools, and corporate HR departments. Graduates can work as Clinical Psychologists, Industrial Counselors, or Research Scientists. This is a rewarding career for those who are empathetic, patient, and deeply curious about why people behave the way they do.");
+    out += box("B.Sc in Cognitive Psychology", "Human Insight", "A deep scientific study of the human mind, behavior, and neural processes. You will research how people think, learn, and make decisions. As mental health awareness peaks in 2026, psychologists are highly valued in clinics, schools, and corporate HR departments. This path requires empathy and a strong interest in scientific research. Graduates can work as Clinical Psychologists, Counselors, or Neuroscientists in research institutes.");
+    out += box("B.Sc in Biotechnology", "Science Hub", "The study of living systems to develop products in agriculture, medicine, and food science. You will work with DNA technology and genetic engineering to solve global issues like disease and food shortages. It is a laboratory-heavy field that leads to roles in pharmaceutical companies and research centers. Ideal for students who want to be at the cutting edge of scientific discovery and vaccine development.");
+  }
+
+  // LAW
+  if(interest == "Law") {
+    out += box("B.A. LL.B (Integrated Law)", "Power Career", "A 5-year program that combines a Bachelor of Arts with Law. You will study criminal law, corporate law, and human rights. This path prepares you to become a lawyer, judge, or legal advisor to multinational corporations. It requires excellent debating skills, critical thinking, and a love for reading. Lawyers in 2026 are increasingly specializing in Cyber Law and International Trade, making it a highly lucrative and powerful career path.");
+    out += box("BBA LL.B (Corporate Law)", "Top Salary", "This course merges business administration with legal studies, specifically for the corporate world. You will learn how to handle mergers, acquisitions, and intellectual property rights. It is the preferred degree for those wanting to work in top-tier law firms or as in-house counsel for tech giants. It combines a sharp business mind with a deep understanding of the legal system. Ideal for students who are competitive and highly analytical.");
   }
 
   document.getElementById("result").innerHTML = out;
