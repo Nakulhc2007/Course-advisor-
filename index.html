@@ -1,107 +1,151 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-<meta charset="utf-8">
-<title>Course Selection Advisor</title>
+<meta charset="UTF-8">
+<title>Course Advisor</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-body{font-family:Arial;background:#0f1724;color:#fff;margin:0;padding:0}
-.container{max-width:800px;margin:auto;padding:15px}
-.box{background:#111b2e;padding:15px;border-radius:10px;margin-top:15px}
-input,button{width:100%;padding:12px;margin-top:10px;font-size:16px;border-radius:8px;border:none}
-button{background:#6ee7b7;color:#012;font-weight:bold}
-.chat{min-height:120px;margin-bottom:10px}
+body{
+  margin:0;
+  font-family:Arial;
+  background:linear-gradient(120deg,#1e3c72,#2a5298);
+  color:white;
+}
+.box{
+  max-width:500px;
+  margin:20px auto;
+  background:rgba(0,0,0,0.4);
+  padding:20px;
+  border-radius:15px;
+}
+h2{text-align:center}
+input,button{
+  width:100%;
+  padding:12px;
+  margin-top:10px;
+  border-radius:10px;
+  border:none;
+  font-size:16px;
+}
+button{
+  background:#6ee7b7;
+  color:#012;
+  font-weight:bold;
+}
+.subjects button{
+  background:#333;
+  color:white;
+  margin:5px 0;
+}
+.subjects button.active{
+  background:#6ee7b7;
+  color:#012;
+}
+.chat{min-height:100px;margin-bottom:10px}
 .msg{margin:6px 0}
-.bot{color:#9aa6b2}
-.user{color:#6ee7b7;text-align:right}
-.result{margin-top:15px;font-size:18px;font-weight:bold}
+.user{text-align:right;color:#6ee7b7}
+.bot{color:#ccc}
+.result{
+  margin-top:15px;
+  font-size:18px;
+  font-weight:bold;
+}
 </style>
 </head>
 <body>
 
-<div class="container">
-  <h2>Course Selection Advisor</h2>
+<div class="box">
+  <h2>Course Advisor</h2>
+  <div id="chat" class="chat"></div>
 
-  <div class="box">
-    <div id="chat" class="chat"></div>
-
-    <div id="step1">
-      <p>What is your name?</p>
-      <input id="name" placeholder="Your name">
-      <button onclick="next1()">Next</button>
-    </div>
-
-    <div id="step2" style="display:none">
-      <p>Enter your 12th percentage:</p>
-      <input id="marks" type="number" placeholder="Example: 72">
-      <button onclick="next2()">Next</button>
-    </div>
-
-    <div id="step3" style="display:none">
-      <p>Your favorite subject?</p>
-      <button onclick="pick('Maths')">Maths</button>
-      <button onclick="pick('Biology')">Biology</button>
-      <button onclick="pick('Computer')">Computer</button>
-      <button onclick="pick('Arts')">Arts</button>
-    </div>
-
-    <div id="final" class="result"></div>
+  <div id="step1">
+    <input id="name" placeholder="Enter your name">
+    <button onclick="next1()">Next</button>
   </div>
+
+  <div id="step2" style="display:none">
+    <input id="marks" type="number" placeholder="Enter 12th percentage">
+    <button onclick="next2()">Next</button>
+  </div>
+
+  <div id="step3" style="display:none">
+    <p>Select subjects you like (many allowed):</p>
+    <div class="subjects">
+      <button onclick="toggleSub(this,'Maths')">Maths</button>
+      <button onclick="toggleSub(this,'Physics')">Physics</button>
+      <button onclick="toggleSub(this,'Chemistry')">Chemistry</button>
+      <button onclick="toggleSub(this,'Biology')">Biology</button>
+      <button onclick="toggleSub(this,'Computer')">Computer</button>
+      <button onclick="toggleSub(this,'Commerce')">Commerce</button>
+      <button onclick="toggleSub(this,'Arts')">Arts</button>
+    </div>
+    <button onclick="finalStep()">Get Result</button>
+  </div>
+
+  <div id="result" class="result"></div>
 </div>
 
 <script>
-let userName = "";
-let percent = 0;
-let subject = "";
+let name="", marks=0, subjects=[];
 
-function addMsg(text, who){
-  const d = document.createElement("div");
-  d.className = "msg " + who;
-  d.innerText = text;
+function addMsg(t,w){
+  let d=document.createElement("div");
+  d.className="msg "+w;
+  d.innerText=t;
   document.getElementById("chat").appendChild(d);
 }
 
 function next1(){
-  userName = document.getElementById("name").value;
-  if(!userName) return;
-  addMsg(userName,"user");
-  addMsg("Nice to meet you " + userName + "!", "bot");
-  document.getElementById("step1").style.display="none";
-  document.getElementById("step2").style.display="block";
+  name=document.getElementById("name").value;
+  if(!name)return;
+  addMsg(name,"user");
+  addMsg("Hi "+name+"!","bot");
+  step1.style.display="none";
+  step2.style.display="block";
 }
 
 function next2(){
-  percent = document.getElementById("marks").value;
-  if(!percent) return;
-  addMsg(percent + "%","user");
-  addMsg("Select your favourite subject:","bot");
-  document.getElementById("step2").style.display="none";
-  document.getElementById("step3").style.display="block";
+  marks=document.getElementById("marks").value;
+  if(!marks)return;
+  addMsg(marks+"%","user");
+  addMsg("Choose your favorite subjects:","bot");
+  step2.style.display="none";
+  step3.style.display="block";
 }
 
-function pick(sub){
-  subject = sub;
-  addMsg(sub,"user");
-  suggest();
-}
-
-function suggest(){
-  let result="";
-  if(percent>=85){
-    if(subject=="Biology") result="Best: MBBS, BDS, Nursing";
-    else if(subject=="Computer"||subject=="Maths") result="Best: Engineering, CSE, AI";
-    else result="Best: Any top course";
-  }else if(percent>=70){
-    result="Good: Engineering, BCA, B.Sc, B.Com";
-  }else if(percent>=50){
-    result="Try: BCA, Arts, Commerce, Diploma";
+function toggleSub(btn,sub){
+  if(subjects.includes(sub)){
+    subjects=subjects.filter(s=>s!==sub);
+    btn.classList.remove("active");
   }else{
-    result="Try: Diploma, Skill Courses";
+    subjects.push(sub);
+    btn.classList.add("active");
+  }
+}
+
+function finalStep(){
+  let result="";
+  if(marks>=85){
+    if(subjects.includes("Biology"))
+      result="MBBS, BDS, Nursing, Biotechnology";
+    else if(subjects.includes("Computer")||subjects.includes("Maths"))
+      result="Engineering, CSE, AI, Data Science";
+    else
+      result="Any top degree course";
+  }
+  else if(marks>=70){
+    result="Engineering, BCA, B.Sc, B.Com, Architecture";
+  }
+  else if(marks>=50){
+    result="BCA, BBA, Arts, Commerce, Diploma";
+  }
+  else{
+    result="Diploma, ITI, Skill Courses";
   }
 
-  document.getElementById("step3").style.display="none";
-  document.getElementById("final").innerText =
-    userName + ", based on your marks and interest:\n" + result;
+  step3.style.display="none";
+  document.getElementById("result").innerText=
+    name+", based on your marks and subjects ("+subjects.join(", ")+"):\n"+result;
 }
 </script>
 
