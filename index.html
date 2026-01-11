@@ -201,7 +201,7 @@
     const goalText = document.getElementById('goal').options[document.getElementById('goal').selectedIndex].text;
     document.getElementById('step4').style.display = "none";
     document.getElementById('head').innerText = `Best Courses for ${uName}`;
-    document.getElementById('botText').innerHTML = `Based on your marks, interest in <strong>${interest}</strong>, and your goal of <strong>"${goalText}"</strong>, I suggest these 6 specialized paths:`;
+    document.getElementById('botText').innerHTML = `Based on your marks, interest in <strong>${interest}</strong>, and your goal of <strong>"${goalText}"</strong>, here are some best career paths which you can perceive:`;
 
     let res = "";
     if(interest == "AI") {
@@ -236,7 +236,6 @@
       res += card("Blockchain Technology", "Developing secure, decentralized digital ledger systems.", ["Smart Contracts & Cryptography", "Future of secure transactions", "High-pay tech development roles."], "Cryptography", "Blockchain Developer");
     }
 
-    // Always append 2 bonus high-value 2026 roles
     res += card("Digital Product Management", "Bridge between business, design, and coding teams.", ["Product lifecycle & Market data", "Highest demand non-coding tech role", "Corporate leadership career path."], "Leadership", "Product Manager");
     res += card("Human-Computer Interaction (HCI)", "Designing how humans interact with future VR/AR headsets.", ["Experience design for the Metaverse", "Top design role at Meta, Apple, Google", "Focus on digital empathy."], "Interactive Design", "UX Architect");
 
