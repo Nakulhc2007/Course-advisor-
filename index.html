@@ -99,12 +99,15 @@
     <label>Select your Interest Category:</label>
     <select id="interest">
       <option value="AI">AI, Robotics & Data Science</option>
-      <option value="Med">Clinical Medicine & Biotechnology</option>
+      <option value="Med">Medicine & Clinical Surgery</option>
       <option value="Biz">FinTech, Business & Startups</option>
-      <option value="Lang">Linguistics, Literature & Journalism</option>
-      <option value="Creative">UX/UI Design & Creative Tech</option>
-      <option value="Green">Sustainability & Renewable Energy</option>
-      <option value="Sci">Astro-Physics & Quantum Research</option>
+      <option value="Lang">Linguistics & Content Journalism</option>
+      <option value="Creative">Design & Creative Technology</option>
+      <option value="Green">Green Energy & Sustainability</option>
+      <option value="Space">Astro-Physics & Space Research</option>
+      <option value="Agri">Modern Agriculture & Food Tech</option>
+      <option value="Psych">Psychology & Human Behavior</option>
+      <option value="Cyber">Cyber Security & Digital Ethics</option>
     </select>
     <button class="btn" onclick="go4()">Next Step</button>
   </div>
@@ -112,13 +115,16 @@
   <div id="step4" class="step">
     <label>What is your ultimate Career Goal?</label>
     <select id="goal">
-      <option value="high">High Salary & Financial Freedom</option>
-      <option value="global">Working Abroad / Global Exposure</option>
-      <option value="innovation">Inventing New Products (Founder)</option>
-      <option value="social">Social Impact & Helping Humanity</option>
-      <option value="security">Job Security & Work-Life Balance</option>
-      <option value="leadership">Executive Leadership (CEO/Director)</option>
+      <option value="high">High Salary & Financial Independence</option>
+      <option value="global">Working Internationally (US/EU/Global)</option>
+      <option value="startup">Founding a Tech Startup (Billion-Dollar)</option>
+      <option value="social">Maximum Social Impact (Helping People)</option>
+      <option value="security">Job Stability & Government Career</option>
       <option value="research">Scientific Discovery & Academic Fame</option>
+      <option value="freedom">Digital Nomad (Remote Work Freedom)</option>
+      <option value="creative">Artistic Fame & Visual Expression</option>
+      <option value="leadership">Corporate Leadership (CEO/Director)</option>
+      <option value="ethics">Policy Making & Legal Justice</option>
     </select>
     <button class="btn" onclick="finish()">Generate Final Roadmap</button>
   </div>
@@ -134,15 +140,12 @@
     const c = parseFloat(document.getElementById('c').value);
     const m = parseFloat(document.getElementById('m').value);
     const e = parseFloat(document.getElementById('eng').value);
-    
-    // Optional fields logic
     const l = document.getElementById('lang').value;
     const b = document.getElementById('b').value;
     
     const core = [p, c, m, e];
     let isValid = core.every(num => num >= 35 && num <= 100);
 
-    // If optional fields have values, they must also be 35-100
     if (l !== "" && (parseFloat(l) < 35 || parseFloat(l) > 100)) isValid = false;
     if (b !== "" && (parseFloat(b) < 35 || parseFloat(b) > 100)) isValid = false;
 
@@ -153,7 +156,7 @@
       status.innerText = "✓ Academic criteria passed."; status.className = "status-msg";
       btn.disabled = false;
     } else {
-      status.innerText = "⚠ Alert: Required subjects (P, C, M, Eng) and any filled optional subjects must be 35-100.";
+      status.innerText = "⚠ Alert: Physics, Chemistry, Math, and English (35-100) are required.";
       status.className = "status-msg fail";
       btn.disabled = true;
     }
@@ -198,40 +201,44 @@
     const goalText = document.getElementById('goal').options[document.getElementById('goal').selectedIndex].text;
     document.getElementById('step4').style.display = "none";
     document.getElementById('head').innerText = `Best Courses for ${uName}`;
-    document.getElementById('botText').innerHTML = `Based on your marks, interest in ${interest}, and your career goal of "${goalText}", here are the top paths you should pursue:`;
+    document.getElementById('botText').innerHTML = `Based on your marks, interest in <strong>${interest}</strong>, and your goal of <strong>"${goalText}"</strong>, I suggest these 6 specialized paths:`;
 
     let res = "";
     if(interest == "AI") {
-      res += card("B.Tech in Artificial Intelligence", "The flagship tech degree for 2026. Focuses on neural networks and deep learning.", ["Master LLMs (Large Language Models) like GPT-5.", "Highest entry-level salaries in the tech industry.", "Direct recruitment by companies like Google, Tesla, and OpenAI."], "Python & Neural Logic", "AI Research Scientist");
-      res += card("Cloud Architecture & DevOps", "Focuses on managing global data systems on AWS, Azure, and Google Cloud.", ["Essential for decentralized and remote-first companies.", "High demand for security-first cloud engineers.", "Involves managing microservices and serverless code."], "Distributed Systems", "Cloud Solutions Architect");
-      res += card("Cyber Security Operations", "Protecting digital infrastructure from global threats and ethical hacking.", ["Critical for national security and banking systems.", "High job security and government-level roles.", "Focuses on network defense and cryptography."], "Ethical Hacking", "Security Architect");
-      res += card("Data Science & Big Data", "The art of turning billions of data points into profitable business strategy.", ["Master predictive analytics and statistical modeling.", "Crucial for E-commerce, Finance, and Retail.", "Learn to lead data-driven decision making."], "Statistics & SQL", "Data Strategist");
+      res += card("B.Tech in Artificial Intelligence", "Design neural networks that drive future software.", ["Deep Learning & ML Ops", "Starting packages ₹15LPA+", "Direct link to Silicon Valley tech."], "Neural Logic", "AI Scientist");
+      res += card("Data Science & Big Data", "Translate raw data into corporate strategy.", ["Statistics & SQL mastery", "In-demand in every global industry", "Predict future market trends."], "Predictive Analytics", "Data Strategist");
     } else if(interest == "Med") {
-      res += card("MBBS / MD (Modern Medicine)", "The premier path for becoming a clinical doctor and surgeon.", ["6 years of anatomy, physiology, and surgery.", "Highest social impact and professional respect.", "Essential for hospital and private practice."], "Clinical Diagnosis", "Medical Practitioner");
-      res += card("B.Sc in Genetic Engineering", "Working with DNA to cure diseases and create sustainable solutions.", ["Focus on CRISPR and mRNA vaccine technology.", "At the cutting edge of biological innovation.", "Bridge between lab research and medical therapy."], "Molecular Biology", "Genetic Engineer");
-      res += card("Bioinformatics & Health-Tech", "A hybrid field using AI to solve complex biological and medical problems.", ["Using algorithms to discover new drugs faster.", "High demand in pharmaceutical R&D labs.", "Ideal for tech-savvy medical enthusiasts."], "Algorithm Design", "Computational Biologist");
-      res += card("Biotechnology & Clinical Research", "Developing new medical products, vaccines, and sustainable biofuels.", ["Massive growth in India's pharma sector.", "Work in high-end research and testing facilities.", "Focus on life-saving product development."], "Bio-Chemical Lab Skills", "Research Scientist");
+      res += card("MBBS / MD", "Traditional path to becoming a clinical surgeon.", ["Anatomy & Surgical precision", "Life-long noble career stability", "Opportunity for specialized practice."], "Clinical Diagnosis", "Surgeon");
+      res += card("Genomic Medicine", "Edit DNA to cure diseases at the root level.", ["CRISPR & Biotech mastery", "Fastest growing research field", "Work in high-end lab facilities."], "Molecular Biology", "Genetic Engineer");
     } else if(interest == "Biz") {
-      res += card("FinTech Integrated MBA", "The future of business, merging banking with blockchain and digital assets.", ["Master digital currency and automated trading.", "Highest growth sector in global finance centers.", "Lead the digital transformation of banks."], "Financial Modeling", "FinTech Consultant");
-      res += card("Entrepreneurship (BBA/BMS)", "Designed for those aiming to build their own billion-dollar startup.", ["Focus on venture capital and scaling operations.", "Includes lean methodology and market disruption.", "Ideal for the next generation of founders."], "Strategy & Leadership", "Founder / CEO");
-      res += card("Digital Marketing & E-commerce", "Mastering consumer psychology and the algorithms of modern social trade.", ["High-demand role for scaling global products.", "Includes SEO, performance marketing, and branding.", "Allows for global remote work opportunities."], "SEO & Data Analysis", "Growth Hacker");
-      res += card("Supply Chain & Logistics", "Managing the flow of goods across international borders for giants like Amazon.", ["Vital for global trade and retail efficiency.", "Includes warehouse automation and logistics.", "High demand for international operations managers."], "Operations Management", "Supply Chain Director");
+      res += card("FinTech Integrated MBA", "The future of banking and digital crypto assets.", ["Blockchain & Digital Finance", "High demand in London & Singapore hubs", "Lead financial transformation."], "Capital Markets", "FinTech Lead");
+      res += card("Global Entrepreneurship", "Learn to build, scale, and fund your own company.", ["Venture Capital & Marketing strategy", "Build a global brand from scratch", "Master leadership and networking."], "Strategy", "CEO/Founder");
     } else if(interest == "Lang") {
-      res += card("Applied Linguistics & NLP", "Teaching AI to understand and speak regional languages like Kannada, Hindi, etc.", ["Work with tech giants on language models.", "High demand for local language data experts.", "Combines literature with technology."], "NLP & Semantic Logic", "Language Engineer");
-      res += card("Digital Journalism & Media", "Mass communication across podcasts, streaming, and modern news platforms.", ["Master filmmaking, storytelling, and ethics.", "High opportunity for public influence.", "Global career in international news agencies."], "Creative Content", "Media Director");
-      res += card("Foreign Language & Diplomacy", "Mastering international languages for diplomatic and global corporate roles.", ["Work in Embassies or Multinational corporations.", "High demand for specialized translators in Law/Tech.", "Opportunity for extensive international travel."], "Fluency & Culture", "Diplomatic Liaison");
-      res += card("Creative Writing & Content Strategy", "Developing high-level narratives for the entertainment and advertising industries.", ["Focus on scriptwriting, copywriting, and PR.", "Essential for brand building and Netflix-style media.", "Work in high-paced creative agencies."], "Narrative Design", "Creative Lead");
+      res += card("Computational Linguistics (NLP)", "Teach AI to understand regional languages like Kannada/Hindi.", ["Work with Google/OpenAI on language models", "Bridge tech with human culture", "High demand for local data experts."], "Semantic Logic", "NLP Engineer");
+      res += card("Digital Journalism & Media", "Mass communication via modern streaming/documentaries.", ["Podcasting & Narrative strategy", "High public influence and reach", "Work for international news houses."], "Storytelling", "Media Director");
+    } else if(interest == "Creative") {
+      res += card("B.Des in UI/UX Technology", "Design the human interfaces of apps and future VR/AR.", ["Psychology of design & Visual art", "Essential for every digital product", "High demand in top design studios."], "User Psychology", "Product Designer");
+      res += card("Game Design & Immersive Media", "Build interactive worlds for the gaming industry.", ["3D Modeling & Unreal Engine", "Booming entertainment sector", "Creative and technical hybrid role."], "Spatial Design", "Lead Game Artist");
     } else if(interest == "Green") {
-      res += card("Renewable Energy Engineering", "Designing solar, wind, and hydrogen systems for a sustainable planet.", ["Fastest-growing sector in the energy industry.", "Prime for global innovation and green awards.", "Includes battery and storage technology."], "Energy Systems", "Sustainability Engineer");
-      res += card("Environmental Policy & ESG", "Consulting for corporations to meet global green compliance and standards.", ["Crucial for large-scale corporate sustainability.", "High demand in international governance.", "Combines law, science, and business."], "ESG Analytics", "Sustainability Advisor");
-    } else {
-      res += card("B.Sc Astrophysics", "Study the celestial bodies and the physics of the universe.", ["Prime path for agencies like ISRO or NASA.", "Focus on quantum physics and space travel.", "Work on the frontier of human exploration."], "Quantum Physics", "Space Researcher");
-      res += card("Theoretical Physics", "Researching the fundamental laws of nature and the subatomic world.", ["Work in global labs like CERN in Switzerland.", "Highest level of academic achievement.", "Lead breakthrough scientific discoveries."], "Advanced Calculus", "Research Physicist");
+      res += card("Renewable Energy Engineering", "Design systems for solar, wind, and hydrogen energy.", ["Sustainability & Battery tech", "Fast-growing environmental sector", "Green energy solution architect."], "Resource Management", "Green Tech Engineer");
+      res += card("Sustainability Strategy", "Consulting for global firms to meet ESG standards.", ["Climate science & Policy making", "High-level corporate leadership", "Make a real impact on the planet."], "ESG Analytics", "Climate Advisor");
+    } else if(interest == "Space") {
+      res += card("B.Sc Astrophysics", "Study celestial bodies and the physics of space.", ["Quantum Physics & Relativity", "Work with ISRO, NASA, or SpaceX", "Join the Martian exploration era."], "Space Physics", "Space Scientist");
+      res += card("Aeronautical Engineering", "Design the aircraft and spacecraft of tomorrow.", ["Propulsion systems & Aerodynamics", "Global aviation career growth", "Build the next generation of rockets."], "Fluid Dynamics", "Aerospace Engineer");
+    } else if(interest == "Agri") {
+      res += card("Agricultural Technology", "Using AI and sensors to revolutionize farming.", ["Hydroponics & Drone irrigation", "Ensure global food security", "Stable and essential tech sector."], "Agri-Tech Systems", "Smart Farmer");
+      res += card("Food Science & Bio-Tech", "Researching the future of lab-grown meat and nutrition.", ["Biochemistry & Food processing", "Work with global food brands", "Innovative food solution research."], "Food Chemistry", "Food Researcher");
+    } else if(interest == "Psych") {
+      res += card("Clinical Psychology", "The study of mental health and human behavior.", ["Counseling & Behavioral analysis", "High demand in modern wellness", "Professional clinical practice."], "Empathy & Science", "Clinical Therapist");
+      res += card("Neuroscience", "Researching the biology of the brain and human thought.", ["Brain imaging & Neural chemistry", "Medical research and discovery", "Understand the root of consciousness."], "Brain Biology", "Neuroscientist");
+    } else if(interest == "Cyber") {
+      res += card("Cyber Security Operations", "Protect global infrastructure from digital threats.", ["Ethical Hacking & Encryption", "Government-level security roles", "Essential for every digital bank."], "Network Security", "Ethical Hacker");
+      res += card("Blockchain Technology", "Developing secure, decentralized digital ledger systems.", ["Smart Contracts & Cryptography", "Future of secure transactions", "High-pay tech development roles."], "Cryptography", "Blockchain Developer");
     }
 
-    // Always give a general high-value recommendation
-    res += card("Digital Product Management", "The bridge between business, design, and tech for building apps and software.", ["Highest demand non-coding role in tech hubs.", "Lead teams to build world-changing products.", "Requires a mix of empathy and data skills."], "Market Analysis", "Product Manager");
-    res += card("Human-Computer Interaction (HCI)", "Designing how humans interact with future tech like VR and AR headsets.", ["Perfect for creative tech enthusiasts.", "Work at the edge of the Metaverse and spatial computing.", "Focus on psychology and visual design."], "UI/UX Psychology", "Experience Designer");
+    // Always append 2 bonus high-value 2026 roles
+    res += card("Digital Product Management", "Bridge between business, design, and coding teams.", ["Product lifecycle & Market data", "Highest demand non-coding tech role", "Corporate leadership career path."], "Leadership", "Product Manager");
+    res += card("Human-Computer Interaction (HCI)", "Designing how humans interact with future VR/AR headsets.", ["Experience design for the Metaverse", "Top design role at Meta, Apple, Google", "Focus on digital empathy."], "Interactive Design", "UX Architect");
 
     document.getElementById('result').innerHTML = res;
     window.scrollTo({ top: 0, behavior: 'smooth' });
