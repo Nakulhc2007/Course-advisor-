@@ -11,8 +11,8 @@
     --error: #ff4d4d;
     --bg: #080a0f;
     --card: rgba(255, 255, 255, 0.04);
-    --border: rgba(255, 255, 255, 0.12);
-    --glass: rgba(255, 255, 255, 0.03);
+    --border: rgba(255, 255, 255, 0.15);
+    --glass: rgba(255, 255, 255, 0.05);
   }
 
   body {
@@ -21,58 +21,60 @@
     color: #f1f3f4; min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px;
   }
 
-  .container { width: 100%; max-width: 900px; background: var(--card); backdrop-filter: blur(30px); border: 1px solid var(--border); border-radius: 35px; padding: 50px; box-shadow: 0 40px 100px rgba(0,0,0,0.5); }
-  h1 { text-align: center; font-weight: 800; font-size: 2.8rem; margin-bottom: 30px; letter-spacing: -2px; color: #fff; text-shadow: 0 0 20px rgba(0, 242, 255, 0.3); }
+  .container { width: 100%; max-width: 900px; background: var(--card); backdrop-filter: blur(40px); border: 1px solid var(--border); border-radius: 40px; padding: 50px; box-shadow: 0 40px 100px rgba(0,0,0,0.6); }
+  h1 { text-align: center; font-weight: 800; font-size: 3rem; margin-bottom: 30px; letter-spacing: -2px; color: #fff; }
 
-  .chat-box { background: rgba(0,0,0,0.4); border-radius: 20px; padding: 25px; margin-bottom: 35px; border: 1px solid var(--border); color: var(--accent); line-height: 1.6; font-size: 1.1rem; text-align: center; }
+  .chat-box { background: rgba(0,0,0,0.5); border-radius: 24px; padding: 30px; margin-bottom: 40px; border: 1px solid var(--border); color: var(--accent); line-height: 1.6; font-size: 1.15rem; text-align: center; border-left: 5px solid var(--accent); }
 
-  /* Stylish Name Input */
+  /* Fixed Input Spacing */
+  .marks-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin: 30px 0; }
+  .input-wrapper { display: flex; flex-direction: column; background: rgba(255,255,255,0.02); padding: 15px; border-radius: 20px; border: 1px solid var(--border); }
+  label { font-size: 0.75rem; color: #9aa0a6; margin-bottom: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; }
+
+  /* Stylish Inputs */
   #nameInp {
     width: 100%; padding: 25px; border-radius: 20px; border: 2px solid var(--border);
     background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
-    color: var(--accent); font-size: 1.5rem; text-align: center; font-weight: 600;
-    transition: 0.4s; letter-spacing: 1px;
+    color: var(--accent); font-size: 1.6rem; text-align: center; font-weight: 600; transition: 0.4s; box-sizing: border-box;
   }
-  #nameInp:focus { border-color: var(--accent); outline: none; box-shadow: 0 0 30px rgba(0, 242, 255, 0.2); background: rgba(255,255,255,0.08); }
+  #nameInp:focus { border-color: var(--accent); outline: none; box-shadow: 0 0 30px rgba(0, 242, 255, 0.2); }
 
-  .marks-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 25px 0; }
-  .input-wrapper { display: flex; flex-direction: column; }
-  label { font-size: 0.85rem; color: #9aa0a6; margin-bottom: 8px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+  input[type="number"], select { width: 100%; padding: 15px; border-radius: 12px; border: 1px solid var(--border); background: #12151c; color: white; font-size: 1rem; box-sizing: border-box; }
+  input:focus { border-color: var(--accent); outline: none; background: #1a1e26; }
 
-  input[type="number"], select { width: 100%; padding: 15px; border-radius: 12px; border: 1px solid var(--border); background: var(--glass); color: white; font-size: 1rem; }
-  input:focus, select:focus { border-color: var(--accent); outline: none; }
-
-  .btn { width: 100%; padding: 20px; margin-top: 25px; border-radius: 16px; border: none; background: #fff; color: #000; font-weight: 800; font-size: 1.1rem; cursor: pointer; transition: 0.3s; text-transform: uppercase; }
-  .btn:disabled { opacity: 0.1; cursor: not-allowed; }
-  .btn:hover:not(:disabled) { background: var(--accent); transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0, 242, 255, 0.3); }
+  .btn { width: 100%; padding: 22px; margin-top: 30px; border-radius: 20px; border: none; background: #fff; color: #000; font-weight: 800; font-size: 1.2rem; cursor: pointer; transition: 0.3s; }
+  .btn:hover:not(:disabled) { background: var(--accent); transform: scale(1.02); }
+  .btn:disabled { opacity: 0.2; }
 
   .step { display: none; }
-  .active { display: block; animation: fadeInUp 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards; }
+  .active { display: block; animation: fadeInUp 0.7s ease-out forwards; }
 
-  @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-  .status-msg { text-align: center; font-size: 0.9rem; margin-top: 15px; min-height: 20px; }
-  .fail { color: var(--error); font-weight: bold; }
+  .status-msg { text-align: center; font-size: 0.95rem; margin-top: 15px; font-weight: 500; }
+  .fail { color: var(--error); }
 
-  .course-card { background: rgba(255,255,255,0.03); margin-top: 25px; padding: 35px; border-radius: 25px; border: 1px solid var(--border); transition: 0.3s; }
-  .course-card:hover { border-color: var(--accent); background: rgba(255,255,255,0.05); }
-  .course-card h3 { color: var(--accent); margin: 0 0 15px 0; font-size: 1.6rem; display: flex; justify-content: space-between; align-items: center; }
-  .tag { font-size: 0.7rem; background: rgba(0, 242, 255, 0.1); color: var(--accent); padding: 6px 15px; border-radius: 50px; border: 1px solid var(--accent); }
-  .course-card p { line-height: 1.8; color: #cbd5e1; margin-bottom: 20px; font-size: 1rem; }
+  /* Detailed Course Cards */
+  .course-card { background: rgba(255,255,255,0.03); margin-top: 30px; padding: 40px; border-radius: 30px; border: 1px solid var(--border); }
+  .course-card h3 { color: var(--accent); margin: 0 0 20px 0; font-size: 1.8rem; border-bottom: 1px solid var(--border); padding-bottom: 15px; }
+  .course-card p { line-height: 1.8; color: #cbd5e1; font-size: 1.05rem; }
+  .course-card ul { color: #9aa0a6; padding-left: 20px; font-size: 0.95rem; }
+  .course-card ul li { margin-bottom: 10px; }
   
-  .meta-info { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; font-size: 0.9rem; border-top: 1px solid var(--border); padding-top: 20px; color: #fff; }
-  .meta-info strong { color: var(--accent); display: block; margin-bottom: 5px; font-size: 0.75rem; text-transform: uppercase; }
+  .meta-info { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 25px; padding-top: 25px; border-top: 1px solid var(--border); }
+  .meta-info div { background: rgba(0, 242, 255, 0.05); padding: 15px; border-radius: 15px; border: 1px solid rgba(0, 242, 255, 0.1); }
+  .meta-info strong { color: var(--accent); display: block; margin-bottom: 5px; font-size: 0.8rem; }
 </style>
 </head>
 <body>
 
 <div class="container">
   <h1 id="head">COURSE MATE</h1>
-  <div class="chat-box" id="botText">Personalized Career Intelligence. <br>Please enter your Full Name to begin.</div>
+  <div class="chat-box" id="botText">Welcome to the future of Career Planning. <br>Please enter your Full Name to begin your analysis.</div>
 
   <div id="step1" class="step active">
-    <input type="text" id="nameInp" placeholder="Type name here...">
-    <button class="btn" onclick="go2()">Analyze My Profile</button>
+    <input type="text" id="nameInp" placeholder="Your Name">
+    <button class="btn" onclick="go2()">Next Step</button>
   </div>
 
   <div id="step2" class="step">
@@ -81,41 +83,37 @@
       <div class="input-wrapper"><label>Chemistry (%)</label><input type="number" id="c" placeholder="35-100" oninput="validate()"></div>
       <div class="input-wrapper"><label>Mathematics (%)</label><input type="number" id="m" placeholder="35-100" oninput="validate()"></div>
       <div class="input-wrapper"><label>English (%)</label><input type="number" id="eng" placeholder="35-100" oninput="validate()"></div>
-      <div class="input-wrapper"><label>Language (Optional)</label>
-        <select id="langType"><option value="none">Select Language</option><option>Kannada</option><option>Telugu</option><option>Tamil</option><option>Hindi</option></select>
-        <input type="number" id="langMarks" placeholder="35-100" oninput="validate()" style="margin-top:5px">
+      <div class="input-wrapper"><label>Regional Language (%)</label>
+        <select id="langName" style="margin-bottom:10px"><option>Hindi</option><option>Kannada</option><option>Telugu</option><option>Tamil</option></select>
+        <input type="number" id="lang" placeholder="35-100" oninput="validate()">
       </div>
-      <div class="input-wrapper"><label>Biology (%)</label><input type="number" id="b" placeholder="35-100" oninput="validate()"></div>
+      <div class="input-wrapper"><label>Biology (%) (Optional)</label><input type="number" id="b" placeholder="0-100" oninput="validate()"></div>
     </div>
     <div id="status" class="status-msg"></div>
-    <button id="nextBtn" class="btn" onclick="go3()" disabled>Verify Marks & Proceed</button>
+    <button id="nextBtn" class="btn" onclick="go3()" disabled>Verify & Continue</button>
   </div>
 
   <div id="step3" class="step">
-    <label>Select your Interest Category:</label>
+    <label>What field interests you?</label>
     <select id="interest">
-      <option value="AI">Artificial Intelligence & Tech</option>
-      <option value="Med">Medicine & Healthcare</option>
-      <option value="Biz">Business, Finance & Startups</option>
-      <option value="Creative">Design, Media & Arts</option>
-      <option value="Sci">Research & Exploration</option>
-      <option value="Lang">Linguistics, Journalism & Literature</option>
+      <option value="AI">AI, Robotics & Software</option>
+      <option value="Med">Medicine & Life Sciences</option>
+      <option value="Biz">Business & Management</option>
+      <option value="Lang">Languages & Journalism</option>
+      <option value="Sci">Astro-Physics & Pure Science</option>
     </select>
-    <button class="btn" onclick="go4()">Next Step</button>
+    <button class="btn" onclick="go4()">Almost There</button>
   </div>
 
   <div id="step4" class="step">
-    <label>What is your ultimate Career Goal?</label>
+    <label>Pick your Career Ambition:</label>
     <select id="goal">
-      <option value="high">High Salary & Financial Freedom</option>
-      <option value="social">Social Impact & Service</option>
-      <option value="global">International Careers / Immigration</option>
-      <option value="innovation">Inventing New Technology</option>
-      <option value="govt">Stable Government Career</option>
-      <option value="media">Mass Media & Public Influence</option>
-      <option value="research">Academic Excellence / PhD</option>
+      <option value="high">High Salary & Luxury Lifestyle</option>
+      <option value="social">Helping Society & Philanthropy</option>
+      <option value="global">International Jobs (US/Europe/Dubai)</option>
+      <option value="innovation">Inventing Products & Startups</option>
     </select>
-    <button class="btn" onclick="finish()">Generate My Career Roadmap</button>
+    <button class="btn" onclick="finish()">Final Recommendation</button>
   </div>
 
   <div id="result"></div>
@@ -125,22 +123,21 @@
   let uName = "";
   
   function validate() {
-    const fields = ['p', 'c', 'm', 'eng'];
-    let allValid = true;
-    
-    fields.forEach(id => {
-      const val = parseFloat(document.getElementById(id).value);
-      if (isNaN(val) || val < 35 || val > 100) allValid = false;
-    });
-
-    const status = document.getElementById('status');
+    const p = parseFloat(document.getElementById('p').value);
+    const c = parseFloat(document.getElementById('c').value);
+    const m = parseFloat(document.getElementById('m').value);
+    const e = parseFloat(document.getElementById('eng').value);
     const btn = document.getElementById('nextBtn');
+    const status = document.getElementById('status');
 
-    if (allValid) {
-      status.innerText = "✓ Marks verified (Range 35-100)."; status.className = "status-msg";
+    const core = [p, c, m, e];
+    const isValid = core.every(num => num >= 35 && num <= 100);
+
+    if (isValid) {
+      status.innerText = "✓ Academic validation successful."; status.className = "status-msg";
       btn.disabled = false;
     } else {
-      status.innerText = "⚠ Each core subject (P, C, M, Eng) must be between 35 and 100.";
+      status.innerText = "⚠ Alert: All subjects must be between 35 and 100.";
       status.className = "status-msg fail";
       btn.disabled = true;
     }
@@ -149,32 +146,30 @@
   function go2() {
     uName = document.getElementById('nameInp').value;
     if(!uName) return;
-    document.getElementById('botText').innerHTML = `Hello <strong>${uName}</strong>, let's verify your academic standing.<br>Enter your 12th grade scores below:`;
+    document.getElementById('botText').innerHTML = `Hello <strong>${uName}</strong>. Let's record your scores.<br>Ensure each subject is at least 35%.`;
     document.getElementById('step1').classList.remove('active');
     document.getElementById('step2').classList.add('active');
   }
 
   function go3() {
-    document.getElementById('botText').innerText = "Academic profile recorded. Which industry sparks your curiosity?";
     document.getElementById('step2').classList.remove('active');
     document.getElementById('step3').classList.add('active');
   }
 
   function go4() {
-    document.getElementById('botText').innerText = "Final Step: Define your definition of success.";
     document.getElementById('step3').classList.remove('active');
     document.getElementById('step4').classList.add('active');
   }
 
-  function card(title, tag, desc, skill, job, info) {
+  function card(title, desc, points, skill, role) {
     return `
       <div class="course-card">
-        <h3>${title} <span class="tag">${tag}</span></h3>
+        <h3>${title}</h3>
         <p>${desc}</p>
-        <p style="font-size: 0.85rem; color: #888;">${info}</p>
+        <ul>${points.map(p => `<li>${p}</li>`).join('')}</ul>
         <div class="meta-info">
-          <div><strong>Core Skill to Master</strong>${skill}</div>
-          <div><strong>Target Career Role</strong>${job}</div>
+          <div><strong>Key Mastery</strong>${skill}</div>
+          <div><strong>Top Job Title</strong>${role}</div>
         </div>
       </div>
     `;
@@ -182,33 +177,41 @@
 
   function finish() {
     const interest = document.getElementById('interest').value;
-    const goalVal = document.getElementById('goal').value;
-    const goalText = document.getElementById('goal').options[document.getElementById('goal').selectedIndex].text;
-    
     document.getElementById('step4').style.display = "none";
-    document.getElementById('head').innerText = "Your Personalized Roadmap";
-    document.getElementById('botText').innerHTML = `Based on your <strong>Marks</strong>, <strong>Interest in ${interest}</strong>, and your career goal of <strong>"${goalText}"</strong>, I have suggested these high-potential courses for your future:`;
+    document.getElementById('head').innerText = "Personalized Roadmap";
+    document.getElementById('botText').innerHTML = `<strong>Analysis Complete!</strong><br>Based on your marks, interest in ${interest}, and your career goals, I recommend these 6 paths:`;
 
     let res = "";
-
     if(interest == "AI") {
-      res += card("B.Tech in Artificial Intelligence", "Most Recommended", "A deep-dive into how machines learn. You'll study Neural Networks, Deep Learning, and Computer Vision.", "Advanced Calculus & Python", "AI Research Scientist", "In 2026, AI Engineers are the most sought-after professionals globally with entry-level packages exceeding $100k in tech hubs.");
-      res += card("Data Science & Predictive Analytics", "High Salary", "Focuses on extracting patterns from massive datasets to predict future market trends.", "Statistics & Big Data", "Data Strategist", "This course bridges the gap between business and technology, making you indispensable to any Fortune 500 company.");
+      res += card("B.Tech in Artificial Intelligence", "The most powerful tech degree in 2026. This focuses on building 'thinking' machines and deep learning models.", ["Learn Neural Networks and Deep Learning.", "High demand in Tesla, Google, and OpenAI.", "Starting salaries are 40% higher than standard CSE."], "Python & Neural Logic", "AI Engineer");
+      res += card("Cloud Architecture & Security", "Every company is moving to the cloud. This course teaches you to build and protect massive digital infrastructures.", ["Master AWS, Azure, and Google Cloud.", "Includes Ethical Hacking and Network Defense.", "Essential for global banking and government data."], "Distributed Systems", "Cloud Solutions Architect");
+      res += card("Robotics & Automation", "A physical approach to AI. You'll build hardware that uses software to interact with the real world.", ["Focus on Sensors, IoT, and Mechatronics.", "Massive growth in Manufacturing and Healthcare.", "Work with humanoid robots and drones."], "Hardware-Software Integration", "Robotics Scientist");
+      res += card("Data Science & ML", "Turning raw data into business gold. Data scientists are the 'Modern Alchemists'.", ["Advanced Statistics and Predictive Modeling.", "Highest growth in Finance and E-commerce.", "Requires strong mathematical intuition."], "SQL & R-Language", "Chief Data Officer");
     } else if(interest == "Med") {
-      res += card("MBBS / MD (Clinical Medicine)", "Elite Path", "The gold standard for medical practice. Requires extreme dedication and 5.5 years of rigorous study.", "Anatomy & Clinical Diagnosis", "Surgeon / Specialist", "Beyond a degree, this is a lifelong commitment to human health. High social impact and global mobility.");
-      res += card("Genomic Medicine", "Future Tech", "The study of DNA to provide personalized healthcare and gene therapy.", "Molecular Biology", "Genetic Consultant", "As medicine moves toward 'Personalized Care', geneticists will be the ones designing specific cures for individuals.");
+      res += card("MBBS (Traditional Medicine)", "The standard path to becoming a licensed physician. 5.5 years of intensive training.", ["Anatomy, Surgery, and Pharmacology focus.", "High social status and job security.", "Foundation for specialization in Neurosurgery/Cardiology."], "Clinical Excellence", "Medical Doctor");
+      res += card("B.Sc Genetic Engineering", "The future of medicine. Editing DNA to cure diseases before they happen.", ["CRISPR technology and molecular biology.", "Prime research opportunities in Europe/USA.", "Work on curing hereditary conditions."], "Bio-informatics", "Geneticist");
+      res += card("B.Pharm (Drug Research)", "The business of healing. Researching and manufacturing the next generation of vaccines.", ["Chemical compositions and Lab testing.", "Huge industry growth post-pandemic.", "Focus on drug discovery and clinical trials."], "Medicinal Chemistry", "Pharmacologist");
+      res += card("Bio-Medical Engineering", "Creating artificial organs and medical machines (MRI, X-ray, Pacemakers).", ["Hybrid of Engineering and Biology.", "Designing life-saving medical devices.", "Work in high-end hospital tech labs."], "Medical Device Design", "Biomedical Engineer");
     } else if(interest == "Biz") {
-      res += card("FinTech Management", "High Growth", "Combines traditional finance with blockchain and digital banking systems.", "Algorithmic Trading", "FinTech Product Manager", "Perfect for those who want to lead the 'Cashless' revolution. High demand in global financial centers like Singapore and London.");
-      res += card("Global Entrepreneurship", "Innovation", "Focuses on scaling startups from ideation to IPO (Initial Public Offering).", "Venture Capital & Strategy", "Founder / CEO", "Includes training on fundraising, lean methodology, and international market expansion.");
+        res += card("FinTech Management", "Traditional MBA is evolving. This focus is on digital currency, blockchain, and global finance.", ["Focus on Crypto, Banking APIs, and Digital Assets.", "Highest paying business role in 2026.", "Ideal for London/Wall Street careers."], "Financial Modeling", "FinTech Consultant");
+        res += card("Digital Marketing & Growth", "The psychology of sales in the digital age. Learn how to scale a business to millions.", ["SEO, Content Strategy, and Viral Marketing.", "Work remotely from anywhere in the world.", "Perfect for potential startup founders."], "Consumer Psychology", "Growth Hacker");
+        res += card("Supply Chain & Logistics", "Managing the global flow of goods (Amazon, FedEx, DHL).", ["Logistics, Warehouse Automation, and Shipping.", "Vital for global trade and e-commerce.", "High demand for international managers."], "Operations Logic", "Logistics Director");
+        res += card("Chartered Accountancy (CA)", "The backbone of corporate law and finance. A prestigious and highly stable path.", ["Taxation, Auditing, and Corporate Finance.", "Highest authority in financial audits.", "Can work independently or for Big-4 firms."], "Indian Tax Law", "Chartered Accountant");
     } else if(interest == "Lang") {
-        res += card("Digital Journalism & PR", "Media Goal", "Mastering communication across digital platforms, podcasts, and social media news.", "Storytelling & Ethics", "Communications Director", "In the age of information, the ability to craft compelling, truthful narratives is a high-value skill.");
-        res += card("Applied Linguistics & AI Training", "Innovative", "Teaching AI models to understand human languages (NLP).", "Semantics & Logic", "NLP Specialist", "A unique intersection for language lovers who want to work in the tech industry.");
+        res += card("Applied Linguistics & AI", "Teaching AI to speak human languages. A huge field in Tech for language lovers.", ["NLP (Natural Language Processing) focus.", "High pay in Big Tech (Google Translate/Siri).", "Bridge between literature and code."], "Semantic Logic", "NLP Specialist");
+        res += card("Digital Journalism & Media", "Modern storytelling through podcasts, video documentaries, and social news.", ["Video Editing, Script Writing, and Ethics.", "Opportunity for high public influence.", "Global career as a foreign correspondent."], "Storytelling", "Executive Editor");
+        res += card("Foreign Language Specialist", "Mastering German, Japanese, or French for high-level diplomatic and corporate roles.", ["Diplomatic relations and Translation.", "Work for Embassies or Global MNCs.", "High demand for translators in Tech and Law."], "Fluency & Culture", "Diplomatic Liaison");
+        res += card("Mass Communication", "Managing public perception for celebrities and billion-dollar brands.", ["PR, Crisis Management, and Branding.", "Work in the Entertainment and Politics industries.", "High-paced lifestyle with networking."], "Public Relations", "Brand Manager");
     } else {
-        res += card("Interdisciplinary Research", "Top Tier", "A flexible path allowing you to combine Science with Arts or Tech for unique discoveries.", "Critical Thinking", "Academic Researcher", "Best for those aiming for PhDs at Ivy League or top global universities.");
+        res += card("Astrophysics & Space Research", "For those who look at the stars. Study the universe, black holes, and planets.", ["Quantum Physics and Relativity.", "Work with ISRO, NASA, or SpaceX.", "Purely research-oriented high-intellect path."], "Advanced Physics", "Space Scientist");
+        res += card("Marine Biology", "Discovering the mysteries of the deep ocean. More of the moon is mapped than the ocean floor.", ["Oceanography and Marine Ecology.", "Conservation and Discovery of new species.", "Requires travel and deep-sea exploration."], "Field Research", "Marine Biologist");
+        res += card("Theoretical Physics", "Finding the 'Theory of Everything'. Research at the atomic level.", ["Particle Physics and String Theory.", "Work in labs like CERN (Switzerland).", "Highest level of academic achievement."], "Mathematics", "Research Scientist");
+        res += card("Geology & Resource Management", "Finding Earth's hidden resources like Lithium (for batteries) and Gold.", ["Mineralogy and Plate Tectonics.", "Essential for the Green Energy revolution.", "Stable government and mining jobs."], "Field Surveying", "Geologist");
     }
 
-    // Generic high-value additions
-    res += card("Cyber Security & Ethical Hacking", "Security", "Protecting the world's digital assets from sophisticated cyber threats.", "Network Security", "CISO (Chief Security Officer)", "With the rise of digital warfare, security experts are now more valuable than developers.");
+    // Two bonus general high-value suggestions for 2026
+    res += card("Cyber Security Operations", "Defending the world from digital wars. Every country needs a cyber-army.", ["Ethical Hacking and Cryptography.", "Government-level job security.", "Highly critical and high-pay role."], "Network Security", "Security Architect");
+    res += card("Sustainability & Green Energy", "Designing solar, wind, and hydrogen systems to save the planet.", ["Climate Science and Renewable Tech.", "Fastest growing sector in the energy industry.", "Prime for global innovation awards."], "Energy Engineering", "Sustainability Advisor");
 
     document.getElementById('result').innerHTML = res;
     window.scrollTo({ top: 0, behavior: 'smooth' });
