@@ -73,7 +73,7 @@
     .info-content li { margin-bottom: 8px; }
     .info-badge { display: inline-block; background: rgba(0, 242, 255, 0.15); color: var(--accent); padding: 4px 12px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; margin: 5px 5px 5px 0; }
     
-    .close-info { margin-top: 20px; width: 100%; background: rgba(255, 255, 255, 0.1); color: white; border: 1px solid var(--border); padding: 10px; border-radius: 10px; cursor: pointer; font-weight: 600; }
+    .close-info { margin-top: 20px; width: 100%; background: rgba(255, 255, 255, 0.1); color: white; border: 1px solid var(--border); padding: 12px; border-radius: 12px; cursor: pointer; font-weight: 600; transition: 0.3s; }
     .close-info:hover { background: rgba(255, 255, 255, 0.2); }
   </style>
 </head>
@@ -212,25 +212,30 @@
   <script src="https://unpkg.com/brain.js@2.0.0-beta.2/dist/brain-browser.min.js"></script>
   <script>
     let userName = "";
-    const botText = document.getElementById('botText');
     const steps = ['step1', 'step2', 'step3', 'step4'];
-    let currentIdx = 0;
+    let currentStep = 0;
 
+    // Fixed step switching logic
     function moveStep(next) {
-      document.getElementById(steps[currentIdx]).classList.remove('active');
-      currentIdx = next;
-      document.getElementById(steps[currentIdx]).classList.add('active');
+      document.getElementById(steps[currentStep]).classList.remove('active');
+      currentStep = next;
+      document.getElementById(steps[currentStep]).classList.add('active');
     }
 
-    document.getElementById('step1Next').onclick = () => {
+    // Step 1 Click
+    document.getElementById('step1Next').onclick = function() {
       userName = document.getElementById('nameInp').value.trim();
-      if(userName === "") return alert("Please type something for your name.");
-      botText.innerHTML = `Hi ${userName}! <br>Enter your 12th grade academic scores.`;
+      if(userName === "") {
+        alert("Please enter a name.");
+        return;
+      }
+      document.getElementById('botText').innerHTML = `Hi ${userName}! <br>Now, please enter your Academic Marks.`;
       moveStep(1);
     };
 
-    const ids = ['p', 'c', 'm', 'eng', 'lang', 'b'];
-    const validate = () => {
+    // Marks Validation
+    const markIds = ['p', 'c', 'm', 'eng', 'lang', 'b'];
+    function validateMarks() {
       const coreReady = ['p', 'c', 'm', 'eng'].every(id => {
         let v = parseInt(document.getElementById(id).value);
         return !isNaN(v) && v >= 35 && v <= 100;
@@ -238,26 +243,29 @@
       const optReady = ['lang', 'b'].every(id => {
         let v = document.getElementById(id).value;
         if(v === "") return true;
-        return parseInt(v) >= 35 && parseInt(v) <= 100;
+        let val = parseInt(v);
+        return !isNaN(val) && val >= 35 && val <= 100;
       });
-      const valid = coreReady && optReady;
-      document.getElementById('nextBtn').disabled = !valid;
-      // UPDATED MESSAGE AS REQUESTED
-      document.getElementById('status').innerText = valid ? "✅ Marks Verified" : "❌ All subject marks must be between 35-100";
-      document.getElementById('status').className = valid ? "status-msg" : "status-msg fail";
-    };
-    ids.forEach(id => document.getElementById(id).oninput = validate);
+      const allValid = coreReady && optReady;
+      document.getElementById('nextBtn').disabled = !allValid;
+      document.getElementById('status').innerText = allValid ? "✅ Marks Verified" : "❌ All subject marks must be between 35-100";
+      document.getElementById('status').className = allValid ? "status-msg" : "status-msg fail";
+    }
+    markIds.forEach(id => document.getElementById(id).oninput = validateMarks);
 
-    document.getElementById('nextBtn').onclick = () => {
-      botText.innerText = "Select the field that excites you most.";
+    // Step 2 Click
+    document.getElementById('nextBtn').onclick = function() {
+      document.getElementById('botText').innerText = "Select the field that excites you most.";
       moveStep(2);
     };
 
-    document.getElementById('step3Next').onclick = () => {
-      botText.innerText = "Define your ultimate career objective.";
+    // Step 3 Click
+    document.getElementById('step3Next').onclick = function() {
+      document.getElementById('botText').innerText = "Define your ultimate career objective.";
       moveStep(3);
     };
 
+    // AI Logic and Course Data
     const net = new brain.NeuralNetwork({ hiddenLayers: [12] });
     net.train([
       { input: { AI: 1, startup: 1 }, output: { btechAI: 1, dataSci: 0.8, productMgmt: 0.6, robotics: 0.4 } },
@@ -286,20 +294,37 @@
       productMgmt: { name: "Strategic Product Management", desc: "Managing the lifecycle of a tech product from idea to user growth.", path: "CPO, Project Director", outlook: "Highly lucrative non-coding leadership role.", skills: "Agile, User Research, Strategy" }
     };
 
-    document.getElementById('finishBtn').onclick = () => {
+    document.getElementById('finishBtn').onclick = function() {
       const input = {};
       input[document.getElementById('interest').value] = 1;
       input[document.getElementById('goal').value] = 1;
       const output = net.run(input);
       const top4 = Object.keys(output).sort((a,b) => output[b] - output[a]).slice(0, 4);
-      botText.innerHTML = `AI Roadmap Complete for ${userName}!`;
-      document.getElementById('step4').classList.remove('active');
+      document.getElementById('botText').innerHTML = `AI Roadmap Complete for ${userName}!`;
+      document.getElementById(steps[3]).classList.remove('active');
       let html = "";
       top4.forEach(key => {
-        const c = courseDb[key] || courseDb.btechAI;
+        const c = courseDb[key] || coursDb.btechAI;
         html += `<div class="course-card">
             <h3>${c.name}</h3>
             <p>${c.desc}</p>
             <p><small style="color:var(--accent)"><strong>INDUSTRY OUTLOOK:</strong> ${c.outlook}</small></p>
             <div class="meta-info">
-            
+              <div><strong>CAREER ROLE</strong>${c.path}</div>
+              <div><strong>KEY SKILLS</strong>${c.skills}</div>
+              <div><strong>MATCH SCORE</strong>${Math.round(output[key]*100)}%</div>
+              <div><strong>DEMAND</strong>High</div>
+            </div>
+          </div>`;
+      });
+      document.getElementById('result').innerHTML = html + `<button class="btn" onclick="location.reload()">Start New Session</button>`;
+    };
+
+    // Toggle Info Logic
+    function toggleInfo() {
+      const content = document.getElementById('infoContent');
+      content.classList.toggle('active');
+    }
+  </script>
+</body>
+</html>
