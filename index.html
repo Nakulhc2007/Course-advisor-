@@ -150,74 +150,118 @@
         <h4>🤖 AI Technology Used</h4>
         <p>
           This website uses <span class="info-badge">brain.js</span> - a JavaScript neural network library running directly in your browser.
-          The AI model is a <strong>Neural Network</strong> with:
         </p>
         <ul>
-          <li><strong>Architecture:</strong> Feedforward Neural Network with 1 hidden layer (12 neurons)</li>
-          <li><strong>Training:</strong> Trained on 4,500 iterations with learning rate 0.15</li>
-          <li><strong>Input Features:</strong> Academic marks (Physics, Chemistry, Math, English, Biology), Interest category, and Career goals</li>
-          <li><strong>Output:</strong> Personalized course recommendations based on your profile</li>
-          <li><strong>Processing:</strong> All AI computation happens locally in your browser (no data sent to servers)</li>
+          <li><strong>Architecture:</strong> Feedforward Neural Network</li>
+          <li><strong>Input Features:</strong> Academic marks, Interest category, and Career goals</li>
+          <li><strong>Processing:</strong> Local browser-based inference</li>
         </ul>
-
-        <h4>📚 Course Database</h4>
-        <p>
-          Our system has access to <strong>12 professional courses</strong> across various fields:
-        </p>
-        <ul>
-          <li>AI & Data Science (2 courses)</li>
-          <li>Medicine & Healthcare (2 courses)</li>
-          <li>Business & Finance (2 courses)</li>
-          <li>Cybersecurity (1 course)</li>
-          <li>Space & Physics (1 course)</li>
-          <li>Design & Creative (2 courses)</li>
-          <li>Green Energy (1 course)</li>
-          <li>Product Management (1 course)</li>
-        </ul>
-        <p><strong>The AI suggests your top 3 most suitable courses</strong> based on your academic performance, interests, and career aspirations.</p>
-
-        <h4>📖 How to Use</h4>
-        <ol>
-          <li><strong>Step 1:</strong> Enter your full name to personalize your experience</li>
-          <li><strong>Step 2:</strong> Input your 12th grade marks:
-            <ul>
-              <li><strong>Required:</strong> Physics, Chemistry, Mathematics, and English (all between 35-100%)</li>
-              <li><strong>Optional:</strong> Language subject and Biology (if applicable)</li>
-            </ul>
-          </li>
-          <li><strong>Step 3:</strong> Select your primary interest category from 10 available options</li>
-          <li><strong>Step 4:</strong> Choose your ultimate career goal from 10 different paths</li>
-          <li><strong>Result:</strong> The AI analyzes your profile and displays your top 3 recommended courses with detailed information</li>
-        </ol>
-
-        <h4>💡 Tips for Best Results</h4>
-        <ul>
-          <li>Enter accurate marks for better recommendations</li>
-          <li>Be honest about your interests and career goals</li>
-          <li>The AI considers multiple factors: academic strength, subject preferences, and long-term aspirations</li>
-          <li>You can refresh and try different combinations to explore various career paths</li>
-        </ul>
-
-        <p style="margin-top: 20px; text-align: center; color: var(--accent); font-weight: 600;">
-          Powered by brain.js Neural Network | Course Selection Advisor 2026
-        </p>
       </div>
     </div>
   </div>
 
-  <!-- brain.js CDN -->
   <script src="https://unpkg.com/brain.js@2.0.0-beta.2/dist/brain-browser.min.js"></script>
-  <!-- App logic and rendering -->
-  <script src="./results.js"></script>
-  <script src="./logic.js"></script>
   <script>
+    // --- APP LOGIC ---
+    let userName = "";
+    const botText = document.getElementById('botText');
+    const steps = ['step1', 'step2', 'step3', 'step4'];
+    let currentStepIndex = 0;
+
+    function showStep(index) {
+      document.getElementById(steps[currentStepIndex]).classList.remove('active');
+      currentStepIndex = index;
+      document.getElementById(steps[currentStepIndex]).classList.add('active');
+    }
+
+    // Step 1: Name Input
+    document.getElementById('step1Next').onclick = () => {
+      userName = document.getElementById('nameInp').value.trim();
+      if(userName === "") {
+        botText.innerHTML = "<span style='color:var(--error)'>Please enter your name to proceed.</span>";
+      } else {
+        botText.innerHTML = `Welcome ${userName}! <br>Enter your 12th Grade performance details.`;
+        showStep(1);
+      }
+    };
+
+    // Step 2: Marks Validation
+    const markInputs = ['p', 'c', 'm', 'eng'];
+    const validate = () => {
+      const allValid = markInputs.every(id => {
+        const val = parseInt(document.getElementById(id).value);
+        return !isNaN(val) && val >= 35 && val <= 100;
+      });
+      document.getElementById('nextBtn').disabled = !allValid;
+      document.getElementById('status').innerText = allValid ? "Criteria Met ✅" : "Core subjects must be 35-100%";
+      document.getElementById('status').className = allValid ? "status-msg" : "status-msg fail";
+    };
+    markInputs.forEach(id => document.getElementById(id).oninput = validate);
+
+    document.getElementById('nextBtn').onclick = () => {
+      botText.innerHTML = "What subjects or fields fascinate you the most?";
+      showStep(2);
+    };
+
+    // Step 3: Interest
+    document.getElementById('step3Next').onclick = () => {
+      botText.innerHTML = "One last thing: What is your ultimate career vision?";
+      showStep(3);
+    };
+
+    // --- AI LOGIC (The Brain) ---
+    const net = new brain.NeuralNetwork();
+    
+    // Simple training data for demonstration
+    net.train([
+      { input: { AI: 1, high: 1 }, output: { btechAI: 1 } },
+      { input: { Med: 1, social: 1 }, output: { mbbs: 1 } },
+      { input: { Biz: 1, startup: 1 }, output: { bba: 1 } },
+      { input: { Cyber: 1, security: 1 }, output: { cyberSec: 1 } },
+      { input: { Space: 1, research: 1 }, output: { astro: 1 } },
+      { input: { Creative: 1, freedom: 1 }, output: { design: 1 } }
+    ]);
+
+    const courseData = {
+      btechAI: { name: "B.Tech in AI & Data Science", desc: "Focus on machine learning, neural networks, and big data.", path: "Data Scientist, AI Engineer" },
+      mbbs: { name: "MBBS / Clinical Surgery", desc: "The standard path for medical professionals and surgeons.", path: "Specialist Doctor, Surgeon" },
+      bba: { name: "BBA in Entrepreneurship", desc: "Learn to build businesses, manage finance, and scale startups.", path: "CEO, Founder, Venture Capitalist" },
+      cyberSec: { name: "B.Sc Cybersecurity & Ethics", desc: "Protecting digital infrastructure and ethical hacking.", path: "Security Analyst, CISO" },
+      astro: { name: "B.Sc Astrophysics", desc: "Studying the universe, planetary physics, and space tech.", path: "Space Researcher, NASA/ISRO Scientist" },
+      design: { name: "B.Des in UI/UX Design", desc: "Combining art with technology to create digital products.", path: "Product Designer, Creative Director" }
+    };
+
+    document.getElementById('finishBtn').onclick = () => {
+      const interest = document.getElementById('interest').value;
+      const goal = document.getElementById('goal').value;
+      
+      const inputObj = {};
+      inputObj[interest] = 1;
+      inputObj[goal] = 1;
+
+      const output = net.run(inputObj);
+      const topCourseKey = Object.keys(output).reduce((a, b) => output[a] > output[b] ? a : b);
+      const recommendation = courseData[topCourseKey] || courseData.btechAI;
+
+      botText.innerHTML = `Roadmap Generated for ${userName}!`;
+      document.getElementById('step4').classList.remove('active');
+      
+      document.getElementById('result').innerHTML = `
+        <div class="course-card">
+          <h3>${recommendation.name}</h3>
+          <p>${recommendation.desc}</p>
+          <div class="meta-info">
+            <div><strong>CAREER PATH</strong>${recommendation.path}</div>
+            <div><strong>AI CONFIDENCE</strong>${Math.round(output[topCourseKey] * 100)}%</div>
+          </div>
+          <button class="btn" onclick="location.reload()">Start Over</button>
+        </div>
+      `;
+    };
+
     function toggleInfo() {
       const content = document.getElementById('infoContent');
-      const toggle = document.getElementById('infoToggle');
       content.classList.toggle('active');
-      toggle.textContent = content.classList.contains('active') 
-        ? '✕ Close Information' 
-        : 'ℹ️ About This Website';
     }
   </script>
 </body>
