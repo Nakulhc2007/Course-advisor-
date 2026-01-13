@@ -72,6 +72,9 @@
     .info-content ul { padding-left: 25px; }
     .info-content li { margin-bottom: 8px; }
     .info-badge { display: inline-block; background: rgba(0, 242, 255, 0.15); color: var(--accent); padding: 4px 12px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; margin: 5px 5px 5px 0; }
+    
+    .close-info { margin-top: 20px; width: 100%; background: rgba(255, 255, 255, 0.1); color: white; border: 1px solid var(--border); padding: 10px; border-radius: 10px; cursor: pointer; font-weight: 600; }
+    .close-info:hover { background: rgba(255, 255, 255, 0.2); }
   </style>
 </head>
 <body>
@@ -201,14 +204,15 @@
         <p style="margin-top: 20px; text-align: center; color: var(--accent); font-weight: 600;">
           Powered by brain.js Neural Network | Course Selection Advisor 2026
         </p>
+        <button class="close-info" onclick="toggleInfo()">✕ Close Information</button>
       </div>
     </div>
   </div>
 
   <script src="https://unpkg.com/brain.js@2.0.0-beta.2/dist/brain-browser.min.js"></script>
   <script>
-    // --- NAVIGATION ---
     let userName = "";
+    const botText = document.getElementById('botText');
     const steps = ['step1', 'step2', 'step3', 'step4'];
     let currentIdx = 0;
 
@@ -218,15 +222,13 @@
       document.getElementById(steps[currentIdx]).classList.add('active');
     }
 
-    // UPDATED: Name validation accepts any length (even single char)
     document.getElementById('step1Next').onclick = () => {
       userName = document.getElementById('nameInp').value.trim();
       if(userName === "") return alert("Please type something for your name.");
-      document.getElementById('botText').innerHTML = `Hi ${userName}! <br>Enter your 12th grade academic scores.`;
+      botText.innerHTML = `Hi ${userName}! <br>Enter your 12th grade academic scores.`;
       moveStep(1);
     };
 
-    // --- MARKS VALIDATION (35-100) ---
     const ids = ['p', 'c', 'm', 'eng', 'lang', 'b'];
     const validate = () => {
       const coreReady = ['p', 'c', 'm', 'eng'].every(id => {
@@ -240,22 +242,22 @@
       });
       const valid = coreReady && optReady;
       document.getElementById('nextBtn').disabled = !valid;
-      document.getElementById('status').innerText = valid ? "✅ Marks Verified" : "❌ Core subjects must be 35-100";
+      // UPDATED MESSAGE AS REQUESTED
+      document.getElementById('status').innerText = valid ? "✅ Marks Verified" : "❌ All subject marks must be between 35-100";
       document.getElementById('status').className = valid ? "status-msg" : "status-msg fail";
     };
     ids.forEach(id => document.getElementById(id).oninput = validate);
 
     document.getElementById('nextBtn').onclick = () => {
-      document.getElementById('botText').innerText = "Select the field that excites you most.";
+      botText.innerText = "Select the field that excites you most.";
       moveStep(2);
     };
 
     document.getElementById('step3Next').onclick = () => {
-      document.getElementById('botText').innerText = "Define your ultimate career objective.";
+      botText.innerText = "Define your ultimate career objective.";
       moveStep(3);
     };
 
-    // --- AI ENGINE & DETAILED DATA ---
     const net = new brain.NeuralNetwork({ hiddenLayers: [12] });
     net.train([
       { input: { AI: 1, startup: 1 }, output: { btechAI: 1, dataSci: 0.8, productMgmt: 0.6, robotics: 0.4 } },
@@ -270,127 +272,41 @@
     ]);
 
     const courseDb = {
-      btechAI: { 
-        name: "B.Tech Artificial Intelligence & ML", 
-        desc: "Deep dive into neural networks, computer vision, and autonomous systems.", 
-        path: "AI Scientist, Automation Specialist", 
-        outlook: "The fastest growing tech sector globally with massive demand in Silicon Valley.",
-        skills: "Python, Calculus, Deep Learning, PyTorch" 
-      },
-      dataSci: { 
-        name: "B.Sc Data Science & Big Data", 
-        desc: "Master the art of extracting predictive insights from massive global datasets.", 
-        path: "Big Data Architect, Business Lead", 
-        outlook: "High demand across finance, healthcare, and retail sectors.",
-        skills: "Statistics, R, SQL, Predictive Modeling"
-      },
-      mbbs: { 
-        name: "MBBS / Specialized Surgery", 
-        desc: "Comprehensive clinical training focused on high-stakes medical intervention.", 
-        path: "Medical Consultant, Surgeon", 
-        outlook: "Essential profession with extreme job security and high social prestige.",
-        skills: "Anatomy, Clinical Diagnosis, Patient Care"
-      },
-      genetics: { 
-        name: "B.Sc Medical Genetics & CRISPR", 
-        desc: "Study of hereditary medicine and advanced gene-editing technologies.", 
-        path: "Genetic Counselor, Lab Researcher", 
-        outlook: "Personalized medicine is the future of the healthcare industry.",
-        skills: "DNA Sequencing, Molecular Biology, Ethics"
-      },
-      fintech: { 
-        name: "BBA in FinTech & Blockchain", 
-        desc: "Bridge the gap between traditional banking and decentralized software.", 
-        path: "Asset Manager, Crypto Consultant", 
-        outlook: "Banks are rapidly shifting to digital-first models.",
-        skills: "Finance Theory, Blockchain, API Integration"
-      },
-      astrophysics: { 
-        name: "B.Sc Astrophysics & Space Science", 
-        desc: "The study of planetary orbits, cosmic radiation, and stellar mechanics.", 
-        path: "Satellite Engineer, Space Researcher", 
-        outlook: "Booming private space sector (SpaceX, Blue Origin) needs experts.",
-        skills: "Quantum Physics, Optics, Simulation Software"
-      },
-      cyberSec: { 
-        name: "B.Tech Cybersecurity & Ethics", 
-        desc: "Protection of national digital assets and advanced threat hunting.", 
-        path: "SOC Analyst, Pentester", 
-        outlook: "Critical for national security and corporate data protection.",
-        skills: "Networking, Cryptography, Linux, Malware Analysis"
-      },
-      uiux: { 
-        name: "B.Des Digital Product Design", 
-        desc: "Focus on human-centered design for apps, VR, and web systems.", 
-        path: "Product Designer, UX Architect", 
-        outlook: "Essential for any tech company aiming for market dominance.",
-        skills: "Figma, User Psychology, Prototyping"
-      },
-      renewableEng: { 
-        name: "Sustainable Energy Engineering", 
-        desc: "Designing infrastructure for solar, wind, and green hydrogen power.", 
-        path: "Sustainability Consultant, Grid Engineer", 
-        outlook: "Global push for Net Zero emissions creates 10M+ new jobs.",
-        skills: "Thermodynamics, Electrical Grids, Environmental Law"
-      },
-      agriTech: { 
-        name: "B.Sc Modern Agriculture (IoT)", 
-        desc: "Using sensors, drones, and AI to optimize global food production.", 
-        path: "Agri-Analyst, Farm Founder", 
-        outlook: "Food security is a top priority for governments in 2026.",
-        skills: "Precision Farming, Soil Chemistry, IoT Hardware"
-      },
-      journalism: { 
-        name: "BA Digital Journalism & Media", 
-        desc: "Modern storytelling using video, audio, and investigative techniques.", 
-        path: "Content Lead, Media Entrepreneur", 
-        outlook: "Influencer economy and digital news need credible creators.",
-        skills: "SEO, Video Editing, Public Relations"
-      },
-      productMgmt: { 
-        name: "Strategic Product Management", 
-        desc: "Managing the lifecycle of a tech product from idea to billions of users.", 
-        path: "CPO, Project Director", 
-        outlook: "The 'Mini-CEO' role is the most lucrative non-coding tech job.",
-        skills: "Agile, User Research, Business Strategy"
-      }
+      btechAI: { name: "B.Tech Artificial Intelligence & ML", desc: "Deep dive into neural networks, computer vision, and autonomous systems.", path: "AI Scientist, Automation Specialist", outlook: "Fastest growing tech sector globally.", skills: "Python, Calculus, Deep Learning" },
+      dataSci: { name: "B.Sc Data Science & Big Data", desc: "Master the art of extracting predictive insights from massive global datasets.", path: "Big Data Architect, Business Lead", outlook: "High demand across finance and healthcare.", skills: "Statistics, SQL, Predictive Modeling" },
+      mbbs: { name: "MBBS / Specialized Surgery", desc: "Comprehensive clinical training focused on high-stakes medical intervention.", path: "Medical Consultant, Surgeon", outlook: "Extreme job security and high social prestige.", skills: "Anatomy, Diagnosis, Patient Care" },
+      genetics: { name: "B.Sc Medical Genetics & CRISPR", desc: "Study of hereditary medicine and advanced gene-editing technologies.", path: "Genetic Counselor, Lab Researcher", outlook: "Personalized medicine is the industry's future.", skills: "DNA Sequencing, Molecular Biology" },
+      fintech: { name: "BBA in FinTech & Blockchain", desc: "Bridge the gap between traditional banking and decentralized software.", path: "Asset Manager, Crypto Consultant", outlook: "Banks are shifting to digital-first models.", skills: "Finance Theory, Blockchain, APIs" },
+      astrophysics: { name: "B.Sc Astrophysics & Space Science", desc: "The study of planetary orbits, cosmic radiation, and stellar mechanics.", path: "Satellite Engineer, Space Researcher", outlook: "Booming private space sector (SpaceX, ISRO).", skills: "Quantum Physics, Simulation Software" },
+      cyberSec: { name: "B.Tech Cybersecurity & Ethics", desc: "Protection of national digital assets and advanced threat hunting.", path: "SOC Analyst, Pentester", outlook: "Critical for national security and corporate safety.", skills: "Cryptography, Linux, Malware Analysis" },
+      uiux: { name: "B.Des Digital Product Design", desc: "Focus on human-centered design for apps, VR, and web systems.", path: "Product Designer, UX Architect", outlook: "Essential for tech market dominance.", skills: "Figma, User Psychology, Prototyping" },
+      renewableEng: { name: "Sustainable Energy Engineering", desc: "Designing infrastructure for solar, wind, and green hydrogen power.", path: "Sustainability Consultant, Grid Engineer", outlook: "Global push for Net Zero creates millions of jobs.", skills: "Thermodynamics, Electrical Grids" },
+      agriTech: { name: "B.Sc Modern Agriculture (IoT)", desc: "Using sensors, drones, and AI to optimize global food production.", path: "Agri-Analyst, Farm Founder", outlook: "Food security is a top government priority.", skills: "Precision Farming, IoT Hardware" },
+      journalism: { name: "BA Digital Journalism & Media", desc: "Modern storytelling using video, audio, and investigative techniques.", path: "Content Lead, Media Entrepreneur", outlook: "Digital news economy needs credible creators.", skills: "SEO, Video Editing, PR" },
+      productMgmt: { name: "Strategic Product Management", desc: "Managing the lifecycle of a tech product from idea to user growth.", path: "CPO, Project Director", outlook: "Highly lucrative non-coding leadership role.", skills: "Agile, User Research, Strategy" }
     };
 
     document.getElementById('finishBtn').onclick = () => {
       const input = {};
       input[document.getElementById('interest').value] = 1;
       input[document.getElementById('goal').value] = 1;
-
       const output = net.run(input);
       const top4 = Object.keys(output).sort((a,b) => output[b] - output[a]).slice(0, 4);
-
-      document.getElementById('botText').innerHTML = `AI Roadmap Complete for ${userName}!`;
+      botText.innerHTML = `AI Roadmap Complete for ${userName}!`;
       document.getElementById('step4').classList.remove('active');
-
       let html = "";
       top4.forEach(key => {
         const c = courseDb[key] || courseDb.btechAI;
-        html += `
-          <div class="course-card">
+        html += `<div class="course-card">
             <h3>${c.name}</h3>
             <p>${c.desc}</p>
             <p><small style="color:var(--accent)"><strong>INDUSTRY OUTLOOK:</strong> ${c.outlook}</small></p>
             <div class="meta-info">
-              <div><strong>CAREER ROLE</strong>${c.path}</div>
+            <div><strong>CAREER ROLE</strong>${c.path}</div>
               <div><strong>KEY SKILLS</strong>${c.skills}</div>
               <div><strong>MATCH SCORE</strong>${Math.round(output[key]*100)}%</div>
               <div><strong>DEMAND</strong>High</div>
             </div>
-          </div>
-        `;
+          </div>`;
       });
-      document.getElementById('result').innerHTML = html + `<button class="btn" onclick="location.reload()">Start New Session</button>`;
-    };
-
-    function toggleInfo() {
-      const content = document.getElementById('infoContent');
-      content.classList.toggle('active');
-    }
-  </script>
-</body>
-</html>
+            
