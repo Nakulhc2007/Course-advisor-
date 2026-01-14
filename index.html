@@ -215,14 +215,12 @@
     const steps = ['step1', 'step2', 'step3', 'step4'];
     let currentStep = 0;
 
-    // Fixed step switching logic
     function moveStep(next) {
       document.getElementById(steps[currentStep]).classList.remove('active');
       currentStep = next;
       document.getElementById(steps[currentStep]).classList.add('active');
     }
 
-    // Step 1 Click
     document.getElementById('step1Next').onclick = function() {
       userName = document.getElementById('nameInp').value.trim();
       if(userName === "") {
@@ -233,7 +231,6 @@
       moveStep(1);
     };
 
-    // Marks Validation
     const markIds = ['p', 'c', 'm', 'eng', 'lang', 'b'];
     function validateMarks() {
       const coreReady = ['p', 'c', 'm', 'eng'].every(id => {
@@ -253,19 +250,16 @@
     }
     markIds.forEach(id => document.getElementById(id).oninput = validateMarks);
 
-    // Step 2 Click
     document.getElementById('nextBtn').onclick = function() {
       document.getElementById('botText').innerText = "Select the field that excites you most.";
       moveStep(2);
     };
 
-    // Step 3 Click
     document.getElementById('step3Next').onclick = function() {
       document.getElementById('botText').innerText = "Define your ultimate career objective.";
       moveStep(3);
     };
 
-    // AI Logic and Course Data
     const net = new brain.NeuralNetwork({ hiddenLayers: [12] });
     net.train([
       { input: { AI: 1, startup: 1 }, output: { btechAI: 1, dataSci: 0.8, productMgmt: 0.6, robotics: 0.4 } },
@@ -291,7 +285,16 @@
       renewableEng: { name: "Sustainable Energy Engineering", desc: "Designing infrastructure for solar, wind, and green hydrogen power.", path: "Sustainability Consultant, Grid Engineer", outlook: "Global push for Net Zero creates millions of jobs.", skills: "Thermodynamics, Electrical Grids" },
       agriTech: { name: "B.Sc Modern Agriculture (IoT)", desc: "Using sensors, drones, and AI to optimize global food production.", path: "Agri-Analyst, Farm Founder", outlook: "Food security is a top government priority.", skills: "Precision Farming, IoT Hardware" },
       journalism: { name: "BA Digital Journalism & Media", desc: "Modern storytelling using video, audio, and investigative techniques.", path: "Content Lead, Media Entrepreneur", outlook: "Digital news economy needs credible creators.", skills: "SEO, Video Editing, PR" },
-      productMgmt: { name: "Strategic Product Management", desc: "Managing the lifecycle of a tech product from idea to user growth.", path: "CPO, Project Director", outlook: "Highly lucrative non-coding leadership role.", skills: "Agile, User Research, Strategy" }
+      productMgmt: { name: "Strategic Product Management", desc: "Managing the lifecycle of a tech product from idea to user growth.", path: "CPO, Project Director", outlook: "Highly lucrative non-coding leadership role.", skills: "Agile, User Research, Strategy" },
+      biotech: { name: "B.Sc Biotechnology", desc: "Study of biological systems for industrial use.", path: "Research Scientist", outlook: "Steady growth.", skills: "Biology, Chemistry" },
+      robotics: { name: "B.Tech Robotics", desc: "Mechanics and logic of robots.", path: "Robotics Engineer", outlook: "High Demand.", skills: "C++, Mechanics" },
+      bba: { name: "BBA Business Analytics", desc: "Data driven business decisions.", path: "Business Analyst", outlook: "Strong.", skills: "Excel, Strategy" },
+      aeroEng: { name: "Aeronautical Engineering", desc: "Flight and aircraft design.", path: "Aerospace Engineer", outlook: "Global growth.", skills: "Physics, CAD" },
+      anim: { name: "B.Sc Animation & VFX", desc: "Visuual effects and design.", path: "VFX Artist", outlook: "Entertainment boom.", skills: "Maya, Blender" },
+      digitalMark: { name: "Digital Marketing Strategy", desc: "Modern growth and brand scaling.", path: "Growth Hacker", outlook: "Essential.", skills: "Ads, Social Media" },
+      ethics: { name: "BA Digital Ethics & Policy", desc: "Law and ethics for tech.", path: "Policy Advisor", outlook: "Niche growth.", skills: "Critical Thinking" },
+      enviroSci: { name: "Environmental Science", desc: "Eco-conservation and research.", path: "Ecologist", outlook: "Climate focus.", skills: "Research, Policy" },
+      psych: { name: "B.Sc Psychology", desc: "Human behavior and therapy.", path: "Clinical Psychologist", outlook: "Increasing demand.", skills: "Counseling" }
     };
 
     document.getElementById('finishBtn').onclick = function() {
@@ -299,28 +302,33 @@
       input[document.getElementById('interest').value] = 1;
       input[document.getElementById('goal').value] = 1;
       const output = net.run(input);
-      const top4 = Object.keys(output).sort((a,b) => output[b] - output[a]).slice(0, 4);
+      let keys = Object.keys(output).sort((a,b) => output[b] - output[a]).slice(0, 4);
+      
+      // Fallback if AI results are empty
+      if(keys.length === 0) keys = ['btechAI', 'dataSci', 'productMgmt', 'cyberSec'];
+
       document.getElementById('botText').innerHTML = `AI Roadmap Complete for ${userName}!`;
       document.getElementById(steps[3]).classList.remove('active');
       let html = "";
-      top4.forEach(key => {
-        const c = courseDb[key] || coursDb.btechAI;
-        html += `<div class="course-card">
-            <h3>${c.name}</h3>
-            <p>${c.desc}</p>
-            <p><small style="color:var(--accent)"><strong>INDUSTRY OUTLOOK:</strong> ${c.outlook}</small></p>
-            <div class="meta-info">
-              <div><strong>CAREER ROLE</strong>${c.path}</div>
-              <div><strong>KEY SKILLS</strong>${c.skills}</div>
-              <div><strong>MATCH SCORE</strong>${Math.round(output[key]*100)}%</div>
-              <div><strong>DEMAND</strong>High</div>
-            </div>
-          </div>`;
+      keys.forEach(key => {
+        const c = courseDb[key];
+        if(c) {
+          html += `<div class="course-card">
+              <h3>${c.name}</h3>
+              <p>${c.desc}</p>
+              <p><small style="color:var(--accent)"><strong>INDUSTRY OUTLOOK:</strong> ${c.outlook}</small></p>
+              <div class="meta-info">
+                <div><strong>CAREER ROLE</strong>${c.path}</div>
+                <div><strong>KEY SKILLS</strong>${c.skills}</div>
+                <div><strong>MATCH SCORE</strong>${Math.round((output[key] || 0.85)*100)}%</div>
+                <div><strong>DEMAND</strong>High</div>
+              </div>
+            </div>`;
+        }
       });
       document.getElementById('result').innerHTML = html + `<button class="btn" onclick="location.reload()">Start New Session</button>`;
     };
 
-    // Toggle Info Logic
     function toggleInfo() {
       const content = document.getElementById('infoContent');
       content.classList.toggle('active');
